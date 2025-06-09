@@ -9,6 +9,33 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Neube+Kabel:wght@300;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS for Header Transitions */
+        .main-header1 {
+            position: fixed; /* Keep the header fixed at the top */
+            width: 100%;
+            top: 0;
+            left: 0;
+            transform: translateY(0); /* Initial state: visible */
+            transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out; /* Smooth transition */
+            z-index: 1000; /* Ensure it stays on top of other content */
+            opacity: 1; /* Initial state: fully visible */
+        }
+
+        .main-header1.hide {
+            transform: translateY(-100%); /* Move header fully upwards to hide */
+            opacity: 0; /* Make it transparent when hidden */
+        }
+
+        .main-header1.transparent {
+            opacity: 0; /* Make it transparent when not scrolling */
+        }
+
+        .main-header1.show {
+            transform: translateY(0); /* Bring it back to visible position */
+            opacity: 1; /* Make it fully visible */
+        }
+    </style>
 </head>
 <body>
     <header class="main-header1">
@@ -18,7 +45,8 @@
                 <li><a href="index.html">LAND</a></li>
                 <li><a href="my-works.html">MY WORKS</a></li>
                 <li><a href="profile.html">PROFILE</a></li>
-                <li><a href="contact.html" class="active">CONTACT ME</a></li> </ul>
+                <li><a href="contact.html" class="active">CONTACT ME</a></li>
+            </ul>
         </nav>
     </header>
 
@@ -53,7 +81,9 @@
                         </div>
                     </div>
                 </div>
-            </div> <div class="geometric-shape"></div> </section>
+            </div>
+            <div class="geometric-shape"></div>
+        </section>
     </main>
 
     <hr class="footer-divider">
@@ -76,7 +106,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const animatedElements = document.querySelectorAll(
-                '.contact-heading, .contact-subheading, .contact-info-column' // Removed .contact-form-column
+                '.contact-heading, .contact-subheading, .contact-info-column'
             );
 
             const observerOptions = {
@@ -96,6 +126,47 @@
             animatedElements.forEach(element => {
                 observer.observe(element);
             });
+
+            // --- Header Scroll Logic ---
+            const header = document.querySelector('.main-header1');
+            let lastScrollY = window.scrollY;
+            let scrollTimeout;
+
+            function handleScroll() {
+                const currentScrollY = window.scrollY;
+
+                // Clear any existing timeout for hiding the header
+                clearTimeout(scrollTimeout);
+
+                if (currentScrollY > lastScrollY && currentScrollY > header.offsetHeight) {
+                    // Scrolling down and scrolled past the header height
+                    header.classList.add('hide');
+                    header.classList.remove('show', 'transparent');
+                } else if (currentScrollY < lastScrollY) {
+                    // Scrolling up
+                    header.classList.add('show');
+                    header.classList.remove('hide', 'transparent');
+                } else if (currentScrollY === 0) {
+                    // At the very top of the page
+                    header.classList.remove('hide', 'transparent');
+                    header.classList.add('show');
+                }
+
+                lastScrollY = currentScrollY;
+
+                // Set a timeout to hide the header if no scrolling occurs for a brief period
+                scrollTimeout = setTimeout(() => {
+                    if (window.scrollY === lastScrollY) { // Check if scrolling has actually stopped
+                        header.classList.add('transparent');
+                        header.classList.remove('show'); // Ensure 'show' is removed when transparent
+                    }
+                }, 1000); // Hide after 1 second of no scrolling
+            }
+
+            window.addEventListener('scroll', handleScroll);
+
+            // Initial check in case the page loads scrolled down
+            handleScroll();
         });
     </script>
 </body>

@@ -93,6 +93,28 @@
             /* Animation for header elements */
             opacity: 0; /* Start hidden */
             animation: fadeIn 1.2s ease 0.1s forwards; /* Smoother: longer duration, ease timing */
+
+            /* Styles for dynamic header */
+            transition: top 0.3s ease-in-out, opacity 0.3s ease-in-out; /* Smooth transition for 'top' and 'opacity' */
+            opacity: 1; /* Ensure it's visible by default */
+        }
+
+        .main-header.hidden {
+            top: -150px; /* Adjust this value based on your header's height */
+            opacity: 0;
+            pointer-events: none; /* Disable interaction when hidden */
+        }
+
+        .main-header.scrolling-up {
+            top: 0;
+            opacity: 1;
+        }
+
+        .main-header.not-scrolling {
+            /* This class will ensure it stays hidden if you stop scrolling down */
+            top: -150px; /* Match the 'hidden' state */
+            opacity: 0;
+            pointer-events: none;
         }
 
         /* Unified font size for site name and nav links */
@@ -598,7 +620,74 @@
         </div>
     </footer>
 
-    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const mainHeader = document.querySelector('.main-header');
+            let lastScrollY = window.scrollY;
+            let scrollTimeout;
+
+            // Function to hide the header
+            function hideHeader() {
+                mainHeader.classList.add('hidden');
+                mainHeader.classList.remove('scrolling-up');
+            }
+
+            // Function to show the header
+            function showHeader() {
+                mainHeader.classList.remove('hidden');
+                mainHeader.classList.add('scrolling-up');
+            }
+
+            // Initial check for header visibility (hide if not at the very top)
+            if (lastScrollY > 0) {
+                hideHeader();
+            }
+
+            window.addEventListener('scroll', () => {
+                const currentScrollY = window.scrollY;
+
+                clearTimeout(scrollTimeout); // Clear any existing timeout
+
+                if (currentScrollY > lastScrollY) {
+                    // Scrolling down
+                    hideHeader();
+                    mainHeader.classList.remove('not-scrolling'); // Ensure it's not stuck in 'not-scrolling' state
+                } else if (currentScrollY < lastScrollY) {
+                    // Scrolling up
+                    showHeader();
+                    mainHeader.classList.remove('not-scrolling'); // Ensure it's not stuck in 'not-scrolling' state
+                } else {
+                    // Not scrolling, but might have stopped in a "down" state
+                    // This timeout will hide it again if scrolling stops while "down"
+                    scrollTimeout = setTimeout(() => {
+                        if (currentScrollY > 0) { // Only hide if not at the very top of the page
+                            hideHeader();
+                            mainHeader.classList.add('not-scrolling');
+                        }
+                    }, 300); // Adjust this delay as needed (e.g., 300ms)
+                }
+
+                lastScrollY = currentScrollY; // Update last scroll position
+            });
+
+            // Add event listener for when scrolling stops to potentially hide the header
+            window.addEventListener('scrollend', () => {
+                const currentScrollY = window.scrollY;
+                if (currentScrollY > 0 && !mainHeader.classList.contains('scrolling-up')) {
+                    // If scrolled down and not actively scrolling up, ensure it's hidden
+                    hideHeader();
+                    mainHeader.classList.add('not-scrolling');
+                } else if (currentScrollY === 0) {
+                    // Always show header at the very top
+                    showHeader();
+                    mainHeader.classList.remove('not-scrolling');
+                }
+            });
+
+            // Your existing script.js content would go here if you had any for this page.
+            // Since the prompt only provided the HTML, I'm assuming there's no additional script.js content for this specific page.
+        });
+    </script>
 
 </body>
 </html>

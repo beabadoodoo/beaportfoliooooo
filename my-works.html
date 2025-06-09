@@ -6,16 +6,120 @@
     <title>My Works - Beatrice Tribucias</title>
     <link rel="stylesheet" href="style.css">
     <style>
+        /* Font definitions for Neube Kabel ExtraBold (from previous code) */
+        @font-face {
+            font-family: 'Neube Kabel';
+            src: url('fonts/NeueKabel-ExtraBold.otf') format('opentype');
+            font-weight: 800; /* Extra Bold */
+            font-style: normal;
+            font-display: swap;
+        }
+
+        /* New font definition for Neube Kabel Medium (from previous code) */
+        @font-face {
+            font-family: 'Neube Kabel Medium';
+            src: url('fonts/NeueKabel-Medium.otf') format('opentype');
+            font-weight: 500; /* Medium weight, typically 500 */
+            font-style: normal;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: 'Neube Kabel Bold';
+            src: url('fonts/NeueKabel-Bold.otf') format('opentype');
+            font-weight: 600; /* Medium weight, typically 500 */
+            font-style: normal;
+            font-display: swap;
+        }
+
+        /* New font definition for Neube Kabel Light / ExtraLight (from previous code) */
+        @font-face {
+            font-family: 'Neube Kabel Light';
+            src: url('fonts/NeueKabel-ExtraLight.otf') format('opentype');
+            font-weight: 300; /* Light weight, typically 300 */
+            font-style: normal;
+            font-display: swap;
+        }
+
+        /* Define the swooping upwards animation (from previous code) */
+        @keyframes swoopUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px); /* Start 50px below its final position */
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0); /* End at its final position */
+            }
+        }
+
+        /* Define a simple fade-in for general elements (from previous code) */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+
         body {
             background-color: #2F53A0;
             color: #F8F5EC;
+            margin: 0; /* Ensure no default body margin */
+            font-family: 'Neube Kabel', sans-serif; /* Set font family */
+            overflow-x: hidden; /* Hide horizontal scrollbar */
         }
+
+        /* Main Header for My Works Page - Note: I've changed class from main-header2 to main-header */
+        /* It's good practice to reuse the class for consistency if the styling is similar */
+        .main-header {
+            position: fixed; /* Keep header fixed on scroll */
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 40px 94px; /* Default desktop padding */
+            box-sizing: border-box;
+            z-index: 100;
+            background-color: transparent;
+            /* Animation for header elements (from previous code) */
+            opacity: 0; /* Start hidden */
+            animation: fadeIn 1.2s ease 0.1s forwards; /* Smoother: longer duration, ease timing */
+
+            /* Styles for dynamic header (copied from previous code) */
+            transition: top 0.3s ease-in-out, opacity 0.3s ease-in-out; /* Smooth transition for 'top' and 'opacity' */
+            opacity: 1; /* Ensure it's visible by default */
+        }
+
+        .main-header.hidden {
+            top: -150px; /* Adjust this value based on your header's height */
+            opacity: 0;
+            pointer-events: none; /* Disable interaction when hidden */
+        }
+
+        .main-header.scrolling-up {
+            top: 0;
+            opacity: 1;
+        }
+
+        .main-header.not-scrolling {
+            /* This class will ensure it stays hidden if you stop scrolling down */
+            top: -150px; /* Match the 'hidden' state */
+            opacity: 0;
+            pointer-events: none;
+        }
+        /* End Dynamic Header Styles */
+
 
         .my-works-header {
             position: relative;
             width: 100%;
             text-align: center;
-            padding-top: 150px;
+            padding-top: 150px; /* Adjusted padding to accommodate fixed header */
             padding-bottom: 50px;
         }
 
@@ -49,13 +153,43 @@
             animation: swoopUp 0.8s ease-out forwards;
         }
 
-
+        /* Unified font size for site name and nav links (from previous code) */
+        .site-name,
         .main-nav ul li a {
-            color: #F8F5EC;
+            font-family: 'Neube Kabel Light', sans-serif;
+            font-size: 1.5vw; /* Default desktop font size */
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            white-space: nowrap;
+            text-decoration: none;
+        }
+
+        .main-nav {
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+            margin-right: 5vw;
+        }
+
+        .main-nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex; /* Ensure it stays horizontal */
+            gap: 45px; /* Use gap for spacing between nav items */
+        }
+        
+        .main-nav ul li a {
+            color: #F8F5EC; /* Specific color for this page's header links */
         }
         
         .site-name {
-            color: #F8F5EC;
+            color: #F8F5EC; /* Specific color for this page's site name */
+            margin-right: 0; /* Reset margin from other page */
+        }
+
+        .main-nav ul li a:hover {
+            opacity: 0.7;
         }
 
         .my-works-container {
@@ -133,14 +267,50 @@
         }
 
         .site-footer {
-            color: #F8F5EC;
+            color: #F8F5EC; /* Specific color for this page's footer text */
         }
         
         .footer-divider {
-            border-top: 1px solid #F8F5EC;
+            border-top: 1px solid #F8F5EC; /* Specific color for this page's footer divider */
         }
 
+        /* Responsive adjustments for smaller screens (from previous code with modifications) */
         @media (max-width: 768px) {
+            .main-header {
+                flex-direction: row; /* Keep header elements horizontal */
+                flex-wrap: wrap; /* Allow wrapping if needed, but they should fit now */
+                justify-content: space-between; /* Space out items */
+                align-items: center;
+                padding: 15px 15px; /* Reduced padding */
+            }
+            .site-name {
+                font-size: 3.5vw; /* Smaller font size for site name */
+                margin-bottom: 0; /* Remove bottom margin */
+                width: auto; /* Allow width to be content-based */
+                text-align: left; /* Keep site name aligned left */
+            }
+            .main-nav {
+                flex-grow: 0; /* Don't let it grow too much */
+                justify-content: flex-end; /* Push nav to the right */
+                width: auto; /* Allow width to be content-based */
+                margin-right: 0; /* Remove extra margin */
+            }
+            .main-nav ul {
+                flex-direction: row; /* Keep nav items horizontal */
+                flex-wrap: wrap; /* Allow wrapping if they don't fit */
+                justify-content: flex-end; /* Align nav items to the right */
+                gap: 15px; /* Smaller gap between nav items */
+            }
+            .main-nav ul li {
+                margin-bottom: 0; /* Remove bottom margin */
+                width: auto; /* Allow width to be content-based */
+                text-align: right; /* Align nav items to the right */
+            }
+            .main-nav ul li a {
+                font-size: 3vw; /* Smaller font size for nav links */
+                padding: 5px 0; /* Adjust padding for links */
+            }
+
             .my-works-header {
                 padding-top: 100px;
             }
@@ -175,11 +345,85 @@
                 font-size: 3vw;
                 margin-bottom: 0;
             }
+
+            /* Footer responsiveness for this page */
+            .site-footer {
+                width: 90%;
+                margin: 5vh auto;
+                flex-direction: column;
+                align-items: flex-start;
+                font-size: 3.5vw; /* Adjusted for readability on mobile */
+                line-height: 1.4; /* Adjusted line height */
+            }
+            .site-footer .footer-column {
+                padding: 0; /* Remove horizontal padding on mobile */
+                margin-bottom: 15px; /* Add spacing between stacked columns */
+            }
+            .site-footer .footer-column:last-child {
+                text-align: left; /* Align copyright left on mobile */
+                margin-bottom: 0; /* No bottom margin for the last column */
+            }
+            .footer-divider {
+                width: 90%;
+                margin-top: 5vh; /* Increased margin */
+                margin-bottom: 5vh; /* Increased margin */
+                margin-left: auto;
+                margin-right: auto;
+            }
+        }
+
+        /* Media queries for desktop adjustments (from previous code) */
+        @media (min-width: 769px) and (max-width: 1200px) {
+            .site-name,
+            .main-nav ul li a {
+                font-size: 2vw; /* Adjusted for slightly larger screens but still smaller than full desktop */
+            }
+            .work-item h2 {
+                font-size: 4vw; /* Adjusted for readability */
+            }
+            .work-item p {
+                font-size: 1.8vw; /* Adjusted for readability */
+            }
+            .site-footer {
+                width: 87vw;
+                font-size: 1.5vw; /* Adjusted size for tablets/small desktops */
+                margin-left: auto;
+                margin-right: auto;
+            }
+            .footer-divider {
+                margin-top: 7vh;
+                margin-left: auto;
+                margin-right: auto;
+            }
+        }
+
+        @media (min-width: 1201px) {
+            .site-name,
+            .main-nav ul li a {
+                font-size: 1.5vw; /* Default desktop size */
+            }
+            .work-item h2 {
+                font-size: 3.2vw;
+            }
+            .work-item p {
+                font-size: 1.2vw;
+            }
+            .site-footer {
+                width: 87vw;
+                font-size: 0.9vw; /* Original desktop size */
+                margin-left: auto;
+                margin-right: auto;
+            }
+            .footer-divider {
+                margin-top: 7vh;
+                margin-left: auto;
+                margin-right: auto;
+            }
         }
     </style>
 </head>
 <body>
-     <header class="main-header2">
+    <header class="main-header">
         <span class="site-name">Beatrice Tribucias</span>
         <nav class="main-nav">
             <ul>
@@ -251,6 +495,69 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            const mainHeader = document.querySelector('.main-header'); // Select the header
+            let lastScrollY = window.scrollY;
+            let scrollTimeout;
+
+            // Function to hide the header
+            function hideHeader() {
+                mainHeader.classList.add('hidden');
+                mainHeader.classList.remove('scrolling-up');
+            }
+
+            // Function to show the header
+            function showHeader() {
+                mainHeader.classList.remove('hidden');
+                mainHeader.classList.add('scrolling-up');
+            }
+
+            // Initial check for header visibility (hide if not at the very top)
+            if (lastScrollY > 0) {
+                hideHeader();
+            }
+
+            window.addEventListener('scroll', () => {
+                const currentScrollY = window.scrollY;
+
+                clearTimeout(scrollTimeout); // Clear any existing timeout
+
+                if (currentScrollY > lastScrollY) {
+                    // Scrolling down
+                    hideHeader();
+                    mainHeader.classList.remove('not-scrolling'); // Ensure it's not stuck in 'not-scrolling' state
+                } else if (currentScrollY < lastScrollY) {
+                    // Scrolling up
+                    showHeader();
+                    mainHeader.classList.remove('not-scrolling'); // Ensure it's not stuck in 'not-scrolling' state
+                } else {
+                    // Not scrolling, but might have stopped in a "down" state
+                    // This timeout will hide it again if scrolling stops while "down"
+                    scrollTimeout = setTimeout(() => {
+                        if (currentScrollY > 0) { // Only hide if not at the very top of the page
+                            hideHeader();
+                            mainHeader.classList.add('not-scrolling');
+                        }
+                    }, 300); // Adjust this delay as needed (e.g., 300ms)
+                }
+
+                lastScrollY = currentScrollY; // Update last scroll position
+            });
+
+            // Add event listener for when scrolling stops to potentially hide the header
+            window.addEventListener('scrollend', () => {
+                const currentScrollY = window.scrollY;
+                if (currentScrollY > 0 && !mainHeader.classList.contains('scrolling-up')) {
+                    // If scrolled down and not actively scrolling up, ensure it's hidden
+                    hideHeader();
+                    mainHeader.classList.add('not-scrolling');
+                } else if (currentScrollY === 0) {
+                    // Always show header at the very top
+                    showHeader();
+                    mainHeader.classList.remove('not-scrolling');
+                }
+            });
+
+            // Existing Intersection Observer for animations on this page
             const animatedElements = document.querySelectorAll(
                 '.my-works-title, .my-works-instruction, .work-item'
             );

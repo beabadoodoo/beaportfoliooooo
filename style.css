@@ -66,6 +66,8 @@ body {
     /* opacity: 0; */
     /* animation: fadeIn 1.2s ease 0.1s forwards; */
 }
+
+
 .main-header1 {
     position: fixed; /* Keep header fixed on scroll */
     top: 0;
@@ -107,16 +109,12 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 40px 94px; /* Default desktop padding */
+    padding: 40px 94px; /* Shortened padding (adjust as needed) */
     box-sizing: border-box;
     z-index: 100;
-    background-color: rgb(47, 83, 160,0.9); /* Changed to match body background color */
-    /* Remove the following two animation lines if you don't want the header to fade in initially */
-    /* opacity: 0; */
-    /* animation: fadeIn 1.2s ease 0.1s forwards; */
+    background-color: rgba(255, 255, 255, 0); /* Fully transparent background */
+    
 }
-
-
 
 /* Unified font size for site name and nav links */
 .site-name,

@@ -81,8 +81,25 @@
             box-sizing: border-box;
             z-index: 100;
             background-color: transparent;
-            opacity: 0; /* Start hidden */
-            animation: fadeIn 0.7s ease-out 0.1s forwards; /* Animation */
+            /* Added styles for dynamic header behavior */
+            opacity: 1; /* Start visible */
+            transform: translateY(0); /* Start visible */
+            transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out; /* Smooth transition */
+        }
+
+        /* Classes for header behavior */
+        .main-header.hide {
+            transform: translateY(-100%); /* Move header fully upwards to hide */
+            opacity: 0; /* Make it transparent when hidden */
+        }
+
+        .main-header.transparent {
+            opacity: 0; /* Make it transparent when not scrolling */
+        }
+
+        .main-header.show {
+            transform: translateY(0); /* Bring it back to visible position */
+            opacity: 1; /* Make it fully visible */
         }
 
         .main-header .site-name,
@@ -380,5 +397,54 @@
             <p>©2025 BEATRICE TRIBUCIAS</p>
         </div>
     </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const header = document.querySelector('.main-header');
+            let lastScrollY = window.scrollY;
+            let scrollTimeout;
+
+            function handleScroll() {
+                const currentScrollY = window.scrollY;
+
+                clearTimeout(scrollTimeout);
+
+                if (currentScrollY === 0) {
+                    // Always show the header if at the very top of the page
+                    header.classList.remove('hide', 'transparent');
+                    header.classList.add('show');
+                } else if (currentScrollY > lastScrollY) {
+                    // Scrolling down and scrolled past the header height
+                    // We only want to hide if we're scrolling down AND NOT at the very top
+                    if (currentScrollY > header.offsetHeight) {
+                        header.classList.add('hide');
+                        header.classList.remove('show', 'transparent');
+                    }
+                } else if (currentScrollY < lastScrollY) {
+                    // Scrolling up
+                    header.classList.add('show');
+                    header.classList.remove('hide', 'transparent');
+                }
+
+                lastScrollY = currentScrollY;
+
+                // Set a timeout to make the header transparent if no scrolling occurs for a brief period
+                // This timeout should only apply when NOT at the top of the page
+                if (currentScrollY > 0) {
+                    scrollTimeout = setTimeout(() => {
+                        if (window.scrollY === lastScrollY) { // Check if scrolling has actually stopped
+                            header.classList.add('transparent');
+                            header.classList.remove('show'); // Ensure 'show' is removed when transparent
+                        }
+                    }, 1000); // Hide after 1 second of no scrolling
+                }
+            }
+
+            window.addEventListener('scroll', handleScroll);
+
+            // Initial call to set header state on page load
+            handleScroll();
+        });
+    </script>
 </body>
 </html>
