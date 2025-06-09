@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hogwarts-Inspired Library System - Beatrice Tribucias</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Specific styles for this project page */
+        body {
+            background-color: #000; /* Dark background */
+            color: #F8F5EC; /* Creamy white text color */
+        }
+
+        .main-header .site-name,
+        .main-nav ul li a {
+            color: #F8F5EC; /* Ensure header elements are visible on dark background */
+        }
+
+        .project-content {
+            display: flex;
+            align-items: center; /* Vertically align items */
+            justify-content: center; /* Horizontally center items */
+            min-height: calc(100vh - 150px); /* Adjust height to accommodate header/footer */
+            padding: 100px 94px 50px 94px; /* Top, Right, Bottom, Left padding */
+            box-sizing: border-box;
+            max-width: 1400px; /* Limit content width */
+            margin: 0 auto; /* Center the content block */
+        }
+
+        .project-left-column {
+            flex: 1; /* Takes equal space */
+            padding-right: 5vw; /* Space between columns */
+            text-align: left;
+        }
+
+        .project-right-column {
+            flex: 1; /* Takes equal space */
+            text-align: left;
+        }
+
+        .project-title {
+            font-family: 'Neube Kabel', sans-serif;
+            font-size: 8vw; /* Large font size for title */
+            line-height: 0.9;
+            margin-top: 0;
+            margin-bottom: 20px;
+            letter-spacing: -0.03em;
+            color: #F8F5EC;
+        }
+
+        .project-meta-info {
+            font-family: 'Neube Kabel Medium', sans-serif;
+            font-size: 2vw; /* Larger font for key phrases */
+            line-height: 1.3;
+            margin-bottom: 20px;
+            color: #F8F5EC;
+        }
+
+        .project-description {
+            font-family: 'Neube Kabel Light', sans-serif;
+            font-size: 1.2vw;
+            line-height: 1.6;
+            color: #F8F5EC;
+        }
+
+        .video-container {
+            width: 100%; /* Occupy full width */
+            display: flex;
+            justify-content: center; /* Center the video horizontally */
+            padding: 50px 0; /* Add some vertical padding */
+        }
+
+        .project-video {
+            width: 80%; /* Make the video large, adjust as needed */
+            max-width: 1000px; /* Limit maximum width for very large screens */
+            height: auto; /* Maintain aspect ratio */
+            display: block; /* Remove extra space below the video */
+            margin: 0 auto; /* Center the video */
+        }
+
+        .site-footer {
+            color: #F8F5EC; /* Footer text color on dark background */
+        }
+        
+        .footer-divider {
+            border-top: 1px solid #F8F5EC; /* Footer divider color on dark background */
+        }
+
+        /* Responsive adjustments for project page */
+        @media (max-width: 768px) {
+            .project-content {
+                flex-direction: column;
+                padding: 80px 20px 30px 20px; /* Top, Right, Bottom, Left padding for mobile */
+                min-height: calc(100vh - 120px);
+            }
+            .project-left-column,
+            .project-right-column {
+                width: 100%;
+                padding-right: 0;
+                margin-bottom: 30px;
+            }
+            .project-title {
+                font-size: 10vw;
+            }
+            .project-meta-info {
+                font-size: 3vw;
+            }
+            .project-description {
+                font-size: 2.5vw;
+            }
+            .project-video {
+                width: 95%; /* Adjust video width for smaller screens */
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="main-header">
+        <span class="site-name">Beatrice Tribucias</span>
+        <nav class="main-nav">
+            <ul>
+                <li><a href="index.html">LAND</a></li>
+                <li><a href="my-works.html">My Works</a></li>
+                <li><a href="profile.html">PROFILE</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="project-content">
+        <div class="project-left-column">
+            <h1 class="project-title">Hogwarts-Inspired Library System</h1>
+            <p class="project-meta-info">A Java library management system with a touch of magic.</p>
+        </div>
+        <div class="project-right-column">
+            <p class="project-description">Built for students and librarians, this project lets users log in, manage accounts, borrow and return books, and search for titles—even the rare, dusty ones hidden deep in the digital shelves. It keeps track of borrowing history and gives admins the tools to manage everything behind the scenes.</p>
+            <p class="project-description">Clean design, smooth experience, and just enough Hogwarts energy to make library tasks feel a little less boring.</p>
+        </div>
+    </div>
+
+    <div class="video-container">
+        <video controls autoplay muted class="project-video">
+            <source src="proj1.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+
+    <hr class="footer-divider">
+
+    <footer class="site-footer">
+        <div class="footer-column">
+            <p>FOR WHEN YOUR WEBSITE NEEDS <br>LESS TEMPLATE, MORE “WHOA, <br>WHO MADE THIS?”</p>
+        </div>
+        <div class="footer-column">
+            <p>QUEZON CITY,<br>METRO MANILA</p>
+        </div>
+        <div class="footer-column">
+            <p><a href="https://www.linkedin.com/in/naomi-beatrice-tribucias-80010636a/" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: none;">LINKEDIN</a><br>SPOTIFY<br>TIKTOK<br>NATRIBUCIAS@STUDENTS.NU-MOA.EDU.PH</p>
+        </div>
+        <div class="footer-column">
+            <p>©2025 BEATRICE TRIBUCIAS</p>
+        </div>
+    </footer>
+</body>
+</html>

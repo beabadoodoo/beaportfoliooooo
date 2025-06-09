@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Me - Beatrice Tribucias</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Neube+Kabel:wght@300;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="main-header">
+        <span class="site-name">Beatrice Tribucias</span>
+        <nav class="main-nav">
+            <ul>
+                <li><a href="index.html">LAND</a></li>
+                <li><a href="my-works.html">MY WORKS</a></li>
+                <li><a href="profile.html">PROFILE</a></li>
+                <li><a href="contact.html" class="active">CONTACT ME</a></li> </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="contact-hero-section">
+            <h1 class="contact-heading swoop-up-animation">Let's Create Something <br>Amazing Together.</h1>
+            <p class="contact-subheading swoop-up-animation">
+                Ready to chat? Whether it's a project, a question, or just a virtual coffee, <br> I'm happy to hear from you.
+            </p>
+
+            <div class="contact-grid">
+                <div class="contact-info-column swoop-up-animation">
+                    <div class="info-item">
+                        <i class="fas fa-envelope contact-icon"></i>
+                        <div>
+                            <p class="info-label">Email Me:</p>
+                            <a href="mailto:natribucias@students.nu-moa.edu.ph" class="info-value">NATRIBUCIAS@STUDENTS.NU-MOA.EDU.PH</a>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <i class="fab fa-linkedin contact-icon"></i>
+                        <div>
+                            <p class="info-label">Connect on LinkedIn:</p>
+                            <a href="https://www.linkedin.com/in/naomi-beatrice-tribucias-80010636a/" target="_blank" rel="noopener noreferrer" class="info-value">Naomi Beatrice Tribucias</a>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-map-marker-alt contact-icon"></i>
+                        <div>
+                            <p class="info-label">Location:</p>
+                            <p class="info-value">QUEZON CITY, METRO MANILA</p>
+                        </div>
+                    </div>
+                </div>
+            </div> <div class="geometric-shape"></div> </section>
+    </main>
+
+    <hr class="footer-divider">
+
+    <footer class="site-footer">
+        <div class="footer-column">
+            <p>FOR WHEN YOUR WEBSITE NEEDS <br>LESS TEMPLATE, MORE “WHOA, <br>WHO MADE THIS?”</p>
+        </div>
+        <div class="footer-column">
+            <p>QUEZON CITY,<br>METRO MANILA</p>
+        </div>
+        <div class="footer-column">
+            <p><a href="https://www.linkedin.com/in/naomi-beatrice-tribucias-80010636a/" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: none;">LINKEDIN</a><br>NATRIBUCIAS@STUDENTS.NU-MOA.EDU.PH</p>
+        </div>
+        <div class="footer-column">
+            <p>©2025 BEATRICE TRIBUCIAS</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const animatedElements = document.querySelectorAll(
+                '.contact-heading, .contact-subheading, .contact-info-column' // Removed .contact-form-column
+            );
+
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    }
+                });
+            }, observerOptions);
+
+            animatedElements.forEach(element => {
+                observer.observe(element);
+            });
+        });
+    </script>
+</body>
+</html>

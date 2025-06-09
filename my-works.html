@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Works - Beatrice Tribucias</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            background-color: #2F53A0;
+            color: #F8F5EC;
+        }
+
+        .my-works-header {
+            position: relative;
+            width: 100%;
+            text-align: center;
+            padding-top: 150px;
+            padding-bottom: 50px;
+        }
+
+        .my-works-title {
+            font-family: 'Neube Kabel', sans-serif;
+            font-size: 15vw;
+            margin: 0;
+            line-height: 1;
+            letter-spacing: -0.05em;
+            color: #F8F5EC;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .my-works-title.is-visible {
+             animation: swoopUp 0.8s ease-out forwards;
+        }
+
+        .my-works-instruction {
+            font-family: 'Neube Kabel Light', sans-serif;
+            font-size: 1.8vw;
+            color: #F8F5EC;
+            margin-top: 20px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out 0.2s, transform 0.8s ease-out 0.2s;
+        }
+
+        .my-works-instruction.is-visible {
+            animation: swoopUp 0.8s ease-out forwards;
+        }
+
+
+        .main-nav ul li a {
+            color: #F8F5EC;
+        }
+        
+        .site-name {
+            color: #F8F5EC;
+        }
+
+        .my-works-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 40px;
+            padding: 50px 94px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .work-item-link {
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            width: 45%;
+            max-width: 500px;
+            box-sizing: border-box;
+            align-items: stretch;
+        }
+
+        .work-item {
+            background-color: #F8F5EC;
+            color: #2F53A0;
+            width: 100%;
+            padding: 30px;
+            text-align: center;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+            cursor: pointer;
+            
+            /* Add transition for hover effects */
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 250px;
+        }
+
+        .work-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            /* Change background color on hover */
+            background-color: #79a1f6; /* A lighter blue for contrast */
+            /* Change text color on hover for better readability on new background */
+            color: #F8F5EC; 
+        }
+
+        .work-item.is-visible {
+             animation: swoopUp 0.8s ease-out forwards;
+        }
+
+        .work-item h2,
+        .work-item p {
+            margin: 0;
+            padding: 0;
+        }
+
+        .work-item h2 {
+            font-family: 'Neube Kabel Medium', sans-serif;
+            font-size: 3.2vw;
+            font-weight: 700;
+            margin-bottom: 5px; 
+        }
+
+        .work-item p {
+            font-family: 'Neube Kabel Light', sans-serif;
+            font-size: 1.2vw;
+            line-height: 1.5;
+        }
+
+        .site-footer {
+            color: #F8F5EC;
+        }
+        
+        .footer-divider {
+            border-top: 1px solid #F8F5EC;
+        }
+
+        @media (max-width: 768px) {
+            .my-works-header {
+                padding-top: 100px;
+            }
+            .my-works-title {
+                font-size: 10vw;
+            }
+             .my-works-instruction {
+                font-size: 3vw;
+                margin-top: 15px;
+            }
+            .my-works-container {
+                flex-direction: column;
+                align-items: center;
+                padding: 30px 20px;
+            }
+            .work-item-link {
+                width: 90%;
+                max-width: unset;
+                display: block; 
+                margin-bottom: 40px;
+            }
+            .work-item {
+                width: 100%;
+                display: block;
+                min-height: unset;
+            }
+            .work-item h2 {
+                font-size: 6.5vw;
+                margin-bottom: 5px;
+            }
+            .work-item p {
+                font-size: 3vw;
+                margin-bottom: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+     <header class="main-header">
+        <span class="site-name">Beatrice Tribucias</span>
+        <nav class="main-nav">
+            <ul>
+                <li><a href="index.html">LAND</a></li>
+                <li><a href="my-works.html">MY WORKS</a></li>
+                <li><a href="profile.html">PROFILE</a></li>
+                <li><a href="contact.html">CONTACT ME</a></li> </ul>
+        </nav>
+    </header>
+
+    <div class="my-works-header">
+        <h1 class="my-works-title">My Works</h1>
+        <p class="my-works-instruction">Click on any project box below to view more details!</p>
+    </div>
+
+    <div class="my-works-container">
+        <a href="proj4.html" class="work-item-link">
+            <div class="work-item">
+                <h2>NU Wait n Plate: Canteen Queueing System</h2>
+                <p>An Android application designed for canteens, featuring random queue number generation, dine-in/take-out options, history tracking, and counters for ordered, no-show, and total sales. Includes call with sound, recall, and no-show functionalities.</p>
+            </div>
+        </a>
+
+        <a href="proj2.html" class="work-item-link">
+            <div class="work-item">
+                <h2>Pawtify: Pet Care & Organizer App</h2>
+                <p>An Android Studio application designed to help pet owners manage their beloved companions. Users can input pet details like name, age, weight, and birthday, set customizable reminders for feeding, walking, and appointments, and capture and store adorable 'pawtos' directly within the app.</p>
+            </div>
+        </a>
+
+        <a href="proj5.html" class="work-item-link">
+            <div class="work-item">
+                <h2>SwiftBank: Secure Java Banking App</h2>
+                <p>A console-based Java application for essential banking transactions like deposit, check balance, and withdraw, featuring PIN authentication and receipt generation for secure and transparent operations.</p>
+            </div>
+        </a>
+
+        <a href="proj1.html" class="work-item-link">
+            <div class="work-item">
+                <h2>Hogwarts-Inspired Library System</h2>
+                <p>A Java Application library management system with a touch of magic. Built for students and librarians, it allows users to log in, manage accounts, borrow and return books, and search for titles—even the rare, dusty ones.</p>
+            </div>
+        </a>
+        
+        <a href="proj3.html" class="work-item-link">
+            <div class="work-item">
+                <h2>Android Basic Calculator</h2>
+                <p>Developed using Android Studio, this project showcases a fundamental understanding of mobile application development. It provides users with a clean and intuitive interface to perform standard arithmetic operations such as addition, subtraction, multiplication, and division. The calculator demonstrates core UI layout principles and event handling in Android, offering a practical example of a responsive and functional mobile utility.</p>
+            </div>
+        </a>
+    </div>
+
+    <hr class="footer-divider">
+
+    <footer class="site-footer">
+        <div class="footer-column">
+            <p>FOR WHEN YOUR WEBSITE NEEDS <br>LESS TEMPLATE, MORE “WHOA, <br>WHO MADE THIS?”</p>
+        </div>
+        <div class="footer-column">
+            <p>QUEZON CITY,<br>METRO MANILA</p>
+        </div>
+        <div class="footer-column">
+            <p><a href="https://www.linkedin.com/in/naomi-beatrice-tribucias-80010636a/" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: none;">LINKEDIN</a><br>NATRIBUCIAS@STUDENTS.NU-MOA.EDU.PH</p>
+        </div>
+        <div class="footer-column">
+            <p>©2025 BEATRICE TRIBUCIAS</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const animatedElements = document.querySelectorAll(
+                '.my-works-title, .my-works-instruction, .work-item'
+            );
+
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    } else {
+                        // Optional: remove is-visible if you want the animation to repeat on scroll out/in
+                        // entry.target.classList.remove('is-visible'); 
+                    }
+                });
+            }, observerOptions);
+
+            animatedElements.forEach(element => {
+                observer.observe(element);
+            });
+        });
+    </script>
+</body>
+</html>

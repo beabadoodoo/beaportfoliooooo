@@ -1,0 +1,782 @@
+/* Font definitions for Neube Kabel ExtraBold */
+@font-face {
+    font-family: 'Neube Kabel';
+    src: url('fonts/NeueKabel-ExtraBold.otf') format('opentype');
+    font-weight: 800; /* Extra Bold */
+    font-style: normal;
+    font-display: swap;
+}
+
+/* New font definition for Neube Kabel Medium */
+@font-face {
+    font-family: 'Neube Kabel Medium';
+    src: url('fonts/NeueKabel-Medium.otf') format('opentype');
+    font-weight: 500; /* Medium weight, typically 500 */
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Neube Kabel Bold';
+    src: url('fonts/NeueKabel-Bold.otf') format('opentype');
+    font-weight: 600; /* Medium weight, typically 500 */
+    font-style: normal;
+    font-display: swap;
+}
+
+
+/* New font definition for Neube Kabel Light / ExtraLight */
+@font-face {
+    font-family: 'Neube Kabel Light';
+    src: url('fonts/NeueKabel-ExtraLight.otf') format('opentype');
+    font-weight: 300; /* Light weight, typically 300 */
+    font-style: normal;
+    font-display: swap;
+}
+
+body {
+    margin: 0;
+    display: flex;
+    flex-direction: column; /* Stack header and main content vertically */
+    align-items: center;
+    min-height: 100vh; /* This still applies to the *initial* viewport height */
+    background-color: #F8F5EC; /* Default light background */
+    font-family: 'Neube Kabel', sans-serif;
+    overflow-y: scroll; /* Allow vertical scrolling */
+    overflow-x: hidden; /* Hide horizontal scrollbar if not needed */
+    color: #2F53A0; /* Default dark blue text color */
+}
+
+/* Updated header styling for top navigation */
+.main-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 40px 94px;
+    box-sizing: border-box;
+    z-index: 100;
+    background-color: transparent;
+}
+
+/* Unified font size for site name and nav links */
+.site-name,
+.main-nav ul li a {
+    font-family: 'Neube Kabel Light', sans-serif;
+    font-size: 1.5vw;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    color: #2F53A0; /* Default header text color */
+    text-decoration: none;
+}
+
+.site-name {
+    margin-right: 0;
+}
+
+.main-nav {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    margin-right: 5vw;
+}
+
+.main-nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+.main-nav ul li {
+    margin-left: 45px;
+}
+
+.main-nav ul li:first-child {
+    margin-left: 0;
+}
+
+.main-nav ul li a:hover {
+    opacity: 0.7;
+}
+
+
+.main-section {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    text-align: center;
+    padding-top: 100px;
+}
+
+.main-content {
+    position: relative;
+    display: inline-block;
+    padding-top: 10vh;
+    padding-bottom: 5vh;
+}
+
+.title {
+    font-size: 25vw;
+    color: #2F53A0;
+    margin: 0;
+    line-height: 1;
+    white-space: nowrap;
+    letter-spacing: -0.05em;
+    text-transform: none;
+    position: relative;
+    display: inline-block;
+}
+
+.now-entering {
+    position: absolute;
+    top: 27%;
+    left: 19%;
+    transform: translate(-50%, -50%);
+    transform-origin: center center;
+
+    font-size: 2.5vw;
+    color: #2F53A0;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    font-family: 'Neube Kabel Medium', sans-serif;
+    font-weight: 500;
+    z-index: 2;
+}
+
+.buildings-gif {
+    display: block;
+    width: 87vw;
+    max-width: none;
+    height: auto;
+    margin: -5vh auto 0 auto;
+    padding-top: 1vh;
+}
+
+/* UPDATED STYLES FOR THE bottom-text SECTION */
+.bottom-text {
+    width: 87vw;
+    max-width: 1400px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 0.9vh;
+    margin-bottom: 7vh;
+    color: #2F53A0;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 5vw;
+}
+
+.bottom-text .left-column {
+    flex-basis: 40%;
+    text-align: left;
+}
+
+.bottom-text .right-column {
+    flex-basis: 40%;
+    text-align: left;
+}
+
+.bottom-text .column-question {
+    font-family: 'Neube Kabel', sans-serif;
+    font-size: 3vw;
+    line-height: 0.9;
+    margin-bottom: 0.3em;
+    color: #2F53A0;
+    text-align: left;
+}
+
+.bottom-text .column-answer {
+    font-family: 'Neube Kabel Medium', sans-serif;
+    font-size: 2.2vw;
+    margin-top: 0;
+    margin-bottom: 1em;
+    color: #2F53A0;
+    text-align: left;
+}
+
+.bottom-text p {
+    font-family: 'Neube Kabel Light', sans-serif;
+    font-size: 0.9vw;
+    line-height: 1.3;
+    margin-bottom: 0.5em;
+    text-align: left;
+    hyphens: auto;
+}
+
+/* Styles for the "YEAH OKAY LET'S DO IT" button */
+.action-button {
+    display: block;
+    padding: 15px 30px;
+    background-color: #2F53A0;
+    color: #F8F5EC;
+    text-decoration: none;
+    font-family: 'Neube Kabel Medium', sans-serif;
+    font-size: 1.5vw;
+    border-radius: 5px;
+    margin-top: 20px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: background-color 0.3s ease;
+    border: none;
+    cursor: pointer;
+    width: fit-content;
+    margin: 20px auto 0 auto;
+}
+
+.action-button:hover {
+    background-color: #1A3B75;
+}
+
+/* Styles for the Footer Divider Line */
+.footer-divider {
+    border: none;
+    border-top: 1px solid #2F53A0; /* Default footer divider color */
+    width: 87vw;
+    max-width: 1400px;
+    margin: 5vh auto 0 auto;
+}
+
+
+/* Styles for the Footer */
+.site-footer {
+    width: 87vw;
+    max-width: 1400px;
+    margin: 10vh auto 5vh auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    color: #2F53A0; /* Default footer text color */
+    font-family: 'Neube Kabel Light', sans-serif;
+    font-size: 0.9vw;
+    line-height: 1.5;
+    text-align: left;
+}
+
+.site-footer .footer-column {
+    flex: 1;
+    padding: 0 1vw;
+    box-sizing: border-box;
+}
+
+.site-footer .footer-column p {
+    margin: 0;
+}
+
+/* Specific alignment for the copyright column if needed */
+.site-footer .footer-column:last-child {
+    text-align: right;
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 768px) {
+    .main-header {
+        flex-direction: column;
+        align-items: center;
+        padding: 20px 20px;
+        background-color: transparent;
+    }
+    .site-name,
+    .main-nav ul li a {
+        font-size: 3.5vw;
+    }
+    .site-name {
+        margin-bottom: 15px;
+    }
+    .main-nav {
+        flex-grow: unset;
+        justify-content: center;
+        width: 100%;
+        margin-right: 0;
+    }
+    .main-nav ul {
+        flex-direction: column;
+        align-items: center;
+    }
+    .main-nav ul li {
+        margin-left: 0;
+        margin-bottom: 8px;
+    }
+
+    .main-section {
+        padding-top: 120px;
+    }
+    .main-content {
+        padding-top: 8vh;
+        padding-bottom: 3vh;
+    }
+    .title {
+        font-size: 15vw;
+        letter-spacing: -0.03em;
+    }
+    .now-entering {
+        font-size: 4vw;
+        top: 35%;
+        left: 30%;
+        transform: translate(-50%, -50%);
+    }
+    .buildings-gif {
+        width: 150vw;
+        margin-top: 0;
+        padding-top: 5vh;
+    }
+
+    /* Responsive styles for the bottom-text section (two columns on desktop, stacked on mobile) */
+    .bottom-text {
+        flex-direction: column;
+        align-items: flex-start;
+        width: 90%;
+        margin-top: 3vh;
+        margin-bottom: 5vh;
+        margin-left: auto;
+        margin-right: auto;
+        gap: 0;
+    }
+
+    .bottom-text .left-column,
+    .bottom-text .right-column {
+        width: 100%;
+        flex-basis: auto;
+        margin-bottom: 20px;
+        text-align: left;
+    }
+    .bottom-text .right-column {
+        margin-bottom: 0;
+    }
+
+
+    .bottom-text p {
+        font-size: 2.5vw;
+        line-height: 1.5;
+        margin-bottom: 0.5em;
+        text-align: left;
+        hyphens: auto;
+    }
+
+    .bottom-text .column-question {
+        font-size: 5vw;
+        line-height: 1.1;
+        margin-bottom: 0.1em;
+        text-align: left;
+    }
+
+    .bottom-text .column-answer {
+        font-size: 4vw;
+        margin-bottom: 1em;
+        text-align: left;
+    }
+
+    .action-button {
+        font-size: 3vw;
+        padding: 12px 25px;
+        margin-top: 30px;
+        margin-left: auto;
+        margin-right: auto;
+        display: block;
+        text-align: center;
+    }
+
+    .footer-divider {
+        width: 90%;
+        margin-top: 3vh;
+        margin-bottom: 3vh;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .site-footer {
+        width: 90%;
+        margin: 5vh auto;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+/* Media queries for desktop adjustments */
+@media (min-width: 769px) and (max-width: 1200px) {
+    .bottom-text .column-question {
+        font-size: 4vw;
+    }
+    .bottom-text .column-answer {
+        font-size: 2vw;
+    }
+    .bottom-text p {
+        font-size: 1.2vw;
+    }
+    .action-button {
+        /* No change to button alignment, it remains centered */
+    }
+
+    .site-footer {
+        width: 87vw;
+        font-size: 1.2vw;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .footer-divider {
+        margin-top: 7vh;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+@media (min-width: 1201px) {
+    .bottom-text .column-question {
+        font-size: 3vw;
+    }
+    .bottom-text .column-answer {
+        font-size: 2.2vw;
+    }
+    .bottom-text p {
+        font-family: 'Neube Kabel Light', sans-serif;
+        font-size: 1.3vw;
+        line-height: 1.3;
+        margin-bottom: 0.5em;
+        text-align: left;
+        hyphens: auto;
+    }
+    .action-button {
+        /* No change to button alignment, it remains centered */
+    }
+
+    .site-footer {
+        width: 87vw;
+        font-size: 0.9vw;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .footer-divider {
+        margin-top: 7vh;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+
+/* Responsive adjustments for the Contact page */
+@media (max-width: 768px) {
+    .contact-section {
+        margin-top: 150px; /* Adjusted for mobile header */
+        padding: 15px;
+        margin-bottom: 50px;
+    }
+
+    .contact-heading {
+        font-size: 7vw;
+        margin-bottom: 15px;
+    }
+
+    .contact-subheading {
+        font-size: 3.5vw;
+        margin-bottom: 30px;
+    }
+
+    .contact-icon {
+        font-size: 5vw;
+        min-width: 30px;
+    }
+
+    .info-label {
+        font-size: 3.5vw;
+    }
+
+    .info-value {
+        font-size: 3.5vw;
+    }
+
+    .form-group label {
+        font-size: 3.5vw;
+    }
+
+    .form-group input[type="text"],
+    .form-group input[type="email"],
+    .form-group textarea {
+        padding: 10px;
+        font-size: 3.5vw;
+    }
+
+    .submit-button {
+        font-size: 4vw;
+        padding: 12px 25px;
+        margin-top: 15px;
+    }
+}
+
+/* Media queries for desktop adjustments (larger than 768px) */
+@media (min-width: 769px) and (max-width: 1200px) {
+    .contact-heading {
+        font-size: 5vw;
+    }
+    .contact-subheading {
+        font-size: 2vw;
+    }
+    .contact-icon {
+        font-size: 3.5vw;
+    }
+    .info-label,
+    .info-value,
+    .form-group label,
+    .form-group input,
+    .form-group textarea {
+        font-size: 1.8vw;
+    }
+    .submit-button {
+        font-size: 2vw;
+    }
+}
+
+
+/* New CSS for the swoop-up animation */
+
+/* Define the swooping upwards animation */
+@keyframes swoopUp {
+    from {
+        opacity: 0;
+        transform: translateY(50px); /* Start 50px below its final position */
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0); /* End at its final position */
+    }
+}
+
+
+
+
+/* Responsive adjustments for the Contact page */
+@media (max-width: 768px) {
+    .contact-section {
+        margin-top: 150px; /* Adjusted for mobile header */
+        padding: 15px;
+        margin-bottom: 50px;
+    }
+
+    .contact-heading {
+        font-size: 7vw;
+        margin-bottom: 15px;
+    }
+
+    .contact-subheading {
+        font-size: 3.5vw;
+        margin-bottom: 30px;
+    }
+
+    .contact-icon {
+        font-size: 5vw;
+        min-width: 30px;
+    }
+
+    .info-label {
+        font-size: 3.5vw;
+    }
+
+    .info-value {
+        font-size: 3.5vw;
+    }
+
+    .form-group label {
+        font-size: 3.5vw;
+    }
+
+    .form-group input[type="text"],
+    .form-group input[type="email"],
+    .form-group textarea {
+        padding: 10px;
+        font-size: 3.5vw;
+    }
+
+    .submit-button {
+        font-size: 4vw;
+        padding: 12px 25px;
+        margin-top: 15px;
+    }
+}
+
+/* Media queries for desktop adjustments (larger than 768px) */
+@media (min-width: 769px) and (max-width: 1200px) {
+    .contact-heading {
+        font-size: 5vw;
+    }
+    .contact-subheading {
+        font-size: 2vw;
+    }
+    .contact-icon {
+        font-size: 3.5vw;
+    }
+    .info-label,
+    .info-value,
+    .form-group label,
+    .form-group input,
+    .form-group textarea {
+        font-size: 1.8vw;
+    }
+    .submit-button {
+        font-size: 2vw;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* --- Contact Page Specific Styles --- */
+
+.contact-hero-section { /* Renamed to contact-hero-section to match current HTML */
+    width: 100%; /* Take full width */
+    min-height: 90vh; /* Make it more prominent */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    /* ADJUSTMENT HERE: Increased top padding to push content down */
+    padding: 200px 20px 100px 20px; /* Increased top padding to avoid overlap with fixed header */
+    box-sizing: border-box;
+    position: relative; /* For absolute positioning of geometric shape */
+    overflow: hidden; /* Hide overflowing shapes */
+   
+}
+
+.contact-heading {
+    font-family: 'Neube Kabel Bold', sans-serif;
+    font-size: 5vw; /* Adjusted to match dynamic design */
+    margin-bottom: 20px;
+    color: #2F53A0;
+    line-height: 1.1;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1); /* Added text shadow for depth */
+}
+
+.contact-subheading {
+    font-family: 'Neube Kabel Light', sans-serif;
+    font-size: 1.6vw; /* Adjusted to match dynamic design */
+    max-width: 900px; /* Wider for better flow */
+    margin: 0 auto 60px auto; /* More space below */
+    line-height: 1.5;
+    color: #4C6A9E; /* Slightly softer blue for subheading */
+}
+
+.contact-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 40px; /* Adjusted gap */
+    max-width: 1000px; /* Max width for the grid container */
+    width: 90%; /* Responsive width */
+    z-index: 10; /* Ensure content is above background elements */
+}
+
+/* Styles for both contact info and form columns (updated from your provided snippet) */
+.contact-info-column,
+.contact-form-column {
+    flex: 1; /* Allow columns to grow and shrink */
+    min-width: 300px; /* Minimum width before wrapping */
+    max-width: 480px; /* Max width for each column to fit nicely */
+    padding: 40px; /* Increased padding */
+    background-color: rgba(255, 255, 255, 0.95); /* Slightly opaque white box */
+    border-radius: 15px; /* More rounded corners */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15); /* More prominent shadow */
+    border: 1px solid rgba(47, 83, 160, 0.1); /* Subtle border */
+    text-align: left;
+    box-sizing: border-box;
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Added transform for hover */
+}
+
+.contact-info-column:hover,
+.contact-form-column:hover {
+    transform: translateY(-8px); /* Lift effect on hover */
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25); /* Enhanced shadow on hover */
+}
+
+/* Contact Info Column Specific Styles */
+.contact-info-column {
+    display: flex;
+    flex-direction: column;
+    gap: 35px; /* Increased gap between info items */
+}
+
+.info-item {
+    display: flex;
+    align-items: center;
+    gap: 20px; /* Larger gap between icon and text */
+    padding-bottom: 15px; /* Padding for separator */
+    border-bottom: 1px solid rgba(47, 83, 160, 0.1); /* Subtle separator */
+    transition: border-bottom 0.3s ease;
+}
+
+.info-item:last-child {
+    border-bottom: none; /* No border for the last item */
+}
+
+.info-item:hover {
+    border-bottom-color: rgba(47, 83, 160, 0.3); /* Darker border on hover */
+}
+
+.contact-icon {
+    font-size: 2.8vw; /* Larger icons */
+    color: #2F53A0;
+    min-width: 50px; /* Ensure icon has space */
+    text-align: center;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.info-item:hover .contact-icon {
+    color: #1A3B75; /* Darker blue icon on hover */
+    transform: scale(1.1); /* Slight zoom on icon hover */
+}
+
+.info-label {
+    font-family: 'Neube Kabel Medium', sans-serif;
+    font-size: 1.2vw; /* Slightly larger label */
+    margin: 0;
+    white-space: nowrap;
+    color: #2F53A0;
+    flex-shrink: 0;
+}
+
+.info-value {
+    font-family: 'Neube Kabel Light', sans-serif;
+    font-size: 1.2vw; /* Slightly larger value text */
+    margin: 0;
+    color: #2F53A0;
+    text-decoration: none;
+    transition: color 0.3s ease, opacity 0.3s ease;
+    word-break: break-all; /* Allow long emails to break lines */
+}
+
+.info-value:hover {
+    color: #1A3B75; /* Darker blue on hover */
+    opacity: 0.9;
+}
