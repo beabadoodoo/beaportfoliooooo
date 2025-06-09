@@ -8,7 +8,71 @@
     <link rel="stylesheet" href="style2.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* CSS for Header Transitions */
+        /* --- General Swoop Up Animation (for content) --- */
+        @keyframes swoopUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .profile-picture,
+        .profile-heading,
+        .profile-bio,
+        .skills-section h2,
+        .skills-section .subtitle,
+        .skill-category,
+        .education-heading,
+        .education-item,
+        .hobbies-heading,
+        .hobby-description,
+        .reading-heading,
+        .reading-content,
+        .manga-cover {
+            opacity: 0; /* Start hidden */
+            transform: translateY(20px); /* Start slightly below */
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out; /* Smooth transition */
+        }
+
+        .profile-picture.is-visible,
+        .profile-heading.is-visible,
+        .profile-bio.is-visible,
+        .skills-section h2.is-visible,
+        .skills-section .subtitle.is-visible,
+        .skill-category.is-visible,
+        .education-heading.is-visible,
+        .education-item.is-visible,
+        .hobbies-heading.is-visible,
+        .hobby-description.is-visible,
+        .reading-heading.is-visible,
+        .reading-content.is-visible,
+        .manga-cover.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- Progress Bar Animations --- */
+        .progress-bar-container {
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            height: 8px;
+            width: 100%;
+            overflow: hidden; /* Ensure the fill stays within bounds */
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0; /* Start with 0 width */
+            background-color: #3498db; /* Default color, can be overridden per skill */
+            border-radius: 5px;
+            transition: width 1s ease-out; /* Animate width change */
+        }
+
+        /* --- Header Styles (Smart Header Logic) --- */
         .main-header3 {
             position: fixed; /* Keep the header fixed at the top */
             width: 100%;
@@ -18,6 +82,14 @@
             transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out; /* Smooth transition */
             z-index: 1000; /* Ensure it stays on top of other content */
             opacity: 1; /* Initial state: fully visible */
+            background-color: rgb(47, 83, 160,0.9); /* Assuming light background from style.css, adjust if needed */
+            padding: 40px 94px; /* Matches your current header padding */
+            box-sizing: border-box;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            /* Ensure no initial animation overrides this immediately */
+            animation: none !important;
         }
 
         .main-header3.hide {
@@ -32,6 +104,43 @@
         .main-header3.show {
             transform: translateY(0); /* Bring it back to visible position */
             opacity: 1; /* Make it fully visible */
+        }
+
+        /* Adjust content margin to prevent overlap with the fixed header */
+        .profile-content {
+            margin-top: 120px; /* Example: adjust this based on header height + desired spacing */
+            padding: 80px 94px 50px 94px; /* Maintain existing padding */
+            box-sizing: border-box;
+            max-width: 1400px;
+            margin-left: auto;
+            margin-right: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        /* Responsive adjustments for content margin */
+        @media (max-width: 768px) {
+            .main-header3 {
+                padding: 20px 20px; /* Adjust header padding for mobile */
+            }
+            .profile-content {
+                margin-top: 150px; /* Adjust for mobile header height */
+                padding: 50px 20px 30px 20px;
+            }
+            .skills-section {
+                padding: 50px 20px;
+            }
+            .education-section {
+                padding: 50px 20px;
+            }
+            .hobbies-section {
+                padding: 50px 20px;
+            }
+            .site-footer {
+                padding: 20px;
+            }
         }
     </style>
 </head>
@@ -280,8 +389,8 @@
             // --- Infinite Carousel with Dots and Scaling Logic (Existing Code) ---
             const videoCarousel = document.getElementById('videoCarousel');
             const carouselDots = document.getElementById('carouselDots');
-            const prevButton = document.querySelector('.prev-button');
-            const nextButton = document.querySelector('.next-button');
+            const prevButton = document.querySelector('.carousel-button.prev-button');
+            const nextButton = document.querySelector('.carousel-button.next-button');
             const originalIframes = Array.from(videoCarousel.querySelectorAll('iframe'));
             const numOriginalVideos = originalIframes.length;
 
@@ -305,13 +414,21 @@
 
                 let allIframes = Array.from(videoCarousel.querySelectorAll('iframe'));
 
-                const computedStyle = getComputedStyle(originalIframes[0]);
-                const iframeWidth = originalIframes[0].offsetWidth;
-                const iframeMarginLeft = parseFloat(computedStyle.marginLeft);
-                const iframeMarginRight = parseFloat(computedStyle.marginRight);
-                const baseVideoWidth = iframeWidth + iframeMarginLeft + iframeMarginRight;
+                // Calculate baseVideoWidth only once after clones are added and styles computed
+                let baseVideoWidth;
+                const updateVideoWidth = () => {
+                    const computedStyle = getComputedStyle(allIframes[1]); // Use the second iframe (first original) for accurate width
+                    const iframeWidth = allIframes[1].offsetWidth;
+                    const iframeMarginLeft = parseFloat(computedStyle.marginLeft);
+                    const iframeMarginRight = parseFloat(computedStyle.marginRight);
+                    baseVideoWidth = iframeWidth + iframeMarginLeft + iframeMarginRight;
+                    videoCarousel.scrollLeft = baseVideoWidth; // Set initial scroll position
+                };
 
-                videoCarousel.scrollLeft = baseVideoWidth;
+                // Call initially and on resize
+                updateVideoWidth();
+                window.addEventListener('resize', updateVideoWidth);
+
 
                 for (let i = 0; i < numOriginalVideos; i++) {
                     const dot = document.createElement('span');
@@ -368,7 +485,7 @@
 
                     const scrollLeft = videoCarousel.scrollLeft;
 
-                    if (scrollLeft >= (numOriginalVideos * baseVideoWidth)) {
+                    if (scrollLeft >= (numOriginalVideos * baseVideoWidth + baseVideoWidth * 0.5)) { // Added buffer
                         isTransitioning = true;
                         videoCarousel.style.scrollBehavior = 'auto';
                         videoCarousel.scrollLeft = baseVideoWidth;
@@ -376,7 +493,7 @@
                             videoCarousel.style.scrollBehavior = 'smooth';
                             isTransitioning = false;
                         }, 50);
-                    } else if (scrollLeft <= 0) {
+                    } else if (scrollLeft <= (baseVideoWidth * 0.5)) { // Added buffer
                         isTransitioning = true;
                         videoCarousel.style.scrollBehavior = 'auto';
                         videoCarousel.scrollLeft = numOriginalVideos * baseVideoWidth;
@@ -386,6 +503,7 @@
                         }, 50);
                     }
                 });
+
 
                 carouselDots.addEventListener('click', (event) => {
                     if (event.target.classList.contains('dot')) {
@@ -430,29 +548,31 @@
                 // Clear any existing timeout for hiding the header
                 clearTimeout(scrollTimeout);
 
-                if (currentScrollY > lastScrollY && currentScrollY > header.offsetHeight) {
-                    // Scrolling down and scrolled past the header height
+                if (currentScrollY === 0) {
+                    // Scenario 1: User is at the very top of the page
+                    header.classList.remove('hide', 'transparent');
+                    header.classList.add('show'); // Ensure it's fully visible
+                } else if (currentScrollY > lastScrollY && currentScrollY > header.offsetHeight) {
+                    // Scenario 2: Scrolling down and scrolled past the header height
                     header.classList.add('hide');
                     header.classList.remove('show', 'transparent');
                 } else if (currentScrollY < lastScrollY) {
-                    // Scrolling up
+                    // Scenario 3: Scrolling up
                     header.classList.add('show');
                     header.classList.remove('hide', 'transparent');
-                } else if (currentScrollY === 0) {
-                    // At the very top of the page
-                    header.classList.remove('hide', 'transparent');
-                    header.classList.add('show');
                 }
 
                 lastScrollY = currentScrollY;
 
                 // Set a timeout to hide the header if no scrolling occurs for a brief period
-                scrollTimeout = setTimeout(() => {
-                    if (window.scrollY === lastScrollY) { // Check if scrolling has actually stopped
-                        header.classList.add('transparent');
-                        header.classList.remove('show'); // Ensure 'show' is removed when transparent
-                    }
-                }, 1000); // Hide after 1 second of no scrolling
+                if (currentScrollY > 0) { // Only apply this if not at the top
+                    scrollTimeout = setTimeout(() => {
+                        if (window.scrollY === lastScrollY) { // Check if scrolling has actually stopped
+                            header.classList.add('transparent');
+                            header.classList.remove('show'); // Ensure 'show' is removed when transparent
+                        }
+                    }, 1000); // Hide after 1 second of no scrolling
+                }
             }
 
             window.addEventListener('scroll', handleScroll);
