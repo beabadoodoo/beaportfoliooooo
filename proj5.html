@@ -39,7 +39,7 @@
             font-display: swap;
         }
 
-        /* --- Animations --- */
+        /* --- Animations for content (not header) --- */
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
@@ -68,33 +68,34 @@
             overflow-x: hidden; /* Hide horizontal scrollbar */
         }
 
-        /* --- Header Styles (with animation) --- */
+        /* --- Header Styles (Smart Header Logic) --- */
         .main-header {
-            position: fixed;
+            position: fixed; /* Keep the header fixed at the top */
+            width: 100%;
             top: 0;
             left: 0;
-            width: 100%;
+            transform: translateY(0); /* Initial state: visible */
+            transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out; /* Smooth transition */
+            z-index: 1000; /* Ensure it stays on top of other content */
+            opacity: 1; /* Initial state: fully visible */
+            background-color: transparent; /* Adjust as needed */
+            padding: 40px 94px; /* Matches your current header padding */
+            box-sizing: border-box;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 40px 94px;
-            box-sizing: border-box;
-            z-index: 100;
-            background-color: transparent;
-            /* Added styles for dynamic header behavior */
-            opacity: 1; /* Start visible */
-            transform: translateY(0); /* Start visible */
-            transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out; /* Smooth transition */
+            /* Ensure no initial animation overrides this immediately */
+            animation: none !important;
         }
 
-        /* Classes for header behavior */
         .main-header.hide {
             transform: translateY(-100%); /* Move header fully upwards to hide */
             opacity: 0; /* Make it transparent when hidden */
         }
 
         .main-header.transparent {
-            opacity: 0; /* Make it transparent when not scrolling */
+            /* This state is for when scrolling stops but isn't at the top, making it subtly disappear */
+            opacity: 0;
         }
 
         .main-header.show {
@@ -143,7 +144,7 @@
             opacity: 0.7;
         }
 
-        /* --- Project Content Styles (with animation) --- */
+        /* Adjust content margin to prevent overlap with the fixed header */
         .project-content {
             display: flex;
             align-items: center; /* Vertically align items */
@@ -153,6 +154,7 @@
             box-sizing: border-box;
             max-width: 1400px; /* Limit content width */
             margin: 0 auto; /* Center the content block */
+            margin-top: 120px; /* Added margin to push content down below the fixed header */
         }
 
         .project-left-column {
@@ -174,7 +176,7 @@
             margin-bottom: 20px;
             letter-spacing: -0.03em;
             color: #F8F5EC;
-            opacity: 0; /* Start hidden */
+            opacity: 0; /* Start hidden for animation */
             animation: swoopUp 0.8s ease-out 0.5s forwards; /* Animation */
         }
 
@@ -184,7 +186,7 @@
             line-height: 1.3;
             margin-bottom: 20px;
             color: #F8F5EC;
-            opacity: 0; /* Start hidden */
+            opacity: 0; /* Start hidden for animation */
             animation: swoopUp 0.8s ease-out 0.7s forwards; /* Animation with delay */
         }
 
@@ -193,7 +195,7 @@
             font-size: 1.2vw;
             line-height: 1.6;
             color: #F8F5EC;
-            opacity: 0; /* Start hidden */
+            opacity: 0; /* Start hidden for animation */
             animation: swoopUp 0.8s ease-out 0.9s forwards; /* Animation with delay */
         }
 
@@ -212,7 +214,7 @@
             height: auto; /* Maintain aspect ratio */
             display: block; /* Remove extra space below the video */
             margin: 0 auto; /* Center the video */
-            opacity: 0; /* Start hidden */
+            opacity: 0; /* Start hidden for animation */
             animation: fadeIn 1s ease-out 1.2s forwards; /* Animation with delay */
         }
 
@@ -229,7 +231,7 @@
             font-size: 0.9vw;
             line-height: 1.5;
             text-align: left;
-            opacity: 0; /* Start hidden */
+            opacity: 0; /* Start hidden for animation */
             animation: fadeIn 1s ease-out 1.5s forwards; /* Animation with delay */
         }
         
@@ -239,7 +241,7 @@
             width: 87vw;
             max-width: 1400px;
             margin: 5vh auto 0 auto;
-            opacity: 0; /* Start hidden */
+            opacity: 0; /* Start hidden for animation */
             animation: fadeIn 1s ease-out 1.4s forwards; /* Animation with delay */
         }
 
@@ -267,7 +269,7 @@
             .main-header {
                 flex-direction: column;
                 align-items: center;
-                padding: 20px 20px;
+                padding: 20px 20px; /* Adjust header padding for mobile */
             }
             .main-header .site-name,
             .main-nav ul li a {
@@ -295,6 +297,7 @@
                 flex-direction: column;
                 padding: 100px 20px 30px 20px; /* Consistent top padding for mobile */
                 min-height: calc(100vh - 120px);
+                margin-top: 150px; /* Adjusted for mobile header height */
             }
             .project-left-column,
             .project-right-column {
@@ -366,11 +369,11 @@
     <div class="project-content">
         <div class="project-left-column">
             <h1 class="project-title">SwiftBank: Secure Java Banking App</h1>
-            <p class="project-meta-info">A console-based Java application for essential banking transactions.</p>
+            <p class="project-meta-info">A Java application for essential banking transactions.</p>
         </div>
         <div class="project-right-column">
-            <p class="project-description">SwiftBank is a Java console application that simulates core banking operations with a focus on security and simplicity. Users can deposit, withdraw, and check balances—all protected by a secure PIN authentication system. After each transaction, the system generates a clear digital receipt, making it easy to keep track of account activity.</p>
-            <p class="project-description">Built with solid object-oriented programming practices, SwiftBank showcases secure transaction handling and clean code structure—perfect for demonstrating backend logic in action.</p>
+            <p class="project-description">SwiftBank is a Java-based banking application designed to simulate core banking operations with a focus on secure and seamless user interaction. Users can deposit, withdraw, and check balances, all safeguarded by a PIN authentication system. Each transaction generates a clear digital receipt, helping users track their activity with ease.</p>
+            <p class="project-description">This project demonstrates solid object-oriented programming practices and secure transaction logic, making it a great showcase of practical Java development beyond the console.</p>
         </div>
     </div>
 
@@ -391,7 +394,7 @@
             <p>QUEZON CITY,<br>METRO MANILA</p>
         </div>
         <div class="footer-column">
-            <p><a href="https://www.linkedin.com/in/naomi-beatrice-tribucias-80010636a/" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: none;">LINKEDIN</a><br>NATRIBUCIAS@STUDENTS.NU-MOA.EDU.PH</p>
+            <p><a href="https://www.linkedin.com/in/naomi-beatrice-tribucias-80010636a/" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: none;">LINKEDIN</a><br>SPOTIFY<br>TIKTOK<br>NATRIBUCIAS@STUDENTS.NU-MOA.EDU.PH</p>
         </div>
         <div class="footer-column">
             <p>©2025 BEATRICE TRIBUCIAS</p>
@@ -400,43 +403,46 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const header = document.querySelector('.main-header');
+            // No need for Intersection Observer for content animations on this page, as they're driven by CSS @keyframes directly.
+
+            // --- Header Scroll Logic for Smart Header ---
+            const header = document.querySelector('.main-header'); // Targeting .main-header now
             let lastScrollY = window.scrollY;
             let scrollTimeout;
 
             function handleScroll() {
                 const currentScrollY = window.scrollY;
 
-                clearTimeout(scrollTimeout);
+                clearTimeout(scrollTimeout); // Clear any previous timeout
 
                 if (currentScrollY === 0) {
-                    // Always show the header if at the very top of the page
+                    // Scenario 1: User is at the very top of the page
                     header.classList.remove('hide', 'transparent');
-                    header.classList.add('show');
+                    header.classList.add('show'); // Ensure it's fully visible
                 } else if (currentScrollY > lastScrollY) {
-                    // Scrolling down and scrolled past the header height
-                    // We only want to hide if we're scrolling down AND NOT at the very top
+                    // Scenario 2: Scrolling down, hide the header
+                    // Only hide if we've scrolled past the header's initial height
                     if (currentScrollY > header.offsetHeight) {
                         header.classList.add('hide');
                         header.classList.remove('show', 'transparent');
                     }
                 } else if (currentScrollY < lastScrollY) {
-                    // Scrolling up
+                    // Scenario 3: Scrolling up, show the header
                     header.classList.add('show');
                     header.classList.remove('hide', 'transparent');
                 }
 
-                lastScrollY = currentScrollY;
+                lastScrollY = currentScrollY; // Update last scroll position
 
-                // Set a timeout to make the header transparent if no scrolling occurs for a brief period
-                // This timeout should only apply when NOT at the top of the page
-                if (currentScrollY > 0) {
+                // Set a timeout to make the header transparent if scrolling stops (unless at the very top)
+                if (currentScrollY > 0) { // Only apply this if not at the top
                     scrollTimeout = setTimeout(() => {
-                        if (window.scrollY === lastScrollY) { // Check if scrolling has actually stopped
+                        // Check if scroll position hasn't changed since the timeout was set
+                        if (window.scrollY === lastScrollY) {
                             header.classList.add('transparent');
                             header.classList.remove('show'); // Ensure 'show' is removed when transparent
                         }
-                    }, 1000); // Hide after 1 second of no scrolling
+                    }, 1000); // 1 second of no scrolling to become transparent
                 }
             }
 

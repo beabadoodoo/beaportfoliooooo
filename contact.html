@@ -20,6 +20,8 @@
             transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out; /* Smooth transition */
             z-index: 1000; /* Ensure it stays on top of other content */
             opacity: 1; /* Initial state: fully visible */
+            /* Ensure no initial animation overrides this immediately */
+            animation: none !important;
         }
 
         .main-header1.hide {
@@ -28,12 +30,24 @@
         }
 
         .main-header1.transparent {
-            opacity: 0; /* Make it transparent when not scrolling */
+            /* This state is for when scrolling stops but isn't at the top, making it subtly disappear */
+            opacity: 0;
         }
 
         .main-header1.show {
             transform: translateY(0); /* Bring it back to visible position */
             opacity: 1; /* Make it fully visible */
+        }
+
+        /* Adjust content margin to prevent overlap with the fixed header */
+        /* You might need to fine-tune this value based on your header's exact height */
+        main {
+            margin-top: 120px; /* Example: adjust this based on header height + desired spacing */
+        }
+        @media (max-width: 768px) {
+            main {
+                margin-top: 150px; /* Adjust for mobile header height */
+            }
         }
     </style>
 </head>
@@ -105,6 +119,7 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            // Intersection Observer for other animated elements
             const animatedElements = document.querySelectorAll(
                 '.contact-heading, .contact-subheading, .contact-info-column'
             );
@@ -127,7 +142,7 @@
                 observer.observe(element);
             });
 
-            // --- Header Scroll Logic ---
+            // --- Header Scroll Logic for Smart Header ---
             const header = document.querySelector('.main-header1');
             let lastScrollY = window.scrollY;
             let scrollTimeout;
@@ -135,37 +150,43 @@
             function handleScroll() {
                 const currentScrollY = window.scrollY;
 
-                // Clear any existing timeout for hiding the header
-                clearTimeout(scrollTimeout);
+                clearTimeout(scrollTimeout); // Clear any previous timeout
 
-                if (currentScrollY > lastScrollY && currentScrollY > header.offsetHeight) {
-                    // Scrolling down and scrolled past the header height
-                    header.classList.add('hide');
-                    header.classList.remove('show', 'transparent');
+                if (currentScrollY === 0) {
+                    // Scenario 1: User is at the very top of the page
+                    header.classList.remove('hide', 'transparent');
+                    header.classList.add('show'); // Ensure it's fully visible and not hidden
+                } else if (currentScrollY > lastScrollY) {
+                    // Scenario 2: Scrolling down, hide the header
+                    // Only hide if we've scrolled past the header itself to avoid flicker right at the top
+                    if (currentScrollY > header.offsetHeight) {
+                        header.classList.add('hide');
+                        header.classList.remove('show', 'transparent');
+                    }
                 } else if (currentScrollY < lastScrollY) {
-                    // Scrolling up
+                    // Scenario 3: Scrolling up, show the header
                     header.classList.add('show');
                     header.classList.remove('hide', 'transparent');
-                } else if (currentScrollY === 0) {
-                    // At the very top of the page
-                    header.classList.remove('hide', 'transparent');
-                    header.classList.add('show');
                 }
 
-                lastScrollY = currentScrollY;
+                lastScrollY = currentScrollY; // Update last scroll position
 
-                // Set a timeout to hide the header if no scrolling occurs for a brief period
-                scrollTimeout = setTimeout(() => {
-                    if (window.scrollY === lastScrollY) { // Check if scrolling has actually stopped
-                        header.classList.add('transparent');
-                        header.classList.remove('show'); // Ensure 'show' is removed when transparent
-                    }
-                }, 1000); // Hide after 1 second of no scrolling
+                // Set a timeout to make the header transparent if scrolling stops (unless at the very top)
+                if (currentScrollY > 0) { // Only apply this if not at the top
+                    scrollTimeout = setTimeout(() => {
+                        // Check if scroll position hasn't changed since the timeout was set
+                        if (window.scrollY === lastScrollY) {
+                            header.classList.add('transparent');
+                            header.classList.remove('show'); // Ensure 'show' is removed when transparent
+                        }
+                    }, 1000); // 1 second of no scrolling to become transparent
+                }
             }
 
             window.addEventListener('scroll', handleScroll);
 
-            // Initial check in case the page loads scrolled down
+            // Initial call to set header state on page load
+            // This ensures the header is correctly shown if the page loads at the top, or hidden if it loads scrolled down
             handleScroll();
         });
     </script>
