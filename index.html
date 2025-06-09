@@ -79,31 +79,31 @@
 
         /* Updated header styling for top navigation */
         .main-header {
-            position: fixed;
+            position: fixed; /* Keep header fixed on scroll */
             top: 0;
             left: 0;
             width: 100%;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 40px 94px;
+            padding: 40px 94px; /* Default desktop padding */
             box-sizing: border-box;
             z-index: 100;
             background-color: transparent;
             /* Animation for header elements */
             opacity: 0; /* Start hidden */
-            animation: fadeIn 0.7s ease-out 0.1s forwards; /* Faster fade in with minimal delay */
+            animation: fadeIn 1.2s ease 0.1s forwards; /* Smoother: longer duration, ease timing */
         }
 
         /* Unified font size for site name and nav links */
         .site-name,
         .main-nav ul li a {
+            color: #2F53A0; /* Default header text color */
             font-family: 'Neube Kabel Light', sans-serif;
-            font-size: 1.5vw;
+            font-size: 1.5vw; /* Default desktop font size */
             letter-spacing: 0.1em;
             text-transform: uppercase;
             white-space: nowrap;
-            color: #2F53A0; /* Default header text color */
             text-decoration: none;
         }
 
@@ -122,16 +122,17 @@
             list-style: none;
             margin: 0;
             padding: 0;
-            display: flex;
+            display: flex; /* Ensure it stays horizontal */
+            gap: 45px; /* Use gap for spacing between nav items */
         }
 
         .main-nav ul li {
-            margin-left: 45px;
+            /* margin-left: 45px; Removed, as gap handles it */
         }
 
-        .main-nav ul li:first-child {
-            margin-left: 0;
-        }
+        /* .main-nav ul li:first-child { Removed as gap handles it */
+            /* margin-left: 0; */
+        /* } */
 
         .main-nav ul li a:hover {
             opacity: 0.7;
@@ -146,7 +147,7 @@
             align-items: center;
             width: 100%;
             text-align: center;
-            padding-top: 100px;
+            padding-top: 100px; /* Adjusted padding to accommodate fixed header */
         }
 
         .main-content {
@@ -170,7 +171,7 @@
 
         .title-text { /* Applying animation to the "Bea Land" text */
             opacity: 0; /* Start hidden for animation */
-            animation: swoopUp 0.7s ease-out 0.3s forwards; /* Faster swoop up */
+            animation: swoopUp 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.3s forwards; /* Very smooth entry */
         }
 
         .now-entering {
@@ -190,7 +191,7 @@
             z-index: 2;
             /* Applying animation to "Now Entering" text */
             opacity: 0; /* Start hidden for animation */
-            animation: swoopUp 0.7s ease-out 0.5s forwards; /* Faster swoop up slightly after Bea Land */
+            animation: swoopUp 1.2s ease 0.5s forwards; /* Smoother: longer duration, ease timing */
         }
 
         .buildings-gif {
@@ -202,7 +203,7 @@
             padding-top: 1vh;
             /* Applying animation to the GIF */
             opacity: 0; /* Start hidden for animation */
-            animation: swoopUp 0.7s ease-out 0.8s forwards; /* Faster swoop up after the titles */
+            animation: swoopUp 1.2s ease 0.8s forwards; /* Smoother: longer duration, ease timing */
         }
 
         /* UPDATED STYLES FOR THE bottom-text SECTION */
@@ -224,14 +225,14 @@
             flex-basis: 40%;
             text-align: left;
             opacity: 0; /* Start hidden for animation */
-            animation: swoopUp 0.7s ease-out 1.2s forwards; /* Faster delayed swoop */
+            animation: swoopUp 1.2s ease 1.2s forwards; /* Smoother: longer duration, ease timing */
         }
 
         .bottom-text .right-column {
             flex-basis: 40%;
             text-align: left;
             opacity: 0; /* Start hidden for animation */
-            animation: swoopUp 0.7s ease-out 1.4s forwards; /* Slightly more delayed swoop */
+            animation: swoopUp 1.2s ease 1.4s forwards; /* Smoother: longer duration, ease timing */
         }
 
         .bottom-text .column-question {
@@ -281,7 +282,7 @@
             margin: 20px auto 0 auto;
             /* Applying animation to the button */
             opacity: 0; /* Start hidden for animation */
-            animation: swoopUp 0.7s ease-out 1.8s forwards; /* Faster delayed swoop */
+            animation: swoopUp 1.2s ease 1.8s forwards; /* Smoother: longer duration, ease timing */
         }
 
         .action-button:hover {
@@ -297,7 +298,7 @@
             margin: 5vh auto 0 auto;
             /* Applying animation to the divider */
             opacity: 0; /* Start hidden for animation */
-            animation: fadeIn 0.7s ease-out 2s forwards; /* Faster fade in with a delay */
+            animation: fadeIn 1.2s ease 2s forwards; /* Smoother: longer duration, ease timing */
         }
 
 
@@ -316,7 +317,7 @@
             text-align: left;
             /* Applying animation to the footer */
             opacity: 0; /* Start hidden for animation */
-            animation: fadeIn 0.7s ease-out 2.2s forwards; /* Faster fade in with a delay */
+            animation: fadeIn 1.2s ease 2.2s forwards; /* Smoother: longer duration, ease timing */
         }
 
         .site-footer .footer-column {
@@ -337,52 +338,59 @@
         /* Responsive adjustments for smaller screens */
         @media (max-width: 768px) {
             .main-header {
-                flex-direction: column;
+                flex-direction: row; /* Keep header elements horizontal */
+                flex-wrap: wrap; /* Allow wrapping if needed, but they should fit now */
+                justify-content: space-between; /* Space out items */
                 align-items: center;
-                padding: 20px 20px;
-                background-color: transparent;
-            }
-            .site-name,
-            .main-nav ul li a {
-                font-size: 3.5vw;
+                padding: 15px 15px; /* Reduced padding */
             }
             .site-name {
-                margin-bottom: 15px;
+                font-size: 3.5vw; /* Smaller font size for site name */
+                margin-bottom: 0; /* Remove bottom margin */
+                width: auto; /* Allow width to be content-based */
+                text-align: left; /* Keep site name aligned left */
             }
             .main-nav {
-                flex-grow: unset;
-                justify-content: center;
-                width: 100%;
-                margin-right: 0;
+                flex-grow: 0; /* Don't let it grow too much */
+                justify-content: flex-end; /* Push nav to the right */
+                width: auto; /* Allow width to be content-based */
+                margin-right: 0; /* Remove extra margin */
             }
             .main-nav ul {
-                flex-direction: column;
-                align-items: center;
+                flex-direction: row; /* Keep nav items horizontal */
+                flex-wrap: wrap; /* Allow wrapping if they don't fit */
+                justify-content: flex-end; /* Align nav items to the right */
+                gap: 15px; /* Smaller gap between nav items */
             }
             .main-nav ul li {
-                margin-left: 0;
-                margin-bottom: 8px;
+                margin-bottom: 0; /* Remove bottom margin */
+                width: auto; /* Allow width to be content-based */
+                text-align: right; /* Align nav items to the right */
+            }
+            .main-nav ul li a {
+                font-size: 3vw; /* Smaller font size for nav links */
+                padding: 5px 0; /* Adjust padding for links */
             }
 
             .main-section {
-                padding-top: 120px;
+                padding-top: 100px; /* Adjust padding based on smaller header height */
             }
             .main-content {
                 padding-top: 8vh;
                 padding-bottom: 3vh;
             }
             .title {
-                font-size: 15vw;
+                font-size: 18vw; /* Adjusted for better fit on mobile */
                 letter-spacing: -0.03em;
             }
             .now-entering {
-                font-size: 4vw;
+                font-size: 5vw; /* Adjusted for better visibility */
                 top: 35%;
-                left: 30%;
+                left: 30%; /* Adjusted left to keep it visually balanced with the larger font size */
                 transform: translate(-50%, -50%);
             }
             .buildings-gif {
-                width: 150vw;
+                width: 150vw; /* This will make it wider than the screen */
                 margin-top: 0;
                 padding-top: 5vh;
             }
@@ -403,7 +411,7 @@
             .bottom-text .right-column {
                 width: 100%;
                 flex-basis: auto;
-                margin-bottom: 20px;
+                margin-bottom: 25px; /* Increased margin for stacked columns */
                 text-align: left;
             }
             .bottom-text .right-column {
@@ -412,7 +420,7 @@
 
 
             .bottom-text p {
-                font-size: 2.5vw;
+                font-size: 3.5vw; /* Adjusted for readability on mobile */
                 line-height: 1.5;
                 margin-bottom: 0.5em;
                 text-align: left;
@@ -420,22 +428,22 @@
             }
 
             .bottom-text .column-question {
-                font-size: 5vw;
+                font-size: 6vw; /* Adjusted for readability on mobile */
                 line-height: 1.1;
                 margin-bottom: 0.1em;
                 text-align: left;
             }
 
             .bottom-text .column-answer {
-                font-size: 4vw;
+                font-size: 5vw; /* Adjusted for readability on mobile */
                 margin-bottom: 1em;
                 text-align: left;
             }
 
             .action-button {
-                font-size: 3vw;
-                padding: 12px 25px;
-                margin-top: 30px;
+                font-size: 4vw; /* Adjusted for readability on mobile */
+                padding: 15px 30px; /* Slightly larger padding for easier tapping */
+                margin-top: 40px; /* Increased margin */
                 margin-left: auto;
                 margin-right: auto;
                 display: block;
@@ -444,8 +452,8 @@
 
             .footer-divider {
                 width: 90%;
-                margin-top: 3vh;
-                margin-bottom: 3vh;
+                margin-top: 5vh; /* Increased margin */
+                margin-bottom: 5vh; /* Increased margin */
                 margin-left: auto;
                 margin-right: auto;
             }
@@ -455,27 +463,41 @@
                 margin: 5vh auto;
                 flex-direction: column;
                 align-items: flex-start;
+                font-size: 3.5vw; /* Adjusted for readability on mobile */
+                line-height: 1.4; /* Adjusted line height */
+            }
+            .site-footer .footer-column {
+                padding: 0; /* Remove horizontal padding on mobile */
+                margin-bottom: 15px; /* Add spacing between stacked columns */
+            }
+            .site-footer .footer-column:last-child {
+                text-align: left; /* Align copyright left on mobile */
+                margin-bottom: 0; /* No bottom margin for the last column */
             }
         }
 
         /* Media queries for desktop adjustments */
         @media (min-width: 769px) and (max-width: 1200px) {
+            .site-name,
+            .main-nav ul li a {
+                font-size: 2vw; /* Adjusted for slightly larger screens but still smaller than full desktop */
+            }
             .bottom-text .column-question {
                 font-size: 4vw;
             }
             .bottom-text .column-answer {
-                font-size: 2vw;
+                font-size: 2.8vw; /* Slightly larger for this range */
             }
             .bottom-text p {
-                font-size: 1.2vw;
+                font-size: 1.5vw; /* Adjusted for readability */
             }
             .action-button {
-                /* No change to button alignment, it remains centered */
+                font-size: 2vw; /* Adjusted size for tablets/small desktops */
             }
 
             .site-footer {
                 width: 87vw;
-                font-size: 1.2vw;
+                font-size: 1.5vw; /* Adjusted size for tablets/small desktops */
                 margin-left: auto;
                 margin-right: auto;
             }
@@ -488,6 +510,10 @@
         }
 
         @media (min-width: 1201px) {
+            .site-name,
+            .main-nav ul li a {
+                font-size: 1.5vw; /* Default desktop size */
+            }
             .bottom-text .column-question {
                 font-size: 3vw;
             }
@@ -496,19 +522,19 @@
             }
             .bottom-text p {
                 font-family: 'Neube Kabel Light', sans-serif;
-                font-size: 1.3vw;
+                font-size: 0.9vw; /* Original desktop size */
                 line-height: 1.3;
                 margin-bottom: 0.5em;
                 text-align: left;
                 hyphens: auto;
             }
             .action-button {
-                /* No change to button alignment, it remains centered */
+                font-size: 1.5vw; /* Original desktop size */
             }
 
             .site-footer {
                 width: 87vw;
-                font-size: 0.9vw;
+                font-size: 0.9vw; /* Original desktop size */
                 margin-left: auto;
                 margin-right: auto;
             }
@@ -529,7 +555,8 @@
                 <li><a href="index.html">LAND</a></li>
                 <li><a href="my-works.html">MY WORKS</a></li>
                 <li><a href="profile.html">PROFILE</a></li>
-                <li><a href="contact.html">CONTACT ME</a></li> </ul>
+                <li><a href="contact.html">CONTACT ME</a></li>
+            </ul>
         </nav>
     </header>
 
@@ -564,7 +591,7 @@
             <p>QUEZON CITY,<br>METRO MANILA</p>
         </div>
         <div class="footer-column">
-            <p><a href="https://www.linkedin.com/in/naomi-beatrice-tribucias-80010636a/" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: none;">LNKEDIIN</a><br>NATRIBUCIAS@STUDENTS.NU-MOA.EDU.PH</p>
+            <p><a href="https://www.linkedin.com/in/naomi-beatrice-tribucias-80010636a/" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: none;">LINKEDIN</a><br>NATRIBUCIAS@STUDENTS.NU-MOA.EDU.PH</p>
         </div>
         <div class="footer-column">
             <p>©2025 BEATRICE TRIBUCIAS</p>

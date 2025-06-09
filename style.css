@@ -48,19 +48,75 @@ body {
 }
 
 /* Updated header styling for top navigation */
+/* Updated header styling for top navigation */
 .main-header {
-    position: fixed;
+    position: fixed; /* Keep header fixed on scroll */
     top: 0;
     left: 0;
     width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 40px 94px;
+    padding: 40px 94px; /* Default desktop padding */
     box-sizing: border-box;
     z-index: 100;
-    background-color: transparent;
+    /* Change this line for transparency */
+    background-color: rgba(248, 245, 236, 0.9); /* #F8F5EC with 90% opacity */
+    /* Remove the following two animation lines if you don't want the header to fade in initially */
+    /* opacity: 0; */
+    /* animation: fadeIn 1.2s ease 0.1s forwards; */
 }
+.main-header1 {
+    position: fixed; /* Keep header fixed on scroll */
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 40px 94px; /* Default desktop padding */
+    box-sizing: border-box;
+    z-index: 100;
+    /* Change this line for transparency */
+    background-color: rgba(248, 245, 236, 0.9); /* #F8F5EC with 90% opacity */
+    /* Remove the following two animation lines if you don't want the header to fade in initially */
+    /* opacity: 0; */
+    /* animation: fadeIn 1.2s ease 0.1s forwards; */
+}
+.main-header2 {
+    position: fixed; /* Keep header fixed on scroll */
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 40px 94px; /* Default desktop padding */
+    box-sizing: border-box;
+    z-index: 100;
+    background-color: rgb(47, 83, 160,0.9); /* Changed to match body background color */
+    /* Remove the following two animation lines if you don't want the header to fade in initially */
+    /* opacity: 0; */
+    /* animation: fadeIn 1.2s ease 0.1s forwards; */
+}
+.main-header3 {
+    position: fixed; /* Keep header fixed on scroll */
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 40px 94px; /* Default desktop padding */
+    box-sizing: border-box;
+    z-index: 100;
+    background-color: rgb(47, 83, 160,0.9); /* Changed to match body background color */
+    /* Remove the following two animation lines if you don't want the header to fade in initially */
+    /* opacity: 0; */
+    /* animation: fadeIn 1.2s ease 0.1s forwards; */
+}
+
+
 
 /* Unified font size for site name and nav links */
 .site-name,
