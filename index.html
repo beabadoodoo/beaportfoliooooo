@@ -225,8 +225,8 @@
 
         .buildings-gif {
             display: block;
-            width: 100%; /* Make it fill its container */
-            max-width: 100%; /* Ensure it doesn't overflow its container */
+            width: 87vw; /* This will scale it proportionally to the viewport width */
+            max-width: none; /* Keep this to allow it to exceed its container if 87vw is larger than the natural size */
             height: auto; /* Maintain aspect ratio */
             margin: -5vh auto 0 auto;
             padding-top: 1vh;
@@ -437,7 +437,7 @@
                 display: none; /* Hide "Now Entering" on smaller screens */
             }
             .buildings-gif {
-                width: 100%; /* Make it fill its container */
+                width: 150vw; /* Retained 150vw for intentional overflow */
                 margin-top: 0;
                 padding-top: 5vh;
             }
