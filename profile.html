@@ -8,6 +8,61 @@
     <link rel="stylesheet" href="style2.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
+        /* Font definitions (copied from my-works.html for consistency) */
+        @font-face {
+            font-family: 'Neube Kabel';
+            src: url('fonts/NeueKabel-ExtraBold.otf') format('opentype');
+            font-weight: 800; /* Extra Bold */
+            font-style: normal;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: 'Neube Kabel Medium';
+            src: url('fonts/NeueKabel-Medium.otf') format('opentype');
+            font-weight: 500; /* Medium weight, typically 500 */
+            font-style: normal;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: 'Neube Kabel Bold';
+            src: url('fonts/NeueKabel-Bold.otf') format('opentype');
+            font-weight: 600; /* Medium weight, typically 500 */
+            font-style: normal;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: 'Neube Kabel Light';
+            src: url('fonts/NeueKabel-ExtraLight.otf') format('opentype');
+            font-weight: 300; /* Light weight, typically 300 */
+            font-style: normal;
+            font-display: swap;
+        }
+
+        /* Root variables (copied from my-works.html for consistency) */
+        :root {
+            --primary-blue: #2F53A0;
+            --light-background: #F8F5EC;
+            --header-padding-x-desktop: 94px;
+            --header-padding-y-desktop: 40px;
+            --content-width-desktop: 87vw;
+            --max-content-width: 1400px;
+            --mobile-padding: 20px; /* Adjusted to match my-works.html's mobile padding in header */
+        }
+
+        body {
+            background-color: var(--primary-blue);
+            color: var(--light-background);
+            margin: 0;
+            font-family: 'Neube Kabel', sans-serif;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
         /* --- General Swoop Up Animation (for content) --- */
         @keyframes swoopUp {
             from {
@@ -72,44 +127,90 @@
             transition: width 1s ease-out; /* Animate width change */
         }
 
-        /* --- Header Styles (Smart Header Logic) --- */
+        /* --- Header Styles (Copied directly from my-works.html) --- */
         .main-header3 {
-            position: fixed; /* Keep the header fixed at the top */
+            position: fixed;
             width: 100%;
             top: 0;
             left: 0;
-            transform: translateY(0); /* Initial state: visible */
-            transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out; /* Smooth transition */
-            z-index: 1000; /* Ensure it stays on top of other content */
-            opacity: 1; /* Initial state: fully visible */
-            background-color: rgb(47, 83, 160,0.9); /* Assuming light background from style.css, adjust if needed */
-            padding: 40px 94px; /* Matches your current header padding */
+            transform: translateY(0);
+            transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+            z-index: 1000;
+            opacity: 1;
+            background-color: rgb(47, 83, 160,0.9); /* Semi-transparent blue */
+            padding: var(--header-padding-y-desktop) var(--header-padding-x-desktop);
             box-sizing: border-box;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            /* Ensure no initial animation overrides this immediately */
-            animation: none !important;
+            animation: none !important; /* Override any body-level animations */
         }
 
         .main-header3.hide {
-            transform: translateY(-100%); /* Move header fully upwards to hide */
-            opacity: 0; /* Make it transparent when hidden */
+            transform: translateY(-100%);
+            opacity: 0;
         }
 
         .main-header3.transparent {
-            opacity: 0; /* Make it transparent when not scrolling */
+            opacity: 0;
+            pointer-events: none; /* Disable interaction when transparent */
         }
 
         .main-header3.show {
-            transform: translateY(0); /* Bring it back to visible position */
-            opacity: 1; /* Make it fully visible */
+            transform: translateY(0);
+            opacity: 1;
+            pointer-events: auto; /* Enable interaction when visible */
+        }
+
+        /* Site Name (consistent with my-works.html) */
+        .site-name {
+            font-family: 'Neube Kabel Light', sans-serif; /* Consistent font */
+            font-size: clamp(1rem, 1.5vw, 1.5rem); /* Consistent font size */
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            white-space: nowrap;
+            color: var(--light-background); /* Consistent color */
+            text-decoration: none; /* Ensure it's not underlined if it's a link */
+        }
+
+        /* Hamburger Menu Icon (from my-works.html) */
+        .menu-toggle {
+            display: none; /* Hidden by default on larger screens */
+            font-size: 2rem;
+            color: var(--light-background); /* Consistent color */
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        /* Desktop Navigation (from my-works.html) */
+        .main-nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex; /* Display horizontally on desktop */
+            gap: clamp(15px, 3vw, 45px); /* Consistent responsive gap */
+        }
+
+        .main-nav ul li a {
+            color: var(--light-background); /* Consistent link color */
+            text-decoration: none;
+            font-family: 'Neube Kabel Light', sans-serif; /* Consistent font */
+            font-size: clamp(1rem, 1.5vw, 1.5rem); /* Consistent font size */
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            white-space: nowrap;
+            transition: opacity 0.3s ease;
+        }
+
+        .main-nav ul li a:hover,
+        .main-nav ul li a.active {
+            opacity: 0.7; /* Consistent hover/active style */
         }
 
         /* Adjust content margin to prevent overlap with the fixed header */
         .profile-content {
-            margin-top: 120px; /* Example: adjust this based on header height + desired spacing */
-            padding: 80px 94px 50px 94px; /* Maintain existing padding */
+            margin-top: 120px; /* Adjusted to align with header height */
+            padding: 80px 94px 50px 94px;
             box-sizing: border-box;
             max-width: 1400px;
             margin-left: auto;
@@ -120,26 +221,260 @@
             text-align: center;
         }
 
-        /* Responsive adjustments for content margin */
+        /* --- Footer Styles (from my-works.html, adjusted for profile layout) --- */
+        .footer-divider {
+            border: none;
+            border-top: 1px solid var(--light-background);
+            width: var(--content-width-desktop);
+            max-width: var(--max-content-width);
+            margin: 5vh auto 0 auto;
+            animation: fadeIn 1.2s ease 2s forwards; /* Keep original animation if desired */
+            opacity: 0;
+        }
+
+        .site-footer {
+            width: var(--content-width-desktop);
+            max-width: var(--max-content-width);
+            margin: 10vh auto 5vh auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            color: var(--light-background);
+            font-family: 'Neube Kabel Light', sans-serif;
+            font-size: clamp(0.9rem, 1.5vw, 1rem);
+            line-height: 1.5;
+            text-align: left;
+            flex-wrap: wrap;
+            animation: fadeIn 1.2s ease 2.2s forwards; /* Keep original animation if desired */
+            opacity: 0;
+        }
+
+        .site-footer .footer-column {
+            flex: 1;
+            min-width: 150px; /* Adjusted from 250px for better fit for 4 columns on larger screens, adjust if needed */
+            padding: 0 1vw;
+            box-sizing: border-box;
+        }
+
+        .site-footer .footer-column p {
+            margin: 0;
+        }
+
+        .site-footer .footer-column:last-child {
+            text-align: right; /* Last column right-aligned, consistent with my-works.html */
+        }
+
+        .site-footer a {
+            color: inherit;
+            text-decoration: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .site-footer a:hover {
+            opacity: 0.7;
+        }
+
+        /* --- Responsive adjustments (Copied directly from my-works.html's header/nav sections) --- */
+
         @media (max-width: 768px) {
             .main-header3 {
-                padding: 20px 20px; /* Adjust header padding for mobile */
+                padding: var(--mobile-padding); /* Use mobile padding variable */
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+                height: auto; /* Allow header to adjust height */
             }
+
+            .main-header3 .site-name {
+                font-size: 1.2rem; /* Consistent with my-works.html mobile */
+                margin-right: auto; /* Pushes menu-toggle to the right */
+            }
+
+            .menu-toggle {
+                display: block; /* Show hamburger icon on mobile */
+            }
+
+            .main-nav {
+                display: none; /* Hidden by default on mobile */
+                width: 100%;
+                background-color: rgba(47, 83, 160, 0.95); /* Semi-transparent background for opened menu */
+                position: fixed; /* Use fixed for overlay */
+                top: 0; /* Cover entire viewport */
+                left: 0;
+                height: 100vh; /* Full height */
+                padding: 100px 0 20px 0; /* Padding for content below header */
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+                flex-direction: column; /* Stack nav items vertically */
+                align-items: center; /* Center nav items */
+                transform: translateY(-100%); /* Start off-screen */
+                transition: transform 0.3s ease-out;
+                z-index: 999; /* Below header, above content */
+            }
+
+            .main-nav.active {
+                display: flex; /* Show navigation when active */
+                transform: translateY(0); /* Slide in */
+            }
+
+            .main-nav ul {
+                flex-direction: column; /* Stack vertically */
+                width: 100%;
+                text-align: center;
+                gap: 15px; /* Adjust vertical spacing */
+            }
+
+            .main-nav ul li {
+                margin: 0; /* Reset margin from desktop */
+            }
+
+            .main-nav ul li a {
+                font-size: 1.5rem; /* Larger for mobile menu */
+                padding: 10px 0;
+                display: block;
+            }
+
+            /* Adjust content margin/padding for mobile header */
             .profile-content {
-                margin-top: 150px; /* Adjust for mobile header height */
+                margin-top: 100px; /* Adjust for mobile header height */
                 padding: 50px 20px 30px 20px;
             }
-            .skills-section {
-                padding: 50px 20px;
-            }
-            .education-section {
-                padding: 50px 20px;
-            }
+
+            .skills-section,
+            .education-section,
             .hobbies-section {
                 padding: 50px 20px;
             }
+
+            .footer-divider {
+                width: 90%;
+                margin-top: 5vh;
+                margin-bottom: 5vh;
+            }
             .site-footer {
-                padding: 20px;
+                width: 90%;
+                margin: 5vh auto;
+                flex-direction: column;
+                align-items: flex-start;
+                font-size: clamp(0.7rem, 2.8vw, 1rem);
+                padding: 0; /* Reset padding to 0, use content width */
+            }
+            .site-footer .footer-column {
+                padding: 0;
+                margin-bottom: 15px;
+                min-width: unset;
+                width: 100%;
+                text-align: left !important; /* Override right-align for last column */
+            }
+        }
+
+        /* Tablet Adjustments (min-width: 769px and max-width: 1024px) */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .main-header3 {
+                padding: 25px 40px;
+            }
+            .site-name,
+            .main-nav ul li a {
+                font-size: clamp(1.1rem, 1.8vw, 1.4rem);
+            }
+            .main-nav ul {
+                gap: 25px;
+            }
+            .menu-toggle {
+                display: none;
+            }
+            .main-nav {
+                display: flex; /* Ensure desktop nav is visible */
+                position: static; /* Override fixed/absolute for desktop */
+                height: auto;
+                background-color: transparent; /* Transparent for desktop */
+                box-shadow: none;
+                transform: none; /* Reset transform */
+                padding: 0;
+                flex-direction: row;
+            }
+
+            .profile-content {
+                margin-top: 120px;
+                padding: 50px 40px;
+            }
+
+            .skills-section,
+            .education-section,
+            .hobbies-section {
+                padding: 50px 40px;
+            }
+
+            .footer-divider {
+                width: 90%;
+                margin-top: 6vh;
+            }
+            .site-footer {
+                width: 90%;
+                margin: 8vh auto 4vh auto;
+                font-size: clamp(0.8rem, 1.2vw, 1rem);
+                padding: 0;
+            }
+            .site-footer .footer-column {
+                text-align: left; /* Ensure default left align for tablets, except last */
+            }
+            .site-footer .footer-column:last-child {
+                text-align: right;
+            }
+        }
+
+        /* Desktop Adjustments (min-width: 1025px) */
+        @media (min-width: 1025px) {
+            .main-header3 {
+                padding: var(--header-padding-y-desktop) var(--header-padding-x-desktop);
+            }
+
+            .site-name,
+            .main-nav ul li a {
+                font-size: 1.5rem;
+            }
+            .main-nav ul {
+                gap: 45px;
+            }
+            .menu-toggle {
+                display: none;
+            }
+            .main-nav {
+                display: flex; /* Ensure desktop nav is visible */
+                position: static; /* Override fixed/absolute for desktop */
+                height: auto;
+                background-color: transparent; /* Transparent for desktop */
+                box-shadow: none;
+                transform: none; /* Reset transform */
+                padding: 0;
+                flex-direction: row;
+            }
+
+            .profile-content {
+                margin-top: 150px;
+                padding: 80px 94px 50px 94px;
+            }
+
+            .skills-section,
+            .education-section,
+            .hobbies-section {
+                padding: 50px 94px;
+            }
+
+            .footer-divider {
+                width: var(--content-width-desktop);
+                max-width: var(--max-content-width);
+                margin-top: 10vh;
+                margin-bottom: 0;
+            }
+            .site-footer {
+                width: var(--content-width-desktop);
+                max-width: var(--max-content-width);
+                margin: 10vh auto 5vh auto;
+                font-size: 1rem;
+                padding: 0;
+            }
+            .site-footer .footer-column:last-child {
+                text-align: right;
             }
         }
     </style>
@@ -147,7 +482,10 @@
 <body>
     <header class="main-header3">
         <span class="site-name">Beatrice Tribucias</span>
-        <nav class="main-nav">
+        <div class="menu-toggle" id="mobile-menu">
+            <i class="fas fa-bars"></i>
+        </div>
+        <nav class="main-nav" id="main-nav">
             <ul>
                 <li><a href="index.html">LAND</a></li>
                 <li><a href="my-works.html">MY WORKS</a></li>
@@ -282,14 +620,13 @@
         <div class="carousel-wrapper">
             <button class="carousel-button prev-button"><i class="fas fa-chevron-left"></i></button>
             <div class="video-scroll-container" id="videoCarousel">
-                <iframe width="560" height="315" src="https://www.youtube.com/embed/YQ2ZAFdpk_Q?si=qUQd5qg6sCt2Z45L" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-                <iframe width="560" height="315" src="https://www.youtube.com/embed/A8tbgRezDO4?si=AmSKaQ0sR58qrxj_" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-                <iframe width="560" height="315" src="https://www.youtube.com/embed/LBaOMJ94QCE?si=SR9_Fa-FpSISS2pV" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-                <iframe width="560" height="315" src="https://www.youtube.com/embed/9kbjhQ8TK8U?si=_aqRYnNfmVUi7GiX" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-                <iframe width="560" height="315" src="https://www.youtube.com/embed/a71HvR6Cfl8?si=dzPD_JLaz2Lo4lMk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-                <iframe width="560" height="315" src="https://www.youtube.com/embed/GCuUKvWqmoI?si=gw3trViWPAT1KVmP" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/your_video_id_1" title="YouTube video player 1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/your_video_id_2" title="YouTube video player 2" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/your_video_id_3" title="YouTube video player 3" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/your_video_id_4" title="YouTube video player 4" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/your_video_id_5" title="YouTube video player 5" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/your_video_id_6" title="YouTube video player 6" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
             </div>
-            
             <button class="carousel-button next-button"><i class="fas fa-chevron-right"></i></button>
         </div>
         <div class="carousel-dots" id="carouselDots">
@@ -537,41 +874,68 @@
                 }
             }
 
-            // --- Header Scroll Logic ---
+            // --- Header Scroll Logic (copied from my-works.html) ---
             const header = document.querySelector('.main-header3');
+            const mobileMenuToggle = document.getElementById('mobile-menu'); // Renamed for clarity
+            const mainNav = document.getElementById('main-nav');
+
+            mobileMenuToggle.addEventListener('click', () => {
+                mainNav.classList.toggle('active');
+                // Toggle body scroll lock
+                document.body.style.overflow = mainNav.classList.contains('active') ? 'hidden' : 'auto';
+            });
+
+            // Close mobile menu when a navigation link is clicked
+            const navLinks = mainNav.querySelectorAll('a');
+            navLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    if (mainNav.classList.contains('active')) {
+                        mainNav.classList.remove('active');
+                        document.body.style.overflow = 'auto'; // Re-enable scroll
+                    }
+                });
+            });
+
+
             let lastScrollY = window.scrollY;
             let scrollTimeout;
 
             function handleScroll() {
                 const currentScrollY = window.scrollY;
 
-                // Clear any existing timeout for hiding the header
                 clearTimeout(scrollTimeout);
 
-                if (currentScrollY === 0) {
-                    // Scenario 1: User is at the very top of the page
+                // Only apply header scroll logic if mobile menu is NOT active
+                if (!mainNav.classList.contains('active')) {
+                    if (currentScrollY === 0) {
+                        // Scenario 1: User is at the very top of the page
+                        header.classList.remove('hide', 'transparent');
+                        header.classList.add('show');
+                    } else if (currentScrollY > lastScrollY && currentScrollY > header.offsetHeight) {
+                        // Scenario 2: Scrolling down and scrolled past the header height
+                        header.classList.add('hide');
+                        header.classList.remove('show', 'transparent');
+                    } else if (currentScrollY < lastScrollY) {
+                        // Scenario 3: Scrolling up
+                        header.classList.add('show');
+                        header.classList.remove('hide', 'transparent');
+                    }
+
+                    lastScrollY = currentScrollY;
+
+                    // Set a timeout to make the header transparent if no scrolling occurs for a brief period
+                    if (currentScrollY > 0) {
+                        scrollTimeout = setTimeout(() => {
+                            if (window.scrollY === lastScrollY) {
+                                header.classList.add('transparent');
+                                header.classList.remove('show');
+                            }
+                        }, 1000); // Hide after 1 second of no scrolling
+                    }
+                } else {
+                    // If mobile menu is active, ensure header stays visible
                     header.classList.remove('hide', 'transparent');
-                    header.classList.add('show'); // Ensure it's fully visible
-                } else if (currentScrollY > lastScrollY && currentScrollY > header.offsetHeight) {
-                    // Scenario 2: Scrolling down and scrolled past the header height
-                    header.classList.add('hide');
-                    header.classList.remove('show', 'transparent');
-                } else if (currentScrollY < lastScrollY) {
-                    // Scenario 3: Scrolling up
                     header.classList.add('show');
-                    header.classList.remove('hide', 'transparent');
-                }
-
-                lastScrollY = currentScrollY;
-
-                // Set a timeout to hide the header if no scrolling occurs for a brief period
-                if (currentScrollY > 0) { // Only apply this if not at the top
-                    scrollTimeout = setTimeout(() => {
-                        if (window.scrollY === lastScrollY) { // Check if scrolling has actually stopped
-                            header.classList.add('transparent');
-                            header.classList.remove('show'); // Ensure 'show' is removed when transparent
-                        }
-                    }, 1000); // Hide after 1 second of no scrolling
                 }
             }
 

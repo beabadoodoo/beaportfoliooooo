@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Now Entering Bea Land</title>
-    <link rel="stylesheet" href="style.css"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
 
     <style>
         /* Font definitions for Neube Kabel ExtraBold */
@@ -64,97 +65,103 @@
             }
         }
 
+        /* Root variables (copied from my-works.html for consistency) */
+        :root {
+            --primary-blue: #2F53A0;
+            --light-background: #F8F5EC;
+            --header-padding-x-desktop: 94px;
+            --header-padding-y-desktop: 40px;
+            --content-width-desktop: 87vw;
+            --max-content-width: 1400px;
+            --mobile-padding: 20px;
+        }
+
         body {
             margin: 0;
             display: flex;
             flex-direction: column; /* Stack header and main content vertically */
             align-items: center;
             min-height: 100vh; /* This still applies to the *initial* viewport height */
-            background-color: #F8F5EC; /* Default light background */
+            background-color: var(--light-background); /* Use variable */
             font-family: 'Neube Kabel', sans-serif;
             overflow-y: scroll; /* Allow vertical scrolling */
             overflow-x: hidden; /* Hide horizontal scrollbar if not needed */
-            color: #2F53A0; /* Default dark blue text color */
+            color: var(--primary-blue); /* Use variable */
         }
 
-        /* Updated header styling for top navigation */
+        /* --- Header Styles (copied from my-works.html, adjusted for this file) --- */
         .main-header {
-            position: fixed; /* Keep header fixed on scroll */
+            position: fixed;
+            width: 100%;
             top: 0;
             left: 0;
-            width: 100%;
+            transform: translateY(0);
+            transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+            z-index: 1000;
+            opacity: 1;
+            background-color: rgb(248, 245, 236, 0.9); /* Semi-transparent light background */
+            padding: var(--header-padding-y-desktop) var(--header-padding-x-desktop);
+            box-sizing: border-box;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 40px 94px; /* Default desktop padding */
-            box-sizing: border-box;
-            z-index: 100;
-            background-color: transparent;
-            /* Animation for header elements */
-            opacity: 0; /* Start hidden */
-            animation: fadeIn 1.2s ease 0.1s forwards; /* Smoother: longer duration, ease timing */
-
-            /* Styles for dynamic header */
-            transition: top 0.3s ease-in-out, opacity 0.3s ease-in-out; /* Smooth transition for 'top' and 'opacity' */
-            opacity: 1; /* Ensure it's visible by default */
+            animation: none !important; /* Override any body-level animations */
         }
 
-        .main-header.hidden {
-            top: -150px; /* Adjust this value based on your header's height */
+        .main-header.hide {
+            transform: translateY(-100%);
             opacity: 0;
-            pointer-events: none; /* Disable interaction when hidden */
         }
 
-        .main-header.scrolling-up {
-            top: 0;
+        .main-header.transparent {
+            opacity: 0;
+            pointer-events: none; /* Disable interaction when transparent */
+        }
+
+        .main-header.show {
+            transform: translateY(0);
             opacity: 1;
+            pointer-events: auto; /* Enable interaction when visible */
         }
 
-        .main-header.not-scrolling {
-            /* This class will ensure it stays hidden if you stop scrolling down */
-            top: -150px; /* Match the 'hidden' state */
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        /* Unified font size for site name and nav links */
-        .site-name,
-        .main-nav ul li a {
-            color: #2F53A0; /* Default header text color */
+        /* Site Name (consistent with my-works.html) */
+        .site-name {
             font-family: 'Neube Kabel Light', sans-serif;
-            font-size: 1.5vw; /* Default desktop font size */
+            font-size: clamp(1rem, 1.5vw, 1.5rem);
             letter-spacing: 0.1em;
             text-transform: uppercase;
             white-space: nowrap;
-            text-decoration: none;
+            color: var(--primary-blue); /* Consistent color */
         }
 
-        .site-name {
-            margin-right: 0;
+        /* Hamburger Menu Icon (copied from my-works.html) */
+        .menu-toggle {
+            display: none; /* Hidden by default on larger screens */
+            font-size: 2rem;
+            color: var(--primary-blue); /* Consistent color */
+            cursor: pointer;
+            z-index: 1001;
         }
 
-        .main-nav {
-            flex-grow: 1;
-            display: flex;
-            justify-content: center;
-            margin-right: 5vw;
-        }
-
+        /* Desktop Navigation (copied from my-works.html) */
         .main-nav ul {
             list-style: none;
             margin: 0;
             padding: 0;
-            display: flex; /* Ensure it stays horizontal */
-            gap: 45px; /* Use gap for spacing between nav items */
+            display: flex; /* Display horizontally on desktop */
+            gap: clamp(15px, 3vw, 45px); /* Consistent responsive gap */
         }
 
-        .main-nav ul li {
-            /* margin-left: 45px; Removed, as gap handles it */
+        .main-nav ul li a {
+            color: var(--primary-blue); /* Consistent color */
+            text-decoration: none;
+            font-family: 'Neube Kabel Light', sans-serif;
+            font-size: clamp(1rem, 1.5vw, 1.5rem);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            white-space: nowrap;
+            transition: opacity 0.3s ease;
         }
-
-        /* .main-nav ul li:first-child { Removed as gap handles it */
-            /* margin-left: 0; */
-        /* } */
 
         .main-nav ul li a:hover {
             opacity: 0.7;
@@ -169,7 +176,7 @@
             align-items: center;
             width: 100%;
             text-align: center;
-            padding-top: 100px; /* Adjusted padding to accommodate fixed header */
+            padding-top: 200px; /* Adjusted padding to accommodate fixed header */
         }
 
         .main-content {
@@ -181,7 +188,7 @@
 
         .title {
             font-size: 25vw;
-            color: #2F53A0;
+            color: var(--primary-blue);
             margin: 0;
             line-height: 1;
             white-space: nowrap;
@@ -204,7 +211,7 @@
             transform-origin: center center;
 
             font-size: 2.5vw;
-            color: #2F53A0;
+            color: var(--primary-blue);
             letter-spacing: 0.2em;
             text-transform: uppercase;
             white-space: nowrap;
@@ -230,13 +237,13 @@
 
         /* UPDATED STYLES FOR THE bottom-text SECTION */
         .bottom-text {
-            width: 87vw;
-            max-width: 1400px;
+            width: var(--content-width-desktop);
+            max-width: var(--max-content-width);
             margin-left: auto;
             margin-right: auto;
             margin-top: 0.9vh;
             margin-bottom: 7vh;
-            color: #2F53A0;
+            color: var(--primary-blue);
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
@@ -262,16 +269,16 @@
             font-size: 3vw;
             line-height: 0.9;
             margin-bottom: 0.3em;
-            color: #2F53A0;
+            color: var(--primary-blue);
             text-align: left;
         }
 
         .bottom-text .column-answer {
             font-family: 'Neube Kabel Medium', sans-serif;
-            font-size: 2.2vw;
+            font-size: 5vw;
             margin-top: 0;
             margin-bottom: 1em;
-            color: #2F53A0;
+            color: var(--primary-blue);
             text-align: left;
         }
 
@@ -288,8 +295,8 @@
         .action-button {
             display: block;
             padding: 15px 30px;
-            background-color: #2F53A0;
-            color: #F8F5EC;
+            background-color: var(--primary-blue);
+            color: var(--light-background);
             text-decoration: none;
             font-family: 'Neube Kabel Medium', sans-serif;
             font-size: 1.5vw;
@@ -314,9 +321,9 @@
         /* Styles for the Footer Divider Line */
         .footer-divider {
             border: none;
-            border-top: 1px solid #2F53A0; /* Default footer divider color */
-            width: 87vw;
-            max-width: 1400px;
+            border-top: 1px solid var(--primary-blue); /* Use variable */
+            width: var(--content-width-desktop);
+            max-width: var(--max-content-width);
             margin: 5vh auto 0 auto;
             /* Applying animation to the divider */
             opacity: 0; /* Start hidden for animation */
@@ -326,30 +333,30 @@
 
         /* Styles for the Footer */
         .site-footer {
-            width: 87vw;
-            max-width: 1400px;
-            margin: 10vh auto 5vh auto;
+            width: var(--content-width-desktop);
+            max-width: var(--max-content-width);
+            margin: 10vh auto 5vh auto; /* Adjusted margin to match my-works.html */
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            color: #2F53A0; /* Default footer text color */
+            color: var(--primary-blue);
             font-family: 'Neube Kabel Light', sans-serif;
-            font-size: 0.9vw;
+            /* Removed font-size here, let the paragraph rules handle it */
             line-height: 1.5;
             text-align: left;
-            /* Applying animation to the footer */
-            opacity: 0; /* Start hidden for animation */
             animation: fadeIn 1.2s ease 2.2s forwards; /* Smoother: longer duration, ease timing */
         }
 
         .site-footer .footer-column {
             flex: 1;
-            padding: 0 1vw;
+            padding: 0 1vw; /* Consistent padding with my-works.html */
             box-sizing: border-box;
         }
 
         .site-footer .footer-column p {
             margin: 0;
+            /* Default font size for very large screens */
+            font-size: 0.9vw; /* Consistent with my-works.html */
         }
 
         /* Specific alignment for the copyright column if needed */
@@ -360,42 +367,63 @@
         /* Responsive adjustments for smaller screens */
         @media (max-width: 768px) {
             .main-header {
-                flex-direction: row; /* Keep header elements horizontal */
-                flex-wrap: wrap; /* Allow wrapping if needed, but they should fit now */
-                justify-content: space-between; /* Space out items */
+                padding: var(--mobile-padding); /* Use variable */
+                flex-direction: row;
+                justify-content: space-between;
                 align-items: center;
-                padding: 15px 15px; /* Reduced padding */
+                height: auto;
             }
-            .site-name {
-                font-size: 3.5vw; /* Smaller font size for site name */
-                margin-bottom: 0; /* Remove bottom margin */
-                width: auto; /* Allow width to be content-based */
-                text-align: left; /* Keep site name aligned left */
+
+            .main-header .site-name {
+                font-size: 1.2rem;
+                margin-right: auto;
             }
+
+            .menu-toggle {
+                display: block; /* Show hamburger menu on smaller screens */
+            }
+
             .main-nav {
-                flex-grow: 0; /* Don't let it grow too much */
-                justify-content: flex-end; /* Push nav to the right */
-                width: auto; /* Allow width to be content-based */
-                margin-right: 0; /* Remove extra margin */
+                display: none; /* Hide main navigation by default on smaller screens */
+                width: 100%;
+                background-color: rgba(248, 245, 236, 0.95); /* Semi-transparent light background */
+                position: fixed;
+                top: 0;
+                left: 0;
+                height: 100vh;
+                padding: 100px 0 20px 0;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+                flex-direction: column;
+                align-items: center;
+                transform: translateY(-100%);
+                transition: transform 0.3s ease-out;
+                z-index: 999;
             }
+
+            .main-nav.active {
+                display: flex; /* Show when active */
+                transform: translateY(0);
+            }
+
             .main-nav ul {
-                flex-direction: row; /* Keep nav items horizontal */
-                flex-wrap: wrap; /* Allow wrapping if they don't fit */
-                justify-content: flex-end; /* Align nav items to the right */
+                flex-direction: column; /* Stack nav items vertically */
+                width: 100%;
+                text-align: center;
                 gap: 15px; /* Smaller gap between nav items */
             }
+
             .main-nav ul li {
-                margin-bottom: 0; /* Remove bottom margin */
-                width: auto; /* Allow width to be content-based */
-                text-align: right; /* Align nav items to the right */
+                margin: 0;
             }
+
             .main-nav ul li a {
-                font-size: 3vw; /* Smaller font size for nav links */
-                padding: 5px 0; /* Adjust padding for links */
+                font-size: 1.5rem; /* Larger font size for nav links on mobile */
+                padding: 10px 0; /* Adjust padding for links */
+                display: block; /* Make links full width for easier tapping */
             }
 
             .main-section {
-                padding-top: 100px; /* Adjust padding based on smaller header height */
+                padding-top: 120px; /* Adjust padding based on smaller header height */
             }
             .main-content {
                 padding-top: 8vh;
@@ -406,10 +434,7 @@
                 letter-spacing: -0.03em;
             }
             .now-entering {
-                font-size: 5vw; /* Adjusted for better visibility */
-                top: 35%;
-                left: 30%; /* Adjusted left to keep it visually balanced with the larger font size */
-                transform: translate(-50%, -50%);
+                display: none; /* Hide "Now Entering" on smaller screens */
             }
             .buildings-gif {
                 width: 150vw; /* This will make it wider than the screen */
@@ -485,12 +510,14 @@
                 margin: 5vh auto;
                 flex-direction: column;
                 align-items: flex-start;
-                font-size: 3.5vw; /* Adjusted for readability on mobile */
-                line-height: 1.4; /* Adjusted line height */
+                line-height: 1.4;
             }
             .site-footer .footer-column {
                 padding: 0; /* Remove horizontal padding on mobile */
                 margin-bottom: 15px; /* Add spacing between stacked columns */
+            }
+            .site-footer .footer-column p {
+                font-size: clamp(0.7rem, 3.5vw, 0.9rem); /* NOW MATCHES my-works.html */
             }
             .site-footer .footer-column:last-child {
                 text-align: left; /* Align copyright left on mobile */
@@ -498,12 +525,62 @@
             }
         }
 
-        /* Media queries for desktop adjustments */
-        @media (min-width: 769px) and (max-width: 1200px) {
+        /* Tablet Adjustments (min-width: 769px and max-width: 1024px) */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .main-header {
+                padding: 25px 40px;
+            }
             .site-name,
             .main-nav ul li a {
-                font-size: 2vw; /* Adjusted for slightly larger screens but still smaller than full desktop */
+                font-size: clamp(1.1rem, 1.8vw, 1.4rem);
             }
+            .main-nav ul {
+                gap: 25px;
+            }
+            .menu-toggle {
+                display: none;
+            }
+            .main-nav {
+                display: flex;
+                position: static;
+                height: auto;
+                background-color: transparent;
+                box-shadow: none;
+                transform: none;
+                padding: 0;
+                flex-direction: row;
+            }
+
+            .main-section {
+                padding-top: 150px;
+                padding-bottom: 30px;
+            }
+            .title {
+                font-size: clamp(6rem, 12vw, 10rem);
+            }
+            .now-entering {
+                font-size: clamp(1.5rem, 2.5vw, 2.5rem);
+            }
+
+            .footer-divider {
+                width: 90%;
+                margin-top: 6vh;
+            }
+            .site-footer {
+                width: 90%;
+                margin: 8vh auto 4vh auto;
+                padding: 0;
+            }
+            .site-footer .footer-column p {
+                font-size: clamp(0.8rem, 1.2vw, 1rem); /* NOW MATCHES my-works.html */
+            }
+            .site-footer .footer-column {
+                text-align: left;
+            }
+            .site-footer .footer-column:last-child {
+                text-align: right;
+            }
+
             .bottom-text .column-question {
                 font-size: 4vw;
             }
@@ -516,26 +593,65 @@
             .action-button {
                 font-size: 2vw; /* Adjusted size for tablets/small desktops */
             }
-
-            .site-footer {
-                width: 87vw;
-                font-size: 1.5vw; /* Adjusted size for tablets/small desktops */
-                margin-left: auto;
-                margin-right: auto;
-            }
-
-            .footer-divider {
-                margin-top: 7vh;
-                margin-left: auto;
-                margin-right: auto;
-            }
         }
 
-        @media (min-width: 1201px) {
+        /* Desktop Adjustments (min-width: 1025px) */
+        @media (min-width: 1025px) {
+            .main-header {
+                padding: var(--header-padding-y-desktop) var(--header-padding-x-desktop);
+            }
+
             .site-name,
             .main-nav ul li a {
                 font-size: 1.5vw; /* Default desktop size */
             }
+            .main-nav ul {
+                gap: 45px;
+            }
+            .menu-toggle {
+                display: none;
+            }
+            .main-nav {
+                display: flex;
+                position: static;
+                height: auto;
+                background-color: transparent;
+                box-shadow: none;
+                transform: none;
+                padding: 0;
+                flex-direction: row;
+            }
+
+            .main-section {
+                padding-top: 200px;
+                padding-bottom: 50px;
+            }
+            .title {
+                font-size: 25vw;
+            }
+            .now-entering {
+                font-size: 2.5vw;
+            }
+
+            .footer-divider {
+                width: var(--content-width-desktop);
+                max-width: var(--max-content-width);
+                margin-top: 10vh;
+                margin-bottom: 0;
+            }
+            .site-footer {
+                width: var(--content-width-desktop);
+                max-width: var(--max-content-width);
+                margin: 10vh auto 5vh auto;
+                padding: 0;
+            }
+            .site-footer .footer-column p {
+                font-size: 0.9vw; /* Original desktop size - consistent with my-works.html */
+            }
+            .site-footer .footer-column:last-child {
+                text-align: right;
+            }
+
             .bottom-text .column-question {
                 font-size: 3vw;
             }
@@ -553,26 +669,16 @@
             .action-button {
                 font-size: 1.5vw; /* Original desktop size */
             }
-
-            .site-footer {
-                width: 87vw;
-                font-size: 0.9vw; /* Original desktop size */
-                margin-left: auto;
-                margin-right: auto;
-            }
-
-            .footer-divider {
-                margin-top: 7vh;
-                margin-left: auto;
-                margin-right: auto;
-            }
         }
     </style>
 </head>
 <body>
     <header class="main-header">
         <span class="site-name">Beatrice Tribucias</span>
-        <nav class="main-nav">
+        <div class="menu-toggle" id="mobile-menu">
+            <i class="fas fa-bars"></i>
+        </div>
+        <nav class="main-nav" id="main-nav">
             <ul>
                 <li><a href="index.html">LAND</a></li>
                 <li><a href="my-works.html">MY WORKS</a></li>
@@ -622,70 +728,90 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const mainHeader = document.querySelector('.main-header');
+            // --- Header Scroll Logic (copied from my-works.html, adapted for index.html's classes) ---
+            const header = document.querySelector('.main-header');
+            const mobileMenuToggle = document.getElementById('mobile-menu');
+            const mainNav = document.getElementById('main-nav');
+            const nowEntering = document.querySelector('.now-entering'); // Keep this for its specific behavior
+
+            mobileMenuToggle.addEventListener('click', () => {
+                mainNav.classList.toggle('active');
+                mobileMenuToggle.classList.toggle('active'); // Add/remove active class for the icon animation
+                // Toggle body scroll lock
+                document.body.style.overflow = mainNav.classList.contains('active') ? 'hidden' : 'auto';
+            });
+
+            // Close mobile menu when a navigation link is clicked
+            const navLinks = mainNav.querySelectorAll('a');
+            navLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    if (mainNav.classList.contains('active')) {
+                        mainNav.classList.remove('active');
+                        mobileMenuToggle.classList.remove('active'); // Reset icon
+                        document.body.style.overflow = 'auto'; // Re-enable scroll
+                    }
+                });
+            });
+
             let lastScrollY = window.scrollY;
             let scrollTimeout;
 
-            // Function to hide the header
-            function hideHeader() {
-                mainHeader.classList.add('hidden');
-                mainHeader.classList.remove('scrolling-up');
-            }
-
-            // Function to show the header
-            function showHeader() {
-                mainHeader.classList.remove('hidden');
-                mainHeader.classList.add('scrolling-up');
-            }
-
-            // Initial check for header visibility (hide if not at the very top)
-            if (lastScrollY > 0) {
-                hideHeader();
-            }
-
-            window.addEventListener('scroll', () => {
+            function handleScroll() {
                 const currentScrollY = window.scrollY;
 
-                clearTimeout(scrollTimeout); // Clear any existing timeout
+                clearTimeout(scrollTimeout);
 
-                if (currentScrollY > lastScrollY) {
-                    // Scrolling down
-                    hideHeader();
-                    mainHeader.classList.remove('not-scrolling'); // Ensure it's not stuck in 'not-scrolling' state
-                } else if (currentScrollY < lastScrollY) {
-                    // Scrolling up
-                    showHeader();
-                    mainHeader.classList.remove('not-scrolling'); // Ensure it's not stuck in 'not-scrolling' state
+                // Only apply header scroll logic if mobile menu is NOT active
+                if (!mainNav.classList.contains('active')) {
+                    if (currentScrollY === 0) {
+                        // Scenario 1: User is at the very top of the page
+                        header.classList.remove('hide', 'transparent');
+                        header.classList.add('show');
+                    } else if (currentScrollY > lastScrollY && currentScrollY > header.offsetHeight) {
+                        // Scenario 2: Scrolling down and scrolled past the header height
+                        header.classList.add('hide');
+                        header.classList.remove('show', 'transparent');
+                    } else if (currentScrollY < lastScrollY) {
+                        // Scenario 3: Scrolling up
+                        header.classList.add('show');
+                        header.classList.remove('hide', 'transparent');
+                    }
+
+                    lastScrollY = currentScrollY;
+
+                    // Set a timeout to make the header transparent if no scrolling occurs for a brief period
+                    if (currentScrollY > 0) {
+                        scrollTimeout = setTimeout(() => {
+                            if (window.scrollY === lastScrollY) {
+                                header.classList.add('transparent');
+                                header.classList.remove('show');
+                            }
+                        }, 1000); // Hide after 1 second of no scrolling
+                    }
                 } else {
-                    // Not scrolling, but might have stopped in a "down" state
-                    // This timeout will hide it again if scrolling stops while "down"
-                    scrollTimeout = setTimeout(() => {
-                        if (currentScrollY > 0) { // Only hide if not at the very top of the page
-                            hideHeader();
-                            mainHeader.classList.add('not-scrolling');
-                        }
-                    }, 300); // Adjust this delay as needed (e.g., 300ms)
+                    // If mobile menu is active, ensure header stays visible
+                    header.classList.remove('hide', 'transparent');
+                    header.classList.add('show');
                 }
+            }
 
-                lastScrollY = currentScrollY; // Update last scroll position
-            });
+            window.addEventListener('scroll', handleScroll);
 
-            // Add event listener for when scrolling stops to potentially hide the header
-            window.addEventListener('scrollend', () => {
-                const currentScrollY = window.scrollY;
-                if (currentScrollY > 0 && !mainHeader.classList.contains('scrolling-up')) {
-                    // If scrolled down and not actively scrolling up, ensure it's hidden
-                    hideHeader();
-                    mainHeader.classList.add('not-scrolling');
-                } else if (currentScrollY === 0) {
-                    // Always show header at the very top
-                    showHeader();
-                    mainHeader.classList.remove('not-scrolling');
+            // Initial check in case the page loads scrolled down
+            handleScroll();
+
+            // Hide "Now Entering" on smaller screens (original logic)
+            function handleResize() {
+                if (window.innerWidth <= 768) {
+                    nowEntering.style.display = 'none';
+                } else {
+                    nowEntering.style.display = 'block'; // Or 'inline-block' if that's its default
                 }
-            });
+            }
 
-            // Your existing script.js content would go here if you had any for this page.
-            // Since the prompt only provided the HTML, I'm assuming there's no additional script.js content for this specific page.
+            // Call on load and resize
+            handleResize();
+            window.addEventListener('resize', handleResize);
         });
     </script>
 

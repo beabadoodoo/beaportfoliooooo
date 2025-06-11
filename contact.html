@@ -10,51 +10,643 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Neube+Kabel:wght@300;500;700&display=swap" rel="stylesheet">
     <style>
-        /* CSS for Header Transitions */
-        .main-header1 {
-            position: fixed; /* Keep the header fixed at the top */
+        /* Font definitions for Neube Kabel ExtraBold */
+        @font-face {
+            font-family: 'Neube Kabel';
+            src: url('fonts/NeueKabel-ExtraBold.otf') format('opentype');
+            font-weight: 800; /* Extra Bold */
+            font-style: normal;
+            font-display: swap;
+        }
+
+        /* New font definition for Neube Kabel Medium */
+        @font-face {
+            font-family: 'Neube Kabel Medium';
+            src: url('fonts/NeueKabel-Medium.otf') format('opentype');
+            font-weight: 500; /* Medium weight, typically 500 */
+            font-style: normal;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: 'Neube Kabel Bold';
+            src: url('fonts/NeueKabel-Bold.otf') format('opentype');
+            font-weight: 600; /* Medium weight, typically 500 */
+            font-style: normal;
+            font-display: swap;
+        }
+
+        /* New font definition for Neube Kabel Light / ExtraLight */
+        @font-face {
+            font-family: 'Neube Kabel Light';
+            src: url('fonts/NeueKabel-ExtraLight.otf') format('opentype');
+            font-weight: 300; /* Light weight, typically 300 */
+            font-style: normal;
+            font-display: swap;
+        }
+
+        /* Root variables (copied from my-works.html for consistency) */
+        :root {
+            --primary-blue: #2F53A0;
+            --light-background: #F8F5EC;
+            --header-padding-x-desktop: 94px;
+            --header-padding-y-desktop: 40px;
+            --content-width-desktop: 87vw;
+            --max-content-width: 1400px;
+            --mobile-padding: 20px;
+        }
+
+        body {
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background-color: var(--light-background);
+            font-family: 'Neube Kabel', sans-serif;
+            color: var(--primary-blue);
+            overflow-x: hidden; /* Prevent horizontal scroll */
+        }
+
+        /* --- Header Styles (consistent across pages) --- */
+        .main-header {
+            position: fixed;
             width: 100%;
             top: 0;
             left: 0;
-            transform: translateY(0); /* Initial state: visible */
-            transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out; /* Smooth transition */
-            z-index: 1000; /* Ensure it stays on top of other content */
-            opacity: 1; /* Initial state: fully visible */
-            /* Ensure no initial animation overrides this immediately */
+            transform: translateY(0);
+            transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+            z-index: 1000;
+            opacity: 1;
+            background-color: rgb(248, 245, 236, 0.9); /* Semi-transparent light background */
+            padding: var(--header-padding-y-desktop) var(--header-padding-x-desktop);
+            box-sizing: border-box;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             animation: none !important;
         }
 
-        .main-header1.hide {
-            transform: translateY(-100%); /* Move header fully upwards to hide */
-            opacity: 0; /* Make it transparent when hidden */
-        }
-
-        .main-header1.transparent {
-            /* This state is for when scrolling stops but isn't at the top, making it subtly disappear */
+        .main-header.hide {
+            transform: translateY(-100%);
             opacity: 0;
+            pointer-events: none; /* Disable interaction when hidden */
         }
 
-        .main-header1.show {
-            transform: translateY(0); /* Bring it back to visible position */
-            opacity: 1; /* Make it fully visible */
+        .main-header.transparent {
+            opacity: 0;
+            pointer-events: none; /* Disable interaction when transparent */
         }
 
-        /* Adjust content margin to prevent overlap with the fixed header */
-        /* You might need to fine-tune this value based on your header's exact height */
+        .main-header.show {
+            transform: translateY(0);
+            opacity: 1;
+            pointer-events: auto; /* Enable interaction when visible */
+        }
+
+        .site-name {
+            font-family: 'Neube Kabel Light', sans-serif;
+            font-size: clamp(1rem, 1.5vw, 1.5rem);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            white-space: nowrap;
+            color: var(--primary-blue);
+        }
+
+        /* Hamburger Menu Icon */
+        .menu-toggle {
+            display: none; /* Hidden by default on larger screens */
+            font-size: 2rem;
+            color: var(--primary-blue);
+            cursor: pointer;
+            z-index: 1001;
+            transition: transform 0.3s ease; /* Smooth rotation for icon */
+        }
+
+        /* Mobile Menu active state (for icon) */
+        .menu-toggle.active .fa-bars {
+            
+        }
+        .menu-toggle.active .fa-times { /* If you switch to an X icon */
+            transform: rotate(0deg);
+        }
+
+        /* Desktop Navigation */
+        .main-nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            gap: clamp(15px, 3vw, 45px);
+        }
+
+        .main-nav ul li a {
+            color: var(--primary-blue);
+            text-decoration: none;
+            font-family: 'Neube Kabel Light', sans-serif;
+            font-size: clamp(1rem, 1.5vw, 1.5rem);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            white-space: nowrap;
+            transition: opacity 0.3s ease;
+        }
+
+        .main-nav ul li a.active,
+        .main-nav ul li a:hover {
+            opacity: 0.7;
+        }
+
+        /* Adjust main content margin to prevent overlap with the fixed header */
         main {
-            margin-top: 120px; /* Example: adjust this based on header height + desired spacing */
+            flex-grow: 1; /* Allow main content to take available space */
+            width: 100%;
+            margin-top: calc(var(--header-padding-y-desktop) * 2 + 20px); /* Adjust based on header height + desired spacing */
+            padding-bottom: 50px; /* Space above footer */
         }
+
+        /* Keyframe for swoop-up animation */
+        @keyframes swoopUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Keyframe for fade-in animation */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Styles for the contact-hero-section */
+        .contact-hero-section {
+            width: var(--content-width-desktop);
+            max-width: var(--max-content-width);
+            margin: 0 auto;
+            text-align: center;
+            padding-top: 5vh; /* Added padding to top of section */
+            position: relative; /* For absolute positioning of geometric shape */
+            overflow: hidden; /* Hide overflowing parts of the shape */
+        }
+
+        .contact-heading {
+            font-family: 'Neube Kabel Bold', sans-serif;
+            font-size: clamp(3rem, 5vw, 5rem);
+            line-height: 1.1;
+            margin-bottom: 20px;
+            color: var(--primary-blue);
+            opacity: 0; /* Start hidden for animation */
+            animation: swoopUp 1s ease-out forwards;
+            animation-delay: 0.3s;
+        }
+
+        .contact-subheading {
+            font-family: 'Neube Kabel Light', sans-serif;
+            font-size: clamp(1rem, 1.5vw, 1.3rem);
+            line-height: 1.5;
+            margin-bottom: 50px;
+            color: var(--primary-blue);
+            opacity: 0; /* Start hidden for animation */
+            animation: swoopUp 1s ease-out forwards;
+            animation-delay: 0.5s;
+        }
+
+        .contact-grid {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 50px;
+            margin-top: 50px;
+            margin-bottom: 100px; /* Space before geometric shape */
+        }
+
+        .contact-info-column {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            text-align: left;
+            opacity: 0; /* Start hidden for animation */
+            animation: swoopUp 1s ease-out forwards;
+            animation-delay: 0.7s;
+        }
+
+        /* NEW/MODIFIED: Styling for individual contact info items */
+        .contact-info-column .info-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            /* Responsive padding */
+            padding: clamp(15px, 3vw, 25px); /* Scales from 15px to 25px based on viewport width */
+            border: 2px solid rgba(47, 83, 160, 0.1); /* Slightly more visible border */
+            border-radius: 12px; /* Slightly more rounded corners */
+            background-color: #FFFFFF; /* White background for contrast */
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08); /* More pronounced shadow */
+            transition: all 0.3s ease-in-out; /* Smooth transition for hover effects */
+        }
+
+        .contact-info-column .info-item:hover {
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15); /* More pronounced shadow on hover */
+            transform: translateY(-5px); /* More noticeable lift effect on hover */
+        }
+
+        .contact-icon {
+            font-size: clamp(2rem, 3vw, 3rem);
+            color: var(--primary-blue);
+            flex-shrink: 0; /* Prevent icon from shrinking */
+            margin-top: 5px; /* Adjust alignment with text */
+        }
+
+        .info-label {
+            font-family: 'Neube Kabel Medium', sans-serif;
+            font-size: clamp(0.9rem, 1.1vw, 1.1rem);
+            margin: 0;
+            color: var(--primary-blue);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .info-value {
+            font-family: 'Neube Kabel Light', sans-serif;
+            font-size: clamp(1.1rem, 1.6vw, 1.6rem);
+            color: var(--primary-blue);
+            text-decoration: none; /* Remove underline for links */
+            transition: opacity 0.3s ease;
+            display: block; /* Ensure link takes full space */
+            margin-top: 5px;
+            word-break: break-word; /* Allow long emails to wrap */
+        }
+
+        .info-value:hover {
+            opacity: 0.7;
+        }
+
+        /* Removed .geometric-shape styling entirely */
+
+        /* --- Footer Styles (Consistent across pages) --- */
+        .footer-divider {
+            border: none;
+            border-top: 1px solid var(--primary-blue);
+            width: var(--content-width-desktop);
+            max-width: var(--max-content-width);
+            margin: 5vh auto 0 auto; /* Adjusted margin to match my-works.html */
+            opacity: 0; /* Start hidden for animation */
+            animation: fadeIn 1.2s ease forwards;
+            animation-delay: 1.2s; /* Delayed to appear after content */
+        }
+
+        .site-footer {
+            width: var(--content-width-desktop);
+            max-width: var(--max-content-width);
+            margin: 5vh auto 5vh auto; /* Consistent spacing with other pages */
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            color: var(--primary-blue);
+            font-family: 'Neube Kabel Light', sans-serif;
+            line-height: 1.5;
+            text-align: left;
+            opacity: 0; /* Start hidden for animation */
+            animation: fadeIn 1.2s ease forwards;
+            animation-delay: 1.4s; /* Delayed to appear after content */
+        }
+
+        .site-footer .footer-column {
+            flex: 1;
+            padding: 0 1vw;
+            box-sizing: border-box;
+        }
+
+        .site-footer .footer-column p {
+            margin: 0;
+            font-size: 0.9vw; /* Desktop base size */
+        }
+
+        .site-footer .footer-column:last-child {
+            text-align: right;
+        }
+
+        /* --- Responsive Styles --- */
+
+        /* Mobile Adjustments (max-width: 768px) */
         @media (max-width: 768px) {
+            .main-header {
+                padding: var(--mobile-padding);
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+                height: auto;
+            }
+
+            .main-header .site-name {
+                font-size: 1.2rem;
+                margin-right: auto;
+            }
+
+            .menu-toggle {
+                display: block; /* Show hamburger menu on mobile */
+            }
+
+            .main-nav {
+                display: none; /* Hide main navigation by default */
+                width: 100%;
+                background-color: rgba(248, 245, 236, 0.95);
+                position: fixed;
+                top: 0;
+                left: 0;
+                height: 100vh;
+                padding: 100px 0 20px 0;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+                flex-direction: column;
+                align-items: center;
+                transform: translateY(-100%);
+                transition: transform 0.3s ease-out;
+                z-index: 999;
+            }
+
+            .main-nav.active {
+                display: flex; /* Show when active */
+                transform: translateY(0);
+            }
+
+            /* MODIFIED: Mobile Nav Menu Styling */
+            .main-nav ul {
+                flex-direction: column; /* Keep vertical for mobile usability */
+                width: 100%;
+                text-align: center;
+                gap: 20px; /* Increased gap for better spacing */
+            }
+
+            .main-nav ul li a {
+                font-size: 1.8rem; /* Larger font size for touch targets */
+                padding: 15px 0; /* More padding for easier tapping */
+                display: block;
+            }
+
             main {
-                margin-top: 150px; /* Adjust for mobile header height */
+                margin-top: 100px; /* Adjust based on mobile header height */
+                padding-bottom: 30px;
+            }
+
+            .contact-hero-section {
+                width: 90%;
+                padding-top: 3vh;
+            }
+
+            .contact-heading {
+                font-size: clamp(2.5rem, 8vw, 4rem); /* More aggressive scaling for mobile */
+                margin-bottom: 15px;
+            }
+
+            .contact-subheading {
+                font-size: clamp(0.9rem, 4vw, 1.2rem);
+                margin-bottom: 30px;
+            }
+
+            .contact-grid {
+                flex-direction: column; /* Stack columns on mobile */
+                gap: 30px;
+                margin-top: 30px;
+                margin-bottom: 50px;
+            }
+
+            .contact-info-column {
+                align-items: flex-start; /* Ensure left alignment */
+                gap: 20px;
+            }
+
+            .contact-info-column .info-item {
+                flex-direction: row; /* Keep icon and text side-by-side */
+                align-items: flex-start;
+                gap: 15px;
+                padding: clamp(15px, 5vw, 20px); /* Adjust padding for mobile */
+            }
+
+            .contact-icon {
+                font-size: clamp(1.8rem, 6vw, 2.5rem);
+            }
+
+            .info-label {
+                font-size: clamp(0.8rem, 3.5vw, 1rem);
+                letter-spacing: 0.02em; /* Reduce letter spacing */
+            }
+
+            .info-value {
+                font-size: clamp(1rem, 4.5vw, 1.4rem);
+            }
+
+            /* Removed .geometric-shape mobile styling */
+
+            /* Footer Mobile Styles */
+            .footer-divider {
+                width: 90%;
+                margin-top: 5vh;
+                margin-bottom: 3vh;
+            }
+            .site-footer {
+                width: 90%;
+                margin: 3vh auto 5vh auto;
+                flex-direction: column;
+                align-items: flex-start;
+                line-height: 1.4;
+            }
+            .site-footer .footer-column {
+                padding: 0;
+                margin-bottom: 15px;
+            }
+            .site-footer .footer-column p {
+                font-size: clamp(0.7rem, 3.5vw, 1.2rem); /* Matches my-works.html */
+            }
+            .site-footer .footer-column:last-child {
+                text-align: left;
+                margin-bottom: 0;
+            }
+        }
+
+        /* Tablet Adjustments (min-width: 769px and max-width: 1024px) */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .main-header {
+                padding: 25px 40px;
+            }
+            .site-name,
+            .main-nav ul li a {
+                font-size: clamp(1.1rem, 1.8vw, 1.4rem);
+            }
+            .main-nav ul {
+                gap: 25px;
+            }
+            .menu-toggle {
+                display: none;
+            }
+            .main-nav {
+                display: flex;
+                position: static;
+                height: auto;
+                background-color: transparent;
+                box-shadow: none;
+                transform: none;
+                padding: 0;
+                flex-direction: row;
+            }
+
+            main {
+                margin-top: 150px; /* Adjust for tablet header height */
+            }
+
+            .contact-hero-section {
+                width: 90%;
+            }
+
+            .contact-heading {
+                font-size: clamp(3.5rem, 6vw, 4.5rem);
+            }
+
+            .contact-subheading {
+                font-size: clamp(1rem, 2vw, 1.3rem);
+                margin-bottom: 40px;
+            }
+
+            .contact-grid {
+                gap: 30px;
+                margin-bottom: 80px;
+            }
+
+            .contact-info-column .info-item {
+                padding: clamp(20px, 3vw, 25px); /* Consistent padding for tablet */
+            }
+
+            .contact-icon {
+                font-size: clamp(2rem, 3.5vw, 2.5rem);
+            }
+
+            .info-label {
+                font-size: clamp(0.85rem, 1.2vw, 1.1rem);
+            }
+
+            .info-value {
+                font-size: clamp(1.1rem, 1.8vw, 1.5rem);
+            }
+
+            /* Removed .geometric-shape tablet styling */
+
+            /* Footer Tablet Styles */
+            .footer-divider {
+                width: 90%;
+                margin-top: 6vh;
+            }
+            .site-footer {
+                width: 90%;
+                margin: 6vh auto 4vh auto;
+                padding: 0;
+            }
+            .site-footer .footer-column p {
+                font-size: clamp(0.8rem, 1.2vw, 1rem); /* Matches my-works.html */
+            }
+            .site-footer .footer-column:last-child {
+                text-align: right;
+            }
+        }
+
+        /* Desktop Adjustments (min-width: 1025px) */
+        @media (min-width: 1025px) {
+            .main-header {
+                padding: var(--header-padding-y-desktop) var(--header-padding-x-desktop);
+            }
+
+            .site-name,
+            .main-nav ul li a {
+                font-size: 1.5vw;
+            }
+            .main-nav ul {
+                gap: 45px;
+            }
+            .menu-toggle {
+                display: none;
+            }
+            .main-nav {
+                display: flex;
+                position: static;
+                height: auto;
+                background-color: transparent;
+                box-shadow: none;
+                transform: none;
+                padding: 0;
+                flex-direction: row;
+            }
+
+            main {
+                margin-top: calc(var(--header-padding-y-desktop) * 2 + 20px);
+            }
+
+            .contact-hero-section {
+                width: var(--content-width-desktop);
+            }
+
+            .contact-heading {
+                font-size: clamp(3rem, 5vw, 5rem);
+            }
+
+            .contact-subheading {
+                font-size: clamp(1rem, 1.5vw, 1.3rem);
+            }
+
+            .contact-grid {
+                gap: 50px;
+            }
+
+            .contact-info-column .info-item {
+                padding: 25px; /* Consistent padding for desktop */
+            }
+
+            .contact-icon {
+                font-size: clamp(2rem, 3vw, 3rem);
+            }
+
+            .info-label {
+                font-size: clamp(0.9rem, 1.1vw, 1.1rem);
+            }
+
+            .info-value {
+                font-size: clamp(1.1rem, 1.6vw, 1.6rem);
+            }
+
+            /* Removed .geometric-shape desktop styling */
+
+            /* Footer Desktop Styles */
+            .footer-divider {
+                width: var(--content-width-desktop);
+                max-width: var(--max-content-width);
+                margin-top: 10vh; /* Consistent with other pages */
+                margin-bottom: 0;
+            }
+            .site-footer {
+                width: var(--content-width-desktop);
+                max-width: var(--max-content-width);
+                margin: 5vh auto 5vh auto; /* Consistent spacing with other pages */
+                padding: 0;
+            }
+            .site-footer .footer-column p {
+                font-size: 0.9vw; /* Original desktop size - consistent */
+            }
+            .site-footer .footer-column:last-child {
+                text-align: right;
             }
         }
     </style>
 </head>
 <body>
-    <header class="main-header1">
+    <header class="main-header">
         <span class="site-name">Beatrice Tribucias</span>
-        <nav class="main-nav">
+        <div class="menu-toggle" id="mobile-menu">
+            <i class="fas fa-bars"></i>
+        </div>
+        <nav class="main-nav" id="main-nav">
             <ul>
                 <li><a href="index.html">LAND</a></li>
                 <li><a href="my-works.html">MY WORKS</a></li>
@@ -66,13 +658,13 @@
 
     <main>
         <section class="contact-hero-section">
-            <h1 class="contact-heading swoop-up-animation">Let's Create Something <br>Amazing Together.</h1>
-            <p class="contact-subheading swoop-up-animation">
+            <h1 class="contact-heading">Let's Create Something <br>Amazing Together.</h1>
+            <p class="contact-subheading">
                 Ready to chat? Whether it's a project, a question, or just a virtual coffee, <br> I'm happy to hear from you.
             </p>
 
             <div class="contact-grid">
-                <div class="contact-info-column swoop-up-animation">
+                <div class="contact-info-column">
                     <div class="info-item">
                         <i class="fas fa-envelope contact-icon"></i>
                         <div>
@@ -96,8 +688,7 @@
                     </div>
                 </div>
             </div>
-            <div class="geometric-shape"></div>
-        </section>
+            </section>
     </main>
 
     <hr class="footer-divider">
@@ -119,7 +710,73 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Intersection Observer for other animated elements
+            // --- Header & Hamburger Menu Logic ---
+            const header = document.querySelector('.main-header');
+            const mobileMenuToggle = document.getElementById('mobile-menu');
+            const mainNav = document.getElementById('main-nav');
+
+            mobileMenuToggle.addEventListener('click', () => {
+                mainNav.classList.toggle('active');
+                // You can toggle classes on the icon for a transform effect, e.g., 'fa-bars' to 'fa-times'
+                // For simplicity, we'll just toggle the parent's active class
+                mobileMenuToggle.classList.toggle('active'); // Used for potential icon animation
+                document.body.style.overflow = mainNav.classList.contains('active') ? 'hidden' : 'auto';
+            });
+
+            // Close mobile menu when a navigation link is clicked
+            const navLinks = mainNav.querySelectorAll('a');
+            navLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    if (mainNav.classList.contains('active')) {
+                        mainNav.classList.remove('active');
+                        mobileMenuToggle.classList.remove('active');
+                        document.body.style.overflow = 'auto';
+                    }
+                });
+            });
+
+            let lastScrollY = window.scrollY;
+            let scrollTimeout;
+
+            function handleHeaderScroll() { // Renamed to avoid conflict
+                const currentScrollY = window.scrollY;
+
+                clearTimeout(scrollTimeout);
+
+                // Only apply header scroll logic if mobile menu is NOT active
+                if (!mainNav.classList.contains('active')) {
+                    if (currentScrollY === 0) {
+                        header.classList.remove('hide', 'transparent');
+                        header.classList.add('show');
+                    } else if (currentScrollY > lastScrollY && currentScrollY > header.offsetHeight) {
+                        header.classList.add('hide');
+                        header.classList.remove('show', 'transparent');
+                    } else if (currentScrollY < lastScrollY) {
+                        header.classList.add('show');
+                        header.classList.remove('hide', 'transparent');
+                    }
+
+                    lastScrollY = currentScrollY;
+
+                    if (currentScrollY > 0) {
+                        scrollTimeout = setTimeout(() => {
+                            if (window.scrollY === lastScrollY) {
+                                header.classList.add('transparent');
+                                header.classList.remove('show');
+                            }
+                        }, 1000);
+                    }
+                } else {
+                    // If mobile menu is active, ensure header stays visible
+                    header.classList.remove('hide', 'transparent');
+                    header.classList.add('show');
+                }
+            }
+
+            window.addEventListener('scroll', handleHeaderScroll);
+            handleHeaderScroll(); // Initial call
+
+            // --- Intersection Observer for content animations ---
             const animatedElements = document.querySelectorAll(
                 '.contact-heading, .contact-subheading, .contact-info-column'
             );
@@ -127,13 +784,19 @@
             const observerOptions = {
                 root: null,
                 rootMargin: '0px',
-                threshold: 0.1
+                threshold: 0.1 // Trigger when 10% of the element is visible
             };
 
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
-                        entry.target.classList.add('is-visible');
+                        // The 'swoop-up-animation' class itself handles the initial opacity and transform
+                        // We just need to ensure the animation is triggered.
+                        // Since animations are set to 'forwards', they stay at their end state.
+                        // No need for a separate 'is-visible' class if animation is directly applied on load/scroll
+                        // and set to forwards.
+                        // If you want a re-trigger on scroll, you might need to manage classes more carefully.
+                        // For now, the CSS animation will play when the element appears.
                     }
                 });
             }, observerOptions);
@@ -142,52 +805,10 @@
                 observer.observe(element);
             });
 
-            // --- Header Scroll Logic for Smart Header ---
-            const header = document.querySelector('.main-header1');
-            let lastScrollY = window.scrollY;
-            let scrollTimeout;
-
-            function handleScroll() {
-                const currentScrollY = window.scrollY;
-
-                clearTimeout(scrollTimeout); // Clear any previous timeout
-
-                if (currentScrollY === 0) {
-                    // Scenario 1: User is at the very top of the page
-                    header.classList.remove('hide', 'transparent');
-                    header.classList.add('show'); // Ensure it's fully visible and not hidden
-                } else if (currentScrollY > lastScrollY) {
-                    // Scenario 2: Scrolling down, hide the header
-                    // Only hide if we've scrolled past the header itself to avoid flicker right at the top
-                    if (currentScrollY > header.offsetHeight) {
-                        header.classList.add('hide');
-                        header.classList.remove('show', 'transparent');
-                    }
-                } else if (currentScrollY < lastScrollY) {
-                    // Scenario 3: Scrolling up, show the header
-                    header.classList.add('show');
-                    header.classList.remove('hide', 'transparent');
-                }
-
-                lastScrollY = currentScrollY; // Update last scroll position
-
-                // Set a timeout to make the header transparent if scrolling stops (unless at the very top)
-                if (currentScrollY > 0) { // Only apply this if not at the top
-                    scrollTimeout = setTimeout(() => {
-                        // Check if scroll position hasn't changed since the timeout was set
-                        if (window.scrollY === lastScrollY) {
-                            header.classList.add('transparent');
-                            header.classList.remove('show'); // Ensure 'show' is removed when transparent
-                        }
-                    }, 1000); // 1 second of no scrolling to become transparent
-                }
-            }
-
-            window.addEventListener('scroll', handleScroll);
-
-            // Initial call to set header state on page load
-            // This ensures the header is correctly shown if the page loads at the top, or hidden if it loads scrolled down
-            handleScroll();
+            // Note: The footer-divider and site-footer already have direct animation properties in CSS with delays,
+            // so they don't explicitly need an Intersection Observer unless
+            // you want them to animate only *after* scrolling into view.
+            // For now, they will animate on page load after their delay.
         });
     </script>
 </body>
