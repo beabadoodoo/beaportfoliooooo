@@ -225,9 +225,9 @@
 
         .buildings-gif {
             display: block;
-            width: 87vw;
-            max-width: none;
-            height: auto;
+            width: 100%; /* Make it fill its container */
+            max-width: 100%; /* Ensure it doesn't overflow its container */
+            height: auto; /* Maintain aspect ratio */
             margin: -5vh auto 0 auto;
             padding-top: 1vh;
             /* Applying animation to the GIF */
@@ -437,7 +437,7 @@
                 display: none; /* Hide "Now Entering" on smaller screens */
             }
             .buildings-gif {
-                width: 150vw; /* This will make it wider than the screen */
+                width: 100%; /* Make it fill its container */
                 margin-top: 0;
                 padding-top: 5vh;
             }
@@ -660,7 +660,7 @@
             }
             .bottom-text p {
                 font-family: 'Neube Kabel Light', sans-serif;
-                font-size: 0.9vw; /* Original desktop size */
+                font-size: 1.2vw; /* Original desktop size */
                 line-height: 1.3;
                 margin-bottom: 0.5em;
                 text-align: left;
