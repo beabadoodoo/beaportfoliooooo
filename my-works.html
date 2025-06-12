@@ -564,11 +564,15 @@
             }
 
             .footer-divider {
+                border: none;
+                border-top: 1px solid var(--light-background);
                 width: var(--content-width-desktop);
                 max-width: var(--max-content-width);
-                margin-top: 10vh;
-                margin-bottom: 0;
+                margin: 5vh auto 0 auto;
+                animation: fadeIn 1.2s ease 2s forwards; /* Keep original animation if desired */
+                opacity: 0;
             }
+
             .site-footer {
                 width: var(--content-width-desktop);
                 max-width: var(--max-content-width);
@@ -638,6 +642,28 @@
                 <p> This is a mobile calculator app built with Android Studio, designed to handle all the basic math you’ll ever need—addition, subtraction, multiplication, and division—in a clean, user-friendly interface. It highlights the essentials of UI layout, event handling, and responsive design in Android development. While simple on the surface, it’s a solid example of putting foundational mobile dev skills into practice—one button click at a time.</p>
             </div>
         </a>
+
+        <a href="pet.html" class="work-item-link">
+            <div class="work-item">
+                <h2>Pet Adoption Website</h2>
+                <p>A web platform designed to facilitate pet adoption, connecting loving homes with animals in need. Features include profiles for adoptable pets, detailed care tips, and resources for responsible pet ownership. Built using HTML, CSS, and JavaScript.</p>
+            </div>
+        </a>
+
+        <a href="hiroshima.html" class="work-item-link">
+            <div class="work-item">
+                <h2>Hiroshima Journey Website</h2>
+                <p>A beautifully designed informational website dedicated to the city of Hiroshima. It highlights key historical sites, cultural attractions, and local delights, offering a serene and informative virtual journey through its resilient spirit and beauty.</p>
+            </div>
+        </a>
+
+        <a href="maze.html" class="work-item-link">
+            <div class="work-item">
+                <h2>The Dumb Maze Game</h2>
+                <p>A hilariously simple and intentionally "dumb" maze game. It challenges users with a static, unmovable maze, providing humorous messages upon interaction. A playful demonstration of basic HTML, CSS, and JavaScript for comedic effect.</p>
+            </div>
+        </a>
+        
     </div>
 
     <hr class="footer-divider">
