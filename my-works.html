@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Works - Beatrice Tribucias</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style2.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Font definitions (copy from profile.html for consistency) */
+        @font-face {
+            font-family: 'Neube Kabel';
+            src: url('fonts/NeueKabel-ExtraBold.otf') format('opentype');
+            font-weight: 800; /* Extra Bold */
+            font-style: normal;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: 'Neube Kabel Medium';
+            src: url('fonts/NeueKabel-Medium.otf') format('opentype');
+            font-weight: 500; /* Medium weight, typically 500 */
+            font-style: normal;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: 'Neube Kabel Bold';
+            src: url('fonts/NeueKabel-Bold.otf') format('opentype');
+            font-weight: 600; /* Medium weight, typically 500 */
+            font-style: normal;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: 'Neube Kabel Light';
+            src: url('fonts/NeueKabel-ExtraLight.otf') format('opentype');
+            font-weight: 300; /* Light weight, typically 300 */
+            font-style: normal;
+            font-display: swap;
+        }
+
+        /* Root variables (copy from style.css / profile.html for consistency) */
+        :root {
+            --primary-blue: #2F53A0;
+            --light-background: #F8F5EC;
+            --header-padding-x-desktop: 94px;
+            --header-padding-y-desktop: 40px;
+            --content-width-desktop: 87vw;
+            --max-content-width: 1400px;
+            --mobile-padding: 20px; /* Adjusted to match profile.html's mobile padding in header */
+        }
+
+        body {
+            background-color: var(--primary-blue);
+            color: var(--light-background);
+            margin: 0;
+            font-family: 'Neube Kabel', sans-serif;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* --- General Swoop Up Animation (for content) --- */
+        @keyframes swoopUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px); /* Slightly less than before for smoother effect */
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Ensure elements start hidden and animate on visibility */
+        .my-works-title,
+        .my-works-instruction,
+        .work-item {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out; /* Match profile.html's transition */
+        }
+
+        .my-works-title.is-visible,
+        .my-works-instruction.is-visible,
+        .work-item.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- Header Styles (Smart Header Logic from profile.html) --- */
+        .main-header3 {
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            transform: translateY(0);
+            transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+            z-index: 1000;
+            opacity: 1;
+            background-color: rgb(47, 83, 160,0.9); /* Semi-transparent blue */
+            padding: var(--header-padding-y-desktop) var(--header-padding-x-desktop);
+            box-sizing: border-box;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            animation: none !important; /* Override any body-level animations */
+        }
+
+        .main-header3.hide {
+            transform: translateY(-100%);
+            opacity: 0;
+        }
+
+        .main-header3.transparent {
+            opacity: 0;
+            pointer-events: none; /* Disable interaction when transparent */
+        }
+
+        .main-header3.show {
+            transform: translateY(0);
+            opacity: 1;
+            pointer-events: auto; /* Enable interaction when visible */
+        }
+
+        /* Site Name (consistent with profile.html) */
+        .site-name {
+            font-family: 'Neube Kabel Light', sans-serif; /* Consistent font */
+            font-size: clamp(1rem, 1.5vw, 1.5rem); /* Consistent font size */
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            white-space: nowrap;
+            color: var(--light-background); /* Consistent color */
+        }
+
+        /* Hamburger Menu Icon (from profile.html) */
+        .menu-toggle {
+            display: none; /* Hidden by default on larger screens */
+            font-size: 2rem;
+            color: var(--light-background); /* Consistent color */
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        /* Desktop Navigation (from profile.html) */
+        .main-nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex; /* Display horizontally on desktop */
+            gap: clamp(15px, 3vw, 45px); /* Consistent responsive gap */
+        }
+
+        .main-nav ul li a {
+            color: var(--light-background); /* Consistent link color */
+            text-decoration: none;
+            font-family: 'Neube Kabel Light', sans-serif; /* Consistent font */
+            font-size: clamp(1rem, 1.5vw, 1.5rem); /* Consistent font size */
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            white-space: nowrap;
+            transition: opacity 0.3s ease;
+        }
+
+        .main-nav ul li a:hover {
+            opacity: 0.7;
+        }
+
+        /* Main content adjustments to prevent overlap with fixed header */
+        .my-works-header {
+            padding-top: 150px; /* Adjust padding to clear fixed header */
+            padding-bottom: 50px;
+            width: 100%;
+            text-align: center;
+            box-sizing: border-box;
+        }
+
+        .my-works-title {
+            font-family: 'Neube Kabel', sans-serif;
+            font-size: clamp(10vw, 15vw, 15vw);
+            margin: 0;
+            line-height: 1;
+            letter-spacing: -0.05em;
+            color: var(--light-background);
+        }
+
+        .my-works-instruction {
+            font-family: 'Neube Kabel Light', sans-serif;
+            font-size: clamp(1.5vw, 1.8vw, 1.8rem);
+            color: var(--light-background);
+            margin-top: 20px;
+        }
+
+        .my-works-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 40px;
+            padding: 50px var(--header-padding-x-desktop);
+            max-width: var(--max-content-width);
+            width: var(--content-width-desktop);
+            margin: 0 auto;
+            flex-grow: 1;
+            box-sizing: border-box;
+        }
+
+        .work-item-link {
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            width: calc(50% - 20px); /* Adjust width for 2-column layout with gap */
+            max-width: 500px;
+            box-sizing: border-box;
+            align-items: stretch;
+        }
+
+        .work-item {
+            background-color: var(--light-background);
+            color: var(--primary-blue);
+            width: 100%;
+            padding: 30px;
+            text-align: center;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 250px;
+        }
+
+        .work-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            background-color: #79a1f6; /* A lighter blue for contrast */
+            color: var(--light-background);
+        }
+
+        .work-item h2,
+        .work-item p {
+            margin: 0;
+            padding: 0;
+        }
+
+        .work-item h2 {
+            font-family: 'Neube Kabel Medium', sans-serif;
+            font-size: clamp(1.5rem, 2.5vw, 3.2rem);
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .work-item p {
+            font-family: 'Neube Kabel Light', sans-serif;
+            font-size: clamp(0.9rem, 1.2vw, 1.2rem);
+            line-height: 1.5;
+        }
+
+        /* --- Footer Styles (from profile.html) --- */
+        .footer-divider {
+            border: none;
+            border-top: 1px solid var(--light-background);
+            width: var(--content-width-desktop);
+            max-width: var(--max-content-width);
+            margin: 5vh auto 0 auto;
+            animation: fadeIn 1.2s ease 2s forwards; /* Keep original animation if desired */
+            opacity: 0;
+        }
+
+        .site-footer {
+            width: var(--content-width-desktop);
+            max-width: var(--max-content-width);
+            margin: 10vh auto 5vh auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            color: var(--light-background);
+            font-family: 'Neube Kabel Light', sans-serif;
+            font-size: clamp(0.9rem, 1.5vw, 1rem);
+            line-height: 1.5;
+            text-align: left;
+            flex-wrap: wrap;
+            animation: fadeIn 1.2s ease 2.2s forwards; /* Keep original animation if desired */
+            opacity: 0;
+        }
+
+        .site-footer .footer-column {
+            flex: 1;
+            min-width: 150px; /* Adjusted from 250px for better fit for 4 columns on larger screens, adjust if needed */
+            padding: 0 1vw;
+            box-sizing: border-box;
+        }
+
+        .site-footer .footer-column p {
+            margin: 0;
+        }
+
+        .site-footer .footer-column:last-child {
+            text-align: right; /* Last column right-aligned, consistent with profile.html */
+        }
+
+        .site-footer a {
+            color: inherit;
+            text-decoration: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .site-footer a:hover {
+            opacity: 0.7;
+        }
+
+        /* --- Responsive adjustments (from profile.html, adapted) --- */
+
+        @media (max-width: 768px) {
+            .main-header3 {
+                padding: var(--mobile-padding); /* Use mobile padding variable */
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+                /* Remove transform and opacity from here, handled by JS show/hide */
+                height: auto; /* Allow header to adjust height */
+            }
+
+            .main-header3 .site-name {
+                font-size: 1rem; /* Consistent with profile.html mobile */
+                margin-right: auto; /* Pushes menu-toggle to the right */
+            }
+
+            .menu-toggle {
+                display: block; /* Show hamburger icon on mobile */
+            }
+
+            .main-nav {
+                display: none; /* Hidden by default on mobile */
+                width: 100%;
+                background-color: rgba(47, 83, 160, 0.95); /* Semi-transparent background for opened menu */
+                position: fixed; /* Use fixed for overlay */
+                top: 0; /* Cover entire viewport */
+                left: 0;
+                height: 100vh; /* Full height */
+                padding: 100px 0 20px 0; /* Padding for content below header */
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+                flex-direction: column; /* Stack nav items vertically */
+                align-items: center; /* Center nav items */
+                transform: translateY(-100%); /* Start off-screen */
+                transition: transform 0.3s ease-out;
+                z-index: 999; /* Below header, above content */
+            }
+
+            .main-nav.active {
+                display: flex; /* Show navigation when active */
+                transform: translateY(0); /* Slide in */
+            }
+
+            .main-nav ul {
+                flex-direction: column; /* Stack vertically */
+                width: 100%;
+                text-align: center;
+                gap: 15px; /* Adjust vertical spacing */
+            }
+
+            .main-nav ul li {
+                margin: 0; /* Reset margin from desktop */
+            }
+
+            .main-nav ul li a {
+                font-size: 1.5rem; /* Larger for mobile menu */
+                padding: 10px 0;
+                display: block;
+            }
+
+            /* Adjust content margin/padding for mobile header */
+            .my-works-header {
+                padding-top: 100px; /* Adjust for mobile header height */
+                padding-bottom: 30px;
+            }
+            .my-works-title {
+                font-size: clamp(8vw, 12vw, 12vw);
+            }
+            .my-works-instruction {
+                font-size: clamp(0.9rem, 3vw, 1.2rem);
+                margin-top: 10px;
+            }
+
+            .my-works-container {
+                flex-direction: column;
+                align-items: center;
+                padding: 30px var(--mobile-padding);
+                gap: 30px;
+            }
+            .work-item-link {
+                width: 90%;
+                max-width: unset;
+            }
+            .work-item {
+                min-height: unset;
+                padding: 20px;
+            }
+            .work-item h2 {
+                font-size: clamp(1.2rem, 5vw, 2rem);
+            }
+            .work-item p {
+                font-size: clamp(0.8rem, 3.2vw, 1.1rem);
+            }
+
+            .footer-divider {
+                width: 90%;
+                margin-top: 5vh;
+                margin-bottom: 5vh;
+            }
+            .site-footer {
+                width: 90%;
+                margin: 5vh auto;
+                flex-direction: column;
+                align-items: flex-start;
+                font-size: clamp(0.7rem, 2.8vw, 1rem);
+                padding: 0; /* Reset padding to 0, use content width */
+            }
+            .site-footer .footer-column {
+                padding: 0;
+                margin-bottom: 15px;
+                min-width: unset;
+                width: 100%;
+                text-align: left !important; /* Override right-align for last column */
+            }
+        }
+
+        /* Tablet Adjustments (min-width: 769px and max-width: 1024px) */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .main-header3 {
+                padding: 25px 40px;
+            }
+            .site-name,
+            .main-nav ul li a {
+                font-size: clamp(1.1rem, 1.8vw, 1.4rem);
+            }
+            .main-nav ul {
+                gap: 25px;
+            }
+            .menu-toggle {
+                display: none;
+            }
+            .main-nav {
+                display: flex; /* Ensure desktop nav is visible */
+                position: static; /* Override fixed/absolute for desktop */
+                height: auto;
+                background-color: transparent; /* Transparent for desktop */
+                box-shadow: none;
+                transform: none; /* Reset transform */
+                padding: 0;
+                flex-direction: row;
+            }
+
+            .my-works-header {
+                padding-top: 120px;
+                padding-bottom: 30px;
+            }
+            .my-works-title {
+                font-size: clamp(12vw, 15vw, 15vw);
+            }
+            .my-works-instruction {
+                font-size: clamp(1.2rem, 2vw, 1.5rem);
+            }
+
+            .my-works-container {
+                width: 90%;
+                padding: 40px;
+                gap: 30px;
+            }
+            .work-item-link {
+                width: calc(50% - 15px);
+                max-width: unset;
+            }
+            .work-item {
+                padding: 25px;
+                min-height: 200px;
+            }
+            .work-item h2 {
+                font-size: clamp(1.4rem, 2.8vw, 2.5rem);
+            }
+            .work-item p {
+                font-size: clamp(0.9rem, 1.5vw, 1.2rem);
+            }
+
+            .footer-divider {
+                width: 90%;
+                margin-top: 6vh;
+            }
+            .site-footer {
+                width: 90%;
+                margin: 8vh auto 4vh auto;
+                font-size: clamp(0.8rem, 1.2vw, 1rem);
+                padding: 0;
+            }
+            .site-footer .footer-column {
+                text-align: left; /* Ensure default left align for tablets, except last */
+            }
+            .site-footer .footer-column:last-child {
+                text-align: right;
+            }
+        }
+
+        /* Desktop Adjustments (min-width: 1025px) */
+        @media (min-width: 1025px) {
+            .main-header3 {
+                padding: var(--header-padding-y-desktop) var(--header-padding-x-desktop);
+            }
+
+            .site-name,
+            .main-nav ul li a {
+                font-size: 1.5rem;
+            }
+            .main-nav ul {
+                gap: 45px;
+            }
+            .menu-toggle {
+                display: none;
+            }
+            .main-nav {
+                display: flex; /* Ensure desktop nav is visible */
+                position: static; /* Override fixed/absolute for desktop */
+                height: auto;
+                background-color: transparent; /* Transparent for desktop */
+                box-shadow: none;
+                transform: none; /* Reset transform */
+                padding: 0;
+                flex-direction: row;
+            }
+
+            .my-works-header {
+                padding-top: 150px;
+                padding-bottom: 50px;
+            }
+            .my-works-title {
+                font-size: 15vw;
+            }
+            .my-works-instruction {
+                font-size: 1.8vw;
+            }
+
+            .my-works-container {
+                padding: 50px var(--header-padding-x-desktop);
+                gap: 40px;
+                max-width: var(--max-content-width);
+                width: var(--content-width-desktop);
+            }
+            .work-item-link {
+                width: calc(50% - 20px);
+                max-width: 500px;
+            }
+            .work-item {
+                padding: 30px;
+                min-height: 250px;
+            }
+            .work-item h2 {
+                font-size: 3.2vw;
+            }
+            .work-item p {
+                font-size: 1.2vw;
+            }
+
+            .footer-divider {
+                border: none;
+                border-top: 1px solid var(--light-background);
+                width: var(--content-width-desktop);
+                max-width: var(--max-content-width);
+                margin: 5vh auto 0 auto;
+                animation: fadeIn 1.2s ease 2s forwards; /* Keep original animation if desired */
+                opacity: 0;
+            }
+
+            .site-footer {
+                width: var(--content-width-desktop);
+                max-width: var(--max-content-width);
+                margin: 10vh auto 5vh auto;
+                font-size: 1rem;
+                padding: 0;
+            }
+            .site-footer .footer-column:last-child {
+                text-align: right;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="main-header3">
+        <span class="site-name">Beatrice Tribucias</span>
+        <div class="menu-toggle" id="mobile-menu">
+            <i class="fas fa-bars"></i>
+        </div>
+        <nav class="main-nav" id="main-nav">
+            <ul>
+                <li><a href="index.html">LAND</a></li>
+                <li><a href="my-works.html">MY WORKS</a></li>
+                <li><a href="profile.html">PROFILE</a></li>
+                <li><a href="contact.html">CONTACT ME</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="my-works-header">
+        <h1 class="my-works-title">My Works</h1>
+        <p class="my-works-instruction">Click on any project box below to view more details!</p>
+    </div>
+
+    <div class="my-works-container">
+        <a href="proj4.html" class="work-item-link">
+            <div class="work-item">
+                <h2>NU Wait n Plate: Canteen Queueing System</h2>
+                <p>A Java application designed for canteens, featuring random queue number generation, dine-in/take-out options, history tracking, and counters for ordered, no-show, and total sales. Includes call with sound, recall, and no-show functionalities.</p>
+            </div>
+        </a>
+
+        <a href="proj2.html" class="work-item-link">
+            <div class="work-item">
+                <h2>Pawtify: Pet Care & Organizer App</h2>
+                <p>An Android Studio application designed to help pet owners manage their beloved companions. Users can input pet details like name, age, weight, and birthday, set customizable reminders for feeding, walking, and appointments, and capture and store adorable 'pawtos' directly within the app.</p>
+            </div>
+        </a>
+
+        <a href="proj5.html" class="work-item-link">
+            <div class="work-item">
+                <h2>SwiftBank: Secure Java Banking App</h2>
+                <p>A Java application for essential banking transactions like deposit, check balance, and withdraw, featuring PIN authentication and receipt generation for secure and transparent operations.</p>
+            </div>
+        </a>
+
+        <a href="proj1.html" class="work-item-link">
+            <div class="work-item">
+                <h2>Hogwarts-Inspired Library System</h2>
+                <p>A Java Application library management system with a touch of magic. Built for students and librarians, it allows users to log in, manage accounts, borrow and return books, and search for titles—even the rare, dusty ones.</p>
+            </div>
+        </a>
+
+        <a href="proj3.html" class="work-item-link">
+            <div class="work-item">
+                <h2>Android Basic Calculator</h2>
+                <p> This is a mobile calculator app built with Android Studio, designed to handle all the basic math you’ll ever need—addition, subtraction, multiplication, and division—in a clean, user-friendly interface. It highlights the essentials of UI layout, event handling, and responsive design in Android development. While simple on the surface, it’s a solid example of putting foundational mobile dev skills into practice—one button click at a time.</p>
+            </div>
+        </a>
+
+        <a href="pet.html" class="work-item-link">
+            <div class="work-item">
+                <h2>Pet Adoption Website</h2>
+                <p>A web platform designed to facilitate pet adoption, connecting loving homes with animals in need. Features include profiles for adoptable pets, detailed care tips, and resources for responsible pet ownership. Built using HTML, CSS, and JavaScript.</p>
+            </div>
+        </a>
+
+        <a href="hiroshima.html" class="work-item-link">
+            <div class="work-item">
+                <h2>Hiroshima Journey Website</h2>
+                <p>A beautifully designed informational website dedicated to the city of Hiroshima. It highlights key historical sites, cultural attractions, and local delights, offering a serene and informative virtual journey through its resilient spirit and beauty.</p>
+            </div>
+        </a>
+
+        <a href="maze.html" class="work-item-link">
+            <div class="work-item">
+                <h2>The Dumb Maze Game</h2>
+                <p>A hilariously simple and intentionally "dumb" maze game. It challenges users with a static, unmovable maze, providing humorous messages upon interaction. A playful demonstration of basic HTML, CSS, and JavaScript for comedic effect.</p>
+            </div>
+        </a>
+        
+    </div>
+
+    <hr class="footer-divider">
+
+    <footer class="site-footer">
+        <div class="footer-column">
+            <p>FOR WHEN YOUR WEBSITE NEEDS <br>LESS TEMPLATE, MORE “WHOA, <br>WHO MADE THIS?”</p>
+        </div>
+        <div class="footer-column">
+            <p>QUEZON CITY,<br>METRO MANILA</p>
+        </div>
+        <div class="footer-column">
+            <p><a href="https://www.linkedin.com/in/naomi-beatrice-tribucias-80010636a/" target="_blank" rel="noopener noreferrer">LINKEDIN</a><br>NATRIBUCIAS@STUDENTS.NU-MOA.EDU.PH</p>
+        </div>
+        <div class="footer-column">
+            <p>©2025 BEATRICE TRIBUCIAS</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // General swoop-up animation for various elements (from profile.html)
+            const animatedElements = document.querySelectorAll(
+                '.my-works-title, .my-works-instruction, .work-item'
+            );
+
+            const generalObserverOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+
+            const generalObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    }
+                });
+            }, generalObserverOptions);
+
+            animatedElements.forEach(element => {
+                generalObserver.observe(element);
+            });
+
+            // --- Header Scroll Logic (copied from profile.html) ---
+            const header = document.querySelector('.main-header3');
+            const mobileMenuToggle = document.getElementById('mobile-menu'); // Renamed for clarity
+            const mainNav = document.getElementById('main-nav');
+
+            mobileMenuToggle.addEventListener('click', () => {
+                mainNav.classList.toggle('active');
+                // Toggle body scroll lock
+                document.body.style.overflow = mainNav.classList.contains('active') ? 'hidden' : 'auto';
+            });
+
+            // Close mobile menu when a navigation link is clicked
+            const navLinks = mainNav.querySelectorAll('a');
+            navLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    if (mainNav.classList.contains('active')) {
+                        mainNav.classList.remove('active');
+                        document.body.style.overflow = 'auto'; // Re-enable scroll
+                    }
+                });
+            });
+
+
+            let lastScrollY = window.scrollY;
+            let scrollTimeout;
+
+            function handleScroll() {
+                const currentScrollY = window.scrollY;
+
+                clearTimeout(scrollTimeout);
+
+                // Only apply header scroll logic if mobile menu is NOT active
+                if (!mainNav.classList.contains('active')) {
+                    if (currentScrollY === 0) {
+                        // Scenario 1: User is at the very top of the page
+                        header.classList.remove('hide', 'transparent');
+                        header.classList.add('show');
+                    } else if (currentScrollY > lastScrollY && currentScrollY > header.offsetHeight) {
+                        // Scenario 2: Scrolling down and scrolled past the header height
+                        header.classList.add('hide');
+                        header.classList.remove('show', 'transparent');
+                    } else if (currentScrollY < lastScrollY) {
+                        // Scenario 3: Scrolling up
+                        header.classList.add('show');
+                        header.classList.remove('hide', 'transparent');
+                    }
+
+                    lastScrollY = currentScrollY;
+
+                    // Set a timeout to make the header transparent if no scrolling occurs for a brief period
+                    if (currentScrollY > 0) {
+                        scrollTimeout = setTimeout(() => {
+                            if (window.scrollY === lastScrollY) {
+                                header.classList.add('transparent');
+                                header.classList.remove('show');
+                            }
+                        }, 1000); // Hide after 1 second of no scrolling
+                    }
+                } else {
+                    // If mobile menu is active, ensure header stays visible
+                    header.classList.remove('hide', 'transparent');
+                    header.classList.add('show');
+                }
+            }
+
+            window.addEventListener('scroll', handleScroll);
+
+            // Initial check in case the page loads scrolled down
+            handleScroll();
+        });
+    </script>
+</body>
+</html>

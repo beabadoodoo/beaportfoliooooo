@@ -1,0 +1,656 @@
+/* Font definitions (KEEP AS IS, they are correct) */
+@font-face {
+    font-family: 'Neube Kabel';
+    src: url('fonts/NeueKabel-ExtraBold.otf') format('opentype');
+    font-weight: 800; /* Extra Bold */
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Neube Kabel Medium';
+    src: url('fonts/NeueKabel-Medium.otf') format('opentype');
+    font-weight: 500; /* Medium weight, typically 500 */
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Neube Kabel Bold';
+    src: url('fonts/NeueKabel-Bold.otf') format('opentype');
+    font-weight: 600; /* Medium weight, typically 500 */
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Neube Kabel Light';
+    src: url('fonts/NeueKabel-ExtraLight.otf') format('opentype');
+    font-weight: 300; /* Light weight, typically 300 */
+    font-style: normal;
+    font-display: swap;
+}
+
+/* Define the swooping upwards animation */
+@keyframes swoopUp {
+    from {
+        opacity: 0;
+        transform: translateY(50px); /* Start 50px below its final position */
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0); /* End at its final position */
+    }
+}
+
+/* Define a simple fade-in for general elements */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+:root {
+    --primary-blue: #2F53A0;
+    --light-background: #F8F5EC;
+    --header-padding-x-desktop: 94px;
+    --header-padding-y-desktop: 40px;
+    --content-width-desktop: 87vw;
+    --max-content-width: 1400px;
+    --mobile-padding: 15px; /* Added for consistent mobile padding */
+}
+
+body {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    background-color: var(--light-background);
+    font-family: 'Neube Kabel Light', sans-serif;
+    overflow-y: scroll;
+    overflow-x: hidden; /* Ensure no horizontal scrollbar */
+    color: var(--primary-blue);
+}
+
+/* Header Styling */
+.main-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--header-padding-y-desktop) var(--header-padding-x-desktop);
+    box-sizing: border-box;
+    z-index: 100;
+    background-color: rgba(248, 245, 236, 0.9); /* Semi-transparent background */
+    transition: top 0.3s ease-in-out, opacity 0.3s ease-in-out;
+    opacity: 1; /* Ensure it's visible by default */
+    animation: fadeIn 1.2s ease 0.1s forwards; /* Initial fade in */
+}
+
+/* Header Scroll Behavior Classes (Keep these from your original JS) */
+.main-header.hidden {
+    top: -150px; /* Adjust based on your header's height */
+    opacity: 0;
+    pointer-events: none;
+}
+
+.main-header.scrolling-up {
+    top: 0;
+    opacity: 1;
+}
+
+.main-header.not-scrolling {
+    top: -150px;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.site-name {
+    color: var(--primary-blue);
+    font-family: 'Neube Kabel Light', sans-serif;
+    /* Adjusted clamp: slightly larger min on mobile, slightly larger max on desktop */
+    font-size: clamp(1.1rem, 1.6vw, 1.6rem);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    text-decoration: none;
+    margin-right: 0; /* Ensures no extra space if nav wraps below */
+}
+
+.main-nav {
+    flex-grow: 1; /* Allows nav to take available space */
+    display: flex;
+    justify-content: center; /* Center the nav items */
+    margin-right: 5vw; /* Maintain spacing on desktop */
+}
+
+.main-nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    /* Changed from fixed margin-left to responsive gap */
+    gap: clamp(15px, 3vw, 45px);
+}
+
+/* Removed individual li margin-left as gap handles it */
+.main-nav ul li {
+    margin-left: 0;
+}
+
+.main-nav ul li a {
+    color: var(--primary-blue);
+    font-family: 'Neube Kabel Light', sans-serif;
+    /* Adjusted clamp: slightly larger min for better readability on smaller screens */
+    font-size: clamp(1rem, 1.4vw, 1.4rem);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    text-decoration: none;
+    transition: opacity 0.3s ease;
+}
+
+.main-nav ul li a:hover {
+    opacity: 0.7;
+}
+
+/* Main Content Section */
+.main-section {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    text-align: center;
+    /* Adjusted padding to accommodate fixed header and ensure content starts below */
+    padding-top: 100px;
+}
+
+.main-content {
+    position: relative;
+    display: inline-block;
+    padding-top: 10vh;
+    padding-bottom: 5vh;
+    width: 100%; /* Ensure it takes full width for text positioning */
+    box-sizing: border-box; /* Include padding in width */
+}
+
+.title {
+    font-family: 'Neube Kabel', sans-serif; /* ExtraBold by default here */
+    /* Adjusted clamp: reduced max vw slightly, increased max rem for better desktop sizing */
+    font-size: clamp(18vw, 25vw, 250px); /* 250px as a new max to prevent excessive size on very large screens */
+    color: var(--primary-blue);
+    margin: 0;
+    line-height: 1;
+    white-space: nowrap;
+    letter-spacing: -0.05em;
+    text-transform: none;
+    position: relative;
+    display: inline-block;
+    animation: swoopUp 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.3s forwards;
+    opacity: 0; /* Start hidden for animation */
+}
+
+/* === NOW ENTERING STYLES - MODIFIED FOR HIDING ON RESIZE AND FONT SIZE === */
+.now-entering {
+    position: absolute;
+    /* Default visibility: hidden on smaller screens */
+    display: none; /* Hide by default for smaller screens */
+
+    /* Positioning for when it IS visible (on large screens) */
+    --now-entering-top: 27%;
+    --now-entering-left: 17%;
+    top: var(--now-entering-top);
+    left: var(--now-entering-left);
+    transform: translate(-50%, -50%);
+    transform-origin: center center;
+
+    /* Adjusted clamp for better default appearance.
+       Increased min-size for readability, adjusted max vw for desktop scaling,
+       and added a rem max for very large screens. */
+    font-size: clamp(1.2rem, 2.2vw, 2.8rem);
+    color: var(--primary-blue);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    font-family: 'Neube Kabel Medium', sans-serif;
+    font-weight: 500;
+    z-index: 2;
+    animation: swoopUp 1.2s ease 0.5s forwards;
+    opacity: 0; /* Animation will handle opacity */
+}
+/* === END NOW ENTERING STYLES === */
+
+
+.buildings-gif {
+    display: block;
+    width: var(--content-width-desktop); /* Max width on desktop */
+    max-width: var(--max-content-width);
+    height: auto;
+    margin: -5vh auto 0 auto;
+    padding-top: 1vh;
+    animation: swoopUp 1.2s ease 0.8s forwards;
+    opacity: 0; /* Start hidden for animation */
+}
+
+/* Bottom Text Section (Responsive Boxes) */
+.bottom-text {
+    width: var(--content-width-desktop);
+    max-width: var(--max-content-width);
+    margin: 0.9vh auto 7vh auto;
+    color: var(--primary-blue);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 5vw; /* Responsive gap */
+    flex-wrap: wrap; /* Allow columns to wrap on smaller screens */
+}
+
+.bottom-text .left-column,
+.bottom-text .right-column {
+    flex: 1; /* Allow columns to grow and shrink */
+    min-width: 300px; /* Prevent columns from getting too narrow, as in profile.html */
+    text-align: left;
+    animation: swoopUp 1.2s ease var(--animation-delay, 1.2s) forwards;
+    opacity: 0; /* Start hidden for animation */
+}
+
+.bottom-text .right-column {
+    --animation-delay: 1.4s; /* Override for right column animation */
+}
+
+.bottom-text .column-question {
+    font-family: 'Neube Kabel', sans-serif;
+    /* Adjusted clamp: slightly larger min/max for better impact */
+    font-size: clamp(2.5rem, 5vw, 4rem); /* Increased min and max rem for larger text */
+    line-height: 1.1;
+    margin-bottom: 0.3em;
+    color: var(--primary-blue);
+}
+
+.bottom-text .column-answer {
+    font-family: 'Neube Kabel Medium', sans-serif;
+    /* Adjusted clamp: slightly larger min/max for better impact */
+    font-size: clamp(2rem, 4vw, 3rem); /* Increased min and max rem for larger text */
+    margin-top: 0;
+    margin-bottom: 1em;
+    color: var(--primary-blue);
+}
+
+.bottom-text p {
+    font-family: 'Neube Kabel Light', sans-serif;
+    /* Adjusted clamp: slightly larger min for better readability on mobile */
+    font-size: clamp(1rem, 1.5vw, 1.2rem);
+    line-height: 1.5;
+    margin-bottom: 0.5em;
+    hyphens: auto;
+}
+
+/* Action Button */
+.action-button {
+    display: block;
+    /* Clamp for responsive padding */
+    padding: clamp(15px, 2vw, 25px) clamp(30px, 4vw, 50px);
+    background-color: var(--primary-blue);
+    color: var(--light-background);
+    text-decoration: none;
+    font-family: 'Neube Kabel Medium', sans-serif;
+    /* Adjusted clamp: larger min for better mobile readability, slightly larger max for desktop */
+    font-size: clamp(1.2rem, 2vw, 1.8rem);
+    border-radius: 5px;
+    margin-top: 20px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: background-color 0.3s ease;
+    border: none;
+    cursor: pointer;
+    width: fit-content;
+    margin: 20px auto 0 auto;
+    animation: swoopUp 1.2s ease 1.8s forwards;
+    opacity: 0; /* Start hidden for animation */
+}
+
+.action-button:hover {
+    background-color: #1A3B75;
+}
+
+/* Footer Divider */
+.footer-divider {
+    border: none;
+    border-top: 1px solid var(--primary-blue);
+    width: var(--content-width-desktop);
+    max-width: var(--max-content-width);
+    margin: 5vh auto 0 auto;
+    animation: fadeIn 1.2s ease 2s forwards;
+    opacity: 0; /* Start hidden for animation */
+}
+
+/* Footer */
+.site-footer {
+    width: var(--content-width-desktop);
+    max-width: var(--max-content-width);
+    margin: 10vh auto 5vh auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    color: var(--primary-blue);
+    font-family: 'Neube Kabel Light', sans-serif;
+    /* Adjusted clamp: slightly larger min for better readability on mobile */
+    font-size: clamp(0.9rem, 1.5vw, 1.2rem);
+    line-height: 1.5;
+    text-align: left;
+    flex-wrap: wrap; /* Allow columns to wrap */
+    animation: fadeIn 1.2s ease 2.2s forwards;
+    opacity: 0; /* Start hidden for animation */
+}
+
+.site-footer .footer-column {
+    flex: 1; /* Distribute space evenly */
+    min-width: 150px; /* Prevent columns from getting too narrow */
+    padding: 0 1vw;
+    box-sizing: border-box;
+}
+
+.site-footer .footer-column p {
+    margin: 0;
+}
+
+.site-footer .footer-column:last-child {
+    text-align: right;
+}
+
+.site-footer a {
+    color: inherit;
+    text-decoration: none;
+    transition: opacity 0.3s ease;
+}
+
+.site-footer a:hover {
+    opacity: 0.7;
+}
+
+/* --- Media Queries for fine-tuning responsiveness --- */
+/* --- Media Queries for fine-tuning responsiveness --- */
+
+/* For screens 1024px wide or narrower (e.g., tablets and mobiles) */
+@media (max-width: 1024px) {
+    .main-header {
+        /* REVERTED: Do NOT hide the header. Make it a flex container to arrange items. */
+        display: flex;
+        justify-content: space-between; /* Pushes site name to left, hamburger to right */
+        align-items: center; /* Vertically aligns them */
+        padding: var(--mobile-padding); /* Keep consistent mobile padding */
+        /* flex-wrap: wrap; is removed as we want site-name and hamburger on one line */
+        background-color: rgba(248, 245, 236, 0.9);
+    }
+    .site-name {
+        /* REVERTED: Allow it to take its natural width and stay left-aligned */
+        flex-basis: auto;
+        text-align: left;
+        margin-bottom: 0; /* Remove extra margin from previous 100% width rule */
+        font-size: 1.2rem; /* Adjusted for mobile */
+    }
+    .main-nav {
+        /* THIS IS THE KEY CHANGE: Hide the desktop navigation links */
+        display: none;
+        /* No need for flex-basis, justify-content, margin-right if display: none */
+    }
+    .hamburger-menu {
+        display: flex; /* Explicitly ensure hamburger is visible on mobile */
+        /* It already has margin-left: auto; in its base style, which pushes it to the right */
+    }
+
+    .main-section {
+        padding-top: max(150px, 20vh);
+    }
+
+    /* === HIDE "NOW ENTERING" ON SMALLER SCREENS === */
+    .now-entering {
+        display: none !important; /* !important ensures it overrides any other display properties */
+    }
+
+    .buildings-gif {
+        width: 120vw;
+        margin-top: 0;
+        padding-top: 5vh;
+        margin-left: calc(50% - 60vw);
+        margin-right: calc(50% - 60vw);
+    }
+
+    .bottom-text {
+        flex-direction: column;
+        width: 90%;
+        margin-top: 3vh;
+        margin-bottom: 5vh;
+        gap: 25px;
+    }
+
+    .bottom-text .left-column,
+    .bottom-text .right-column {
+        min-width: unset;
+        flex: none;
+        width: 100%;
+        text-align: left;
+    }
+
+    .bottom-text .column-question {
+        font-size: 2.5rem;
+    }
+    .bottom-text .column-answer {
+        font-size: 3rem;
+    }
+    .bottom-text p {
+        font-size: 1rem;
+    }
+
+    .action-button {
+        font-size: 1.2rem;
+        padding: clamp(10px, 3vw, 20px) clamp(20px, 6vw, 40px);
+        width: auto;
+        max-width: 80%;
+        margin: 30px auto;
+    }
+
+    .footer-divider {
+        width: 90%;
+        margin-top: 5vh;
+        margin-bottom: 5vh;
+    }
+
+    .site-footer {
+        flex-direction: column;
+        width: 90%;
+        margin: 5vh auto;
+        align-items: flex-start;
+        font-size: 0.9rem;
+    }
+
+    .site-footer .footer-column {
+        padding: 0;
+        margin-bottom: 15px;
+        min-width: unset;
+    }
+    .site-footer .footer-column:last-child {
+        text-align: left;
+        margin-bottom: 0;
+    }
+}
+
+/* For screens 1025px wide or wider (e.g., desktops, "full page") */
+@media (min-width: 1025px) {
+    .main-header {
+        /* Ensure it's flex on desktop to arrange site name and nav */
+        display: flex;
+        padding: var(--header-padding-y-desktop) var(--header-padding-x-desktop);
+        justify-content: space-between; /* To space out site name and nav */
+        align-items: center;
+    }
+
+    .site-name {
+        font-size: 1.5rem;
+    }
+    .main-nav {
+        /* Show the main navigation links on desktop */
+        display: flex;
+        flex-grow: 1; /* Allow nav to take available space */
+        justify-content: center; /* Center the nav items */
+        margin-right: 5vw; /* Maintain spacing on desktop */
+    }
+    .main-nav ul li a {
+        font-size: 1.4rem;
+    }
+    .hamburger-menu {
+        display: none; /* Hide the hamburger on desktop */
+    }
+
+    .main-section {
+        padding-top: 100px;
+    }
+
+    .title {
+        font-size: clamp(18vw, 22vw, 250px);
+    }
+
+    /* === SHOW "NOW ENTERING" ON FULL PAGE / LARGE SCREENS === */
+    .now-entering {
+        display: block; /* Bring it back for large screens */
+        opacity: 0; /* Keep initial opacity for animation */
+        animation: swoopUp 1.2s ease 0.5s forwards; /* Re-apply animation */
+        font-size: 2.5rem; /* Explicit large screen size */
+    }
+
+    @media (max-width: 768px) {
+    .buildings-gif {
+        width: 150vw; /* This makes it intentionally wider than the screen */
+        margin-top: 0;
+        padding-top: 5vh;
+    }
+}
+    .bottom-text {
+        width: var(--content-width-desktop);
+        max-width: var(--max-content-width);
+        margin-top: 0.9vh;
+        margin-bottom: 7vh;
+        gap: 5vw;
+    }
+    .bottom-text .column-question {
+        font-size: 3.5rem;
+    }
+    .bottom-text .column-answer {
+        font-size: 2.5rem;
+    }
+    .bottom-text p {
+        font-size: 1.2rem;
+    }
+
+    .action-button {
+        font-size: 1.8rem;
+        padding: 25px 50px;
+    }
+
+    .footer-divider {
+        width: var(--content-width-desktop);
+        max-width: var(--max-content-width);
+        margin-top: 5vh;
+        margin-bottom: 0;
+    }
+
+    .site-footer {
+        width: var(--content-width-desktop);
+        max-width: var(--max-content-width);
+        margin: 10vh auto 5vh auto;
+        font-size: 1rem;
+    }
+}
+
+/* For screens 1025px wide or wider (e.g., desktops, "full page") */
+@media (min-width: 1025px) {
+    .main-header {
+        padding: var(--header-padding-y-desktop) var(--header-padding-x-desktop);
+    }
+
+    .site-name {
+        /* Set explicit rem for desktop for consistency */
+        font-size: 1.5rem;
+    }
+    .main-nav ul li a {
+        /* Set explicit rem for desktop for consistency */
+        font-size: 1.4rem;
+    }
+
+    .main-section {
+        padding-top: 100px;
+    }
+
+    .title {
+        /* Adjusted max size for desktop */
+        font-size: 25vw; /* Still large, but consider a max-width if it becomes absurdly big */
+        max-font-size: 400px; /* Example: add a fixed max if 25vw gets too big */
+    }
+
+    /* === SHOW "NOW ENTERING" ON FULL PAGE / LARGE SCREENS === */
+    .now-entering {
+        display: block; /* Bring it back for large screens */
+        opacity: 0; /* Keep initial opacity for animation */
+        animation: swoopUp 1.2s ease 0.5s forwards; /* Re-apply animation */
+        /* Set explicit rem for desktop for consistency */
+        font-size: 2.5rem; /* Explicit large screen size */
+    }
+
+    .buildings-gif {
+        width: var(--content-width-desktop);
+        max-width: var(--max-content-width);
+        margin: -5vh auto 0 auto;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .bottom-text {
+        width: var(--content-width-desktop);
+        max-width: var(--max-content-width);
+        margin-top: 0.9vh;
+        margin-bottom: 7vh;
+        gap: 5vw;
+    }
+    .bottom-text .column-question {
+        /* Set explicit rem for desktop for consistency */
+        font-size: 3.5rem; /* Larger */
+    }
+    .bottom-text .column-answer {
+        /* Set explicit rem for desktop for consistency */
+        font-size: 2.5rem; /* Larger */
+    }
+    .bottom-text p {
+        /* Set explicit rem for desktop for consistency */
+        font-size: 1.2rem;
+    }
+
+    .action-button {
+        /* Set explicit rem for desktop for consistency */
+        font-size: 1.8rem;
+        padding: 25px 50px;
+    }
+
+    .footer-divider {
+        width: var(--content-width-desktop);
+        max-width: var(--max-content-width);
+        margin-top: 5vh;
+        margin-bottom: 0;
+    }
+
+    .site-footer {
+        width: var(--content-width-desktop);
+        max-width: var(--max-content-width);
+        margin: 10vh auto 5vh auto;
+        /* Set explicit rem for desktop for consistency */
+        font-size: 1rem;
+    }
+}

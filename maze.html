@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Dumb Maze</title>
+    <style>
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif; /* Because nothing says dumb like Comic Sans */
+            background-color: #FAF0E6; /* Light beige for that 'ancient scroll' vibe */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh; /* Make sure it takes up the whole screen height */
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+            overflow: auto; /* Just in case */
+        }
+
+        h1 {
+            color: #8B4513; /* SaddleBrown, a nice dull brown */
+            font-size: 3em;
+            text-shadow: 2px 2px 0px #DEB887; /* A subtle, silly shadow */
+            margin-bottom: 20px;
+        }
+
+        #maze-container {
+            background-color: #D2B48C; /* Tan, like old paper */
+            border: 5px dashed #A0522D; /* Brown, thick dashed border – very expressive */
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 8px 8px 0px 0px rgba(0,0,0,0.2); /* A clunky shadow for a dumb object */
+        }
+
+        #maze {
+            width: 300px; /* Small, manageable, and easy to be dumb with */
+            height: 300px;
+            background-color: #F5F5DC; /* Off-white maze background */
+            border: 2px solid #8B4513; /* Dark brown maze walls */
+            display: grid;
+            grid-template-columns: repeat(10, 1fr); /* 10x10 grid */
+            grid-template-rows: repeat(10, 1fr);
+        }
+
+        .cell {
+            border: 1px dotted #DEB887; /* Light brown dotted cell borders - looks kinda cheap */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em; /* Just in case we put letters in later (we won't) */
+        }
+
+        .wall {
+            background-color: #8B4513; /* Solid dark brown wall */
+            border: none; /* No silly dotted border for walls */
+        }
+
+        .start { /* Player start position, but not actually movable */
+            background-color: #FFD700; /* Gold player color */
+            border-radius: 50%; /* Make it round and cheerful */
+            font-size: 1.8em; /* A bit bigger */
+            color: #00008B; /* Dark blue text */
+            font-weight: bold;
+            display: flex; /* Ensure content is centered */
+            align-items: center;
+            justify-content: center;
+        }
+
+        .goal { /* The glorious, unattainable goal */
+            background-color: #00FF00; /* Bright, in-your-face lime green */
+            border-radius: 50%; /* Also round and cheerful */
+            font-size: 1.8em; /* A bit bigger */
+            color: #8B0000; /* Dark red text */
+            font-weight: bold;
+            display: flex; /* Ensure content is centered */
+            align-items: center;
+            justify-content: center;
+        }
+
+        button {
+            background-color: #ADD8E6; /* Light blue button */
+            color: #00008B; /* Dark blue text */
+            border: 3px dotted #4682B4; /* Steel blue dotted border - very official */
+            padding: 10px 20px;
+            font-size: 1.2em;
+            cursor: pointer;
+            border-radius: 15px; /* Rounded buttons are friendlier */
+            transition: background-color 0.3s ease, transform 0.1s ease; /* A tiny bounce */
+            box-shadow: 4px 4px 0px 0px rgba(0,0,0,0.15); /* A slightly offset shadow */
+            margin-top: 10px; /* Space from maze */
+        }
+
+        button:hover {
+            background-color: #87CEEB; /* Sky blue on hover */
+            transform: translateY(-2px); /* A tiny lift */
+        }
+
+        button:active {
+            transform: translateY(0); /* Press effect */
+            box-shadow: 2px 2px 0px 0px rgba(0,0,0,0.15); /* Pressed shadow */
+        }
+
+        #message {
+            font-size: 1.4em; /* Make the message stand out */
+            color: #556B2F; /* Dark olive green message text - subtle but there */
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        .hint {
+            font-size: 0.9em;
+            color: #A0522D; /* A bit more specific brown */
+            margin-top: 5px;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome to The Dumb Maze!</h1>
+    <div id="maze-container">
+        <div id="maze">
+            </div>
+    </div>
+    <button id="moveButton">Try to Move (Spoiler: You Can't)</button>
+    <p id="message">This is a very simple and possibly pointless maze. Good luck... looking at it?</p>
+    <p class="hint">The start is the yellow circle, the goal is the green circle. The brown squares are walls. Navigate wisely (with your eyes only).</p>
+
+    <script>
+        const mazeDiv = document.getElementById('maze');
+        const numCells = 100; // 10x10 grid
+        const START_INDEX = 0; // Top-left cell
+        const GOAL_INDEX = 99; // Bottom-right cell
+
+        // Define the wall indices in a structured, yet still a bit dumb, way.
+        // These are the *indices* (0-99) of the cells that will become walls.
+        // Feel free to modify these numbers to make the maze even dumber!
+        const wallIndices = [
+            2, 3, 4, 5, // Row 1 (indices 0-9)
+            12, 14, 16, 17, // Row 2
+            22, 23, 24, 26, 27, // Row 3
+            32, 34, 38, // Row 4
+            42, 43, 44, 46, 48, // Row 5
+            50, 51, 52, 54, 56, 58, // Row 6
+            60, 61, 62, 64, 66, 68, // Row 7
+            70, 71, 72, 73, 74, 76, 78, // Row 8
+            80, 81, 82, 84, 86, 88, // Row 9
+            90, 91, 92, 94, 96, 97 // Row 10 (excluding the goal)
+        ];
+
+        // Generate the maze cells
+        for (let i = 0; i < numCells; i++) {
+            const cell = document.createElement('div');
+            cell.classList.add('cell');
+
+            if (i === START_INDEX) {
+                cell.classList.add('start');
+                cell.textContent = 'S'; // 'S' for Start
+            } else if (i === GOAL_INDEX) {
+                cell.classList.add('goal');
+                cell.textContent = 'G'; // 'G' for Goal
+            } else if (wallIndices.includes(i)) {
+                cell.classList.add('wall');
+            }
+            mazeDiv.appendChild(cell);
+        }
+
+        // Add the button click handler
+        const moveButton = document.getElementById('moveButton');
+        const messageDiv = document.getElementById('message');
+        const dumbMessages = [
+            "Nope, still can't move. Told ya it was dumb.",
+            "Did you really think that would work? Bless your heart.",
+            "The maze laughs at your attempts. (It's not very smart laughter).",
+            "Are you having fun yet? ... Me neither.",
+            "This button is just for show. Like me.",
+            "ERROR 404: Movement not found. Try less hard.",
+            "You just pressed a button for no reason. Congrats!",
+            "Maybe if you clicked harder? (It won't help).",
+            "The magic of this maze is that you DON'T move.",
+            "You are now one step closer to... nowhere.",
+            "This maze is purely for aesthetic purposes. And disappointment.",
+            "My developer was very lazy. This is the result.",
+            "Why are you still trying? It's a dumb maze!",
+            "You won the award for 'Most Enthusiastic Clicker of a Useless Button'!"
+        ];
+
+        moveButton.addEventListener('click', () => {
+            const randomMessage = dumbMessages[Math.floor(Math.random() * dumbMessages.length)];
+            messageDiv.textContent = randomMessage;
+        });
+
+        // Add a little extra dumbness: Change the page title after a delay
+        setTimeout(() => {
+            document.title = "Still The Dumb Maze";
+        }, 5000); // After 5 seconds
+        setTimeout(() => {
+            document.title = "Seriously, It's Dumb";
+        }, 10000); // After 10 seconds
+        setTimeout(() => {
+            document.title = "Why Are You Still Here?";
+        }, 20000); // After 20 seconds
+    </script>
+</body>
+</html>
