@@ -96,9 +96,9 @@
             top: 0;
             left: 0;
             transform: translateY(0);
-            transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+            transition: transform 0.3s ease-in-out; /* Removed opacity from transition */
             z-index: 1000;
-            opacity: 1;
+            opacity: 1; /* Always opaque by default */
             background-color: rgb(248, 245, 236, 0.9); /* Semi-transparent light background */
             padding: var(--header-padding-y-desktop) var(--header-padding-x-desktop);
             box-sizing: border-box;
@@ -110,17 +110,14 @@
 
         .main-header.hide {
             transform: translateY(-100%);
-            opacity: 0;
+            /* opacity: 0; Remove opacity change when hidden */
         }
 
-        .main-header.transparent {
-            opacity: 0;
-            pointer-events: none; /* Disable interaction when transparent */
-        }
+        /* Removed .main-header.transparent as it's no longer needed */
 
         .main-header.show {
             transform: translateY(0);
-            opacity: 1;
+            /* opacity: 1; Already default, but good for explicit clarity if needed later */
             pointer-events: auto; /* Enable interaction when visible */
         }
 
@@ -187,7 +184,8 @@
         }
 
         .title {
-            font-size: 25vw;
+            /* Updated font-size with clamp() */
+            font-size: clamp(80px, 18vw, 300px); /* Min 80px, fluid 18vw, max 300px */
             color: var(--primary-blue);
             margin: 0;
             line-height: 1;
@@ -210,7 +208,8 @@
             transform: translate(-50%, -50%);
             transform-origin: center center;
 
-            font-size: 2.5vw;
+            /* Updated font-size with clamp() */
+            font-size: clamp(16px, 2.5vw, 32px); /* Min 16px, fluid 2.5vw, max 32px */
             color: var(--primary-blue);
             letter-spacing: 0.2em;
             text-transform: uppercase;
@@ -225,8 +224,8 @@
 
         .buildings-gif {
             display: block;
-            width: 87vw; /* This will scale it proportionally to the viewport width */
-            max-width: none; /* Keep this to allow it to exceed its container if 87vw is larger than the natural size */
+            width: 100%; /* Make it take 100% of its container's width */
+            max-width: 1200px; /* Set a max-width for larger screens */
             height: auto; /* Maintain aspect ratio */
             margin: -5vh auto 0 auto;
             padding-top: 1vh;
@@ -430,14 +429,14 @@
                 padding-bottom: 3vh;
             }
             .title {
-                font-size: 18vw; /* Adjusted for better fit on mobile */
+                font-size: clamp(60px, 60vw, 120px); /* Smaller min/max for mobile */
                 letter-spacing: -0.03em;
             }
             .now-entering {
-                display: none; /* Hide "Now Entering" on smaller screens */
+                display: none; /* Hide "Now Entering" on smaller screens (as per original) */
             }
             .buildings-gif {
-                width: 150vw; /* Retained 150vw for intentional overflow */
+                width: 120vw; /* Adjusted for a slightly less extreme overflow, feel free to tweak */
                 margin-top: 0;
                 padding-top: 5vh;
             }
@@ -517,7 +516,7 @@
                 margin-bottom: 15px; /* Add spacing between stacked columns */
             }
             .site-footer .footer-column p {
-                font-size: clamp(0.7rem, 3.5vw, 0.9rem); /* NOW MATCHES my-works.html */
+                font-size: clamp(0.7rem, 2vw, 0.9rem); /* NOW MATCHES my-works.html */
             }
             .site-footer .footer-column:last-child {
                 text-align: left; /* Align copyright left on mobile */
@@ -556,10 +555,15 @@
                 padding-bottom: 30px;
             }
             .title {
-                font-size: clamp(6rem, 12vw, 10rem);
+                font-size: clamp(100px, 12vw, 180px); /* Adjusted for tablet */
             }
             .now-entering {
+                display: block; /* Ensure it's shown on tablets */
                 font-size: clamp(1.5rem, 2.5vw, 2.5rem);
+            }
+            .buildings-gif {
+                width: 95vw; /* Slightly wider for tablets, but still contained */
+                max-width: 1200px;
             }
 
             .footer-divider {
@@ -627,10 +631,15 @@
                 padding-bottom: 50px;
             }
             .title {
-                font-size: 25vw;
+                font-size: clamp(150px, 25vw, 400px); /* Adjusted for larger desktops, with max cap */
             }
             .now-entering {
+                display: block; /* Ensure it's shown on desktops */
                 font-size: 2.5vw;
+            }
+            .buildings-gif {
+                width: 87vw; /* Original desktop size */
+                max-width: 1200px; /* Keep max-width for consistency */
             }
 
             .footer-divider {
@@ -728,7 +737,6 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // --- Header Scroll Logic (copied from my-works.html, adapted for index.html's classes) ---
             const header = document.querySelector('.main-header');
             const mobileMenuToggle = document.getElementById('mobile-menu');
             const mainNav = document.getElementById('main-nav');
@@ -754,45 +762,27 @@
             });
 
             let lastScrollY = window.scrollY;
-            let scrollTimeout;
 
             function handleScroll() {
                 const currentScrollY = window.scrollY;
 
-                clearTimeout(scrollTimeout);
-
                 // Only apply header scroll logic if mobile menu is NOT active
                 if (!mainNav.classList.contains('active')) {
-                    if (currentScrollY === 0) {
-                        // Scenario 1: User is at the very top of the page
-                        header.classList.remove('hide', 'transparent');
-                        header.classList.add('show');
-                    } else if (currentScrollY > lastScrollY && currentScrollY > header.offsetHeight) {
-                        // Scenario 2: Scrolling down and scrolled past the header height
+                    if (currentScrollY > lastScrollY && currentScrollY > header.offsetHeight) {
+                        // Scrolling down and scrolled past the header height
                         header.classList.add('hide');
-                        header.classList.remove('show', 'transparent');
-                    } else if (currentScrollY < lastScrollY) {
-                        // Scenario 3: Scrolling up
+                        header.classList.remove('show'); // Ensure 'show' is removed
+                    } else if (currentScrollY < lastScrollY || currentScrollY === 0) {
+                        // Scrolling up OR at the very top of the page
+                        header.classList.remove('hide');
                         header.classList.add('show');
-                        header.classList.remove('hide', 'transparent');
-                    }
-
-                    lastScrollY = currentScrollY;
-
-                    // Set a timeout to make the header transparent if no scrolling occurs for a brief period
-                    if (currentScrollY > 0) {
-                        scrollTimeout = setTimeout(() => {
-                            if (window.scrollY === lastScrollY) {
-                                header.classList.add('transparent');
-                                header.classList.remove('show');
-                            }
-                        }, 1000); // Hide after 1 second of no scrolling
                     }
                 } else {
                     // If mobile menu is active, ensure header stays visible
-                    header.classList.remove('hide', 'transparent');
+                    header.classList.remove('hide');
                     header.classList.add('show');
                 }
+                lastScrollY = currentScrollY;
             }
 
             window.addEventListener('scroll', handleScroll);

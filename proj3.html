@@ -500,24 +500,20 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // --- Header & Hamburger Menu Logic ---
             const header = document.querySelector('.main-header');
             const mobileMenuToggle = document.getElementById('mobile-menu');
             const mainNav = document.getElementById('main-nav');
 
             mobileMenuToggle.addEventListener('click', () => {
                 mainNav.classList.toggle('active');
-                // Removed: mobileMenuToggle.classList.toggle('active'); to prevent icon change
                 document.body.style.overflow = mainNav.classList.contains('active') ? 'hidden' : 'auto';
             });
 
-            // Close mobile menu when a navigation link is clicked
             const navLinks = mainNav.querySelectorAll('a');
             navLinks.forEach(link => {
                 link.addEventListener('click', () => {
                     if (mainNav.classList.contains('active')) {
                         mainNav.classList.remove('active');
-                        // Removed: mobileMenuToggle.classList.remove('active'); to prevent icon change
                         document.body.style.overflow = 'auto';
                     }
                 });
@@ -526,43 +522,42 @@
             let lastScrollY = window.scrollY;
             let scrollTimeout;
 
-            function handleHeaderScroll() { // Renamed to avoid conflict with previous version
+            function handleHeaderScroll() {
                 const currentScrollY = window.scrollY;
 
+                // Clear any existing timeout to prevent previous transparent state
                 clearTimeout(scrollTimeout);
 
-                // Only apply header scroll logic if mobile menu is NOT active
                 if (!mainNav.classList.contains('active')) {
                     if (currentScrollY === 0) {
+                        // At the very top of the page, header is visible and opaque
                         header.classList.remove('hide', 'transparent');
                         header.classList.add('show');
-                    } else if (currentScrollY > lastScrollY && currentScrollY > header.offsetHeight) {
-                        header.classList.add('hide');
-                        header.classList.remove('show', 'transparent');
                     } else if (currentScrollY < lastScrollY) {
-                        header.classList.add('show');
+                        // Scrolling UP: header appears instantly and is opaque
                         header.classList.remove('hide', 'transparent');
-                    }
-
-                    lastScrollY = currentScrollY;
-
-                    if (currentScrollY > 0) {
+                        header.classList.add('show');
+                    } else if (currentScrollY > lastScrollY) {
+                        // Scrolling DOWN: start fading out
+                        header.classList.remove('show');
+                        header.classList.add('hide'); // Add hide class for immediate disappearance
+                        // Set timeout to make it transparent if scrolling stops
                         scrollTimeout = setTimeout(() => {
-                            if (window.scrollY === lastScrollY) {
+                            if (window.scrollY === currentScrollY) { // Check if scroll position is still the same
                                 header.classList.add('transparent');
-                                header.classList.remove('show');
                             }
-                        }, 1000);
+                        }, 100); // Small delay to allow for the 'hide' transition
                     }
                 } else {
                     // If mobile menu is active, ensure header stays visible
                     header.classList.remove('hide', 'transparent');
                     header.classList.add('show');
                 }
+                lastScrollY = currentScrollY;
             }
 
             window.addEventListener('scroll', handleHeaderScroll);
-            handleHeaderScroll(); // Initial call
+            handleHeaderScroll(); // Initial call to set header state on page load
         });
     </script>
 </body>

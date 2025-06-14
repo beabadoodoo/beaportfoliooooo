@@ -430,7 +430,7 @@
 
             .site-name,
             .main-nav ul li a {
-                font-size: 1.5rem;
+                font-size: 1.2rem;
             }
             .main-nav ul {
                 gap: 45px;
@@ -470,7 +470,7 @@
                 width: var(--content-width-desktop);
                 max-width: var(--max-content-width);
                 margin: 10vh auto 5vh auto;
-                font-size: 1rem;
+                font-size: 0.7rem;
                 padding: 0;
             }
             .site-footer .footer-column:last-child {
@@ -499,8 +499,11 @@
         <img src="bea.jpg" alt="Beatrice Tribucias Profile Picture" class="profile-picture">
         <h1 class="profile-heading">Beatrice Tribucias</h1>
         <p class="profile-bio">
-            I’m a 20-year-old BSIT-MWA student at National University MOA, with a solid foundation in STEM from senior high. I’ve been a consistent first honor student since Grade 1, and valedictorian in Grade 6 and a consistent honor student in high school. I’m passionate about web design and development and always eager to grow my skills across both front-end and back-end technologies.
-        </p>
+            I’m a 20-year-old BSIT-MWA student at National University MOA with a STEM background from senior high. I’ve been a consistent first honor student since Grade 1, graduated valedictorian in Grade 6, and kept my honor roll status through high school.
+
+Now, I’m focused on web design and development. I enjoy working on both front-end and back-end projects, and I’m constantly building up my skills to create better, cleaner, and more user-friendly digital experiences.
+
+ </p>
     </div>
 
     <div class="skills-section">
@@ -586,12 +589,14 @@
                 <div class="education-content">
                     <h3>Lalakay Elementary School</h3>
                     <p>Grade 1: First Honor</p>
-                    <p>Grade 2-6: First Honor and Valedictorian</p>
+                    
                 </div>
             </div>
             <div class="education-item right">
                 <div class="education-content">
                     <h3>Liceo de Los Baños</h3>
+                    <p>Grade 2-6: First Honor</p>
+                    <p>Grade 6: Valedictorian</p>
                     <p>Grade 7-10: With Honors</p>
                 </div>
             </div>
@@ -604,7 +609,8 @@
             <div class="education-item right">
                 <div class="education-content">
                     <h3>National University - MOA</h3>
-                    <p>1st Year: Current</p>
+                    <p>1st Year: Dean's Lister</p>
+                    <p>2nd Year: Dean's Lister</p>
                 </div>
             </div>
         </div>
@@ -673,281 +679,267 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // General swoop-up animation for various elements
-            const animatedElements = document.querySelectorAll(
-                '.profile-picture, .profile-heading, .profile-bio, .skills-section h2, .skills-section .subtitle, .skill-category, .education-heading, .education-item, .hobbies-heading, .hobby-description, .reading-heading, .reading-content, .manga-cover'
-            );
+    // General swoop-up animation for various elements
+    const animatedElements = document.querySelectorAll(
+        '.profile-picture, .profile-heading, .profile-bio, .skills-section h2, .skills-section .subtitle, .skill-category, .education-heading, .education-item, .hobbies-heading, .hobby-description, .reading-heading, .reading-content, .manga-cover'
+    );
 
-            const generalObserverOptions = {
-                root: null,
-                rootMargin: '0px',
-                threshold: 0.1
-            };
+    const generalObserverOptions = {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.1
+    };
 
-            const generalObserver = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('is-visible');
-                    }
-                });
-            }, generalObserverOptions);
-
-            animatedElements.forEach(element => {
-                generalObserver.observe(element);
-            });
-
-            // --- Progress Bar Animation Logic ---
-            const skillItems = document.querySelectorAll('.skill-item'); // Observe the parent container for each skill
-
-            const progressBarObserverOptions = {
-                root: null,
-                rootMargin: '0px',
-                threshold: 0.5 // Trigger when 50% of the skill-item is visible
-            };
-
-            const progressBarObserver = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        // Ensure the skill-item itself gets the is-visible class for its own fade-in
-                        entry.target.classList.add('is-visible');
-
-                        const progressBar = entry.target.querySelector('.progress-bar');
-                        if (progressBar && !progressBar.classList.contains('animated')) {
-                            const progress = progressBar.dataset.progress; // Get the percentage from data-progress
-                            progressBar.style.width = progress + '%'; // Set the width to trigger the CSS transition
-                            progressBar.classList.add('is-visible', 'animated'); // Add 'animated' to prevent re-triggering
-                        }
-                        // Stop observing once the animation has been triggered for this skill-item
-                        progressBarObserver.unobserve(entry.target);
-                    }
-                });
-            }, progressBarObserverOptions);
-
-            skillItems.forEach(item => {
-                progressBarObserver.observe(item);
-            });
-
-            // --- Infinite Carousel with Dots and Scaling Logic (Existing Code) ---
-            const videoCarousel = document.getElementById('videoCarousel');
-            const carouselDots = document.getElementById('carouselDots');
-            const prevButton = document.querySelector('.carousel-button.prev-button');
-            const nextButton = document.querySelector('.carousel-button.next-button');
-            const originalIframes = Array.from(videoCarousel.querySelectorAll('iframe'));
-            const numOriginalVideos = originalIframes.length;
-
-            if (numOriginalVideos === 0) {
-                if (prevButton) prevButton.style.display = 'none';
-                if (nextButton) nextButton.style.display = 'none';
-                if (carouselDots) carouselDots.style.display = 'none';
-            } else if (numOriginalVideos === 1) {
-                const dot = document.createElement('span');
-                dot.classList.add('dot', 'active');
-                carouselDots.appendChild(dot);
-                originalIframes[0].classList.add('is-centered');
-                if (prevButton) prevButton.style.display = 'none';
-                if (nextButton) nextButton.style.display = 'none';
-            } else {
-                const firstClone = originalIframes[0].cloneNode(true);
-                const lastClone = originalIframes[numOriginalVideos - 1].cloneNode(true);
-
-                videoCarousel.insertBefore(lastClone, originalIframes[0]);
-                videoCarousel.appendChild(firstClone);
-
-                let allIframes = Array.from(videoCarousel.querySelectorAll('iframe'));
-
-                // Calculate baseVideoWidth only once after clones are added and styles computed
-                let baseVideoWidth;
-                const updateVideoWidth = () => {
-                    const computedStyle = getComputedStyle(allIframes[1]); // Use the second iframe (first original) for accurate width
-                    const iframeWidth = allIframes[1].offsetWidth;
-                    const iframeMarginLeft = parseFloat(computedStyle.marginLeft);
-                    const iframeMarginRight = parseFloat(computedStyle.marginRight);
-                    baseVideoWidth = iframeWidth + iframeMarginLeft + iframeMarginRight;
-                    videoCarousel.scrollLeft = baseVideoWidth; // Set initial scroll position
-                };
-
-                // Call initially and on resize
-                updateVideoWidth();
-                window.addEventListener('resize', updateVideoWidth);
-
-
-                for (let i = 0; i < numOriginalVideos; i++) {
-                    const dot = document.createElement('span');
-                    dot.classList.add('dot');
-                    dot.dataset.index = i;
-                    carouselDots.appendChild(dot);
-                }
-
-                const dots = carouselDots.querySelectorAll('.dot');
-
-                const videoObserverOptions = {
-                    root: videoCarousel,
-                    rootMargin: '0px',
-                    threshold: 0.8
-                };
-
-                const videoIntersectionObserver = new IntersectionObserver((entries) => {
-                    entries.forEach(entry => {
-                        const videoElement = entry.target;
-                        let originalIndex = -1;
-
-                        if (videoElement === firstClone) {
-                            originalIndex = 0;
-                        } else if (videoElement === lastClone) {
-                            originalIndex = numOriginalVideos - 1;
-                        } else {
-                            originalIndex = originalIframes.indexOf(videoElement);
-                        }
-
-                        if (entry.isIntersecting) {
-                            videoElement.classList.add('is-centered');
-                            if (originalIndex !== -1) {
-                                dots.forEach((dot, index) => {
-                                    if (index === originalIndex) {
-                                        dot.classList.add('active');
-                                    } else {
-                                        dot.classList.remove('active');
-                                    }
-                                });
-                            }
-                        } else {
-                            videoElement.classList.remove('is-centered');
-                        }
-                    });
-                }, videoObserverOptions);
-
-                allIframes.forEach(iframe => {
-                    videoIntersectionObserver.observe(iframe);
-                });
-
-                let isTransitioning = false;
-                videoCarousel.addEventListener('scroll', () => {
-                    if (isTransitioning) return;
-
-                    const scrollLeft = videoCarousel.scrollLeft;
-
-                    if (scrollLeft >= (numOriginalVideos * baseVideoWidth + baseVideoWidth * 0.5)) { // Added buffer
-                        isTransitioning = true;
-                        videoCarousel.style.scrollBehavior = 'auto';
-                        videoCarousel.scrollLeft = baseVideoWidth;
-                        setTimeout(() => {
-                            videoCarousel.style.scrollBehavior = 'smooth';
-                            isTransitioning = false;
-                        }, 50);
-                    } else if (scrollLeft <= (baseVideoWidth * 0.5)) { // Added buffer
-                        isTransitioning = true;
-                        videoCarousel.style.scrollBehavior = 'auto';
-                        videoCarousel.scrollLeft = numOriginalVideos * baseVideoWidth;
-                        setTimeout(() => {
-                            videoCarousel.style.scrollBehavior = 'smooth';
-                            isTransitioning = false;
-                        }, 50);
-                    }
-                });
-
-
-                carouselDots.addEventListener('click', (event) => {
-                    if (event.target.classList.contains('dot')) {
-                        const originalIndex = parseInt(event.target.dataset.index);
-                        const targetScrollLeft = (originalIndex + 1) * baseVideoWidth;
-                        videoCarousel.scrollTo({
-                            left: targetScrollLeft,
-                            behavior: 'smooth'
-                        });
-                    }
-                });
-
-                if (nextButton) {
-                    nextButton.addEventListener('click', () => {
-                        const targetScrollLeft = videoCarousel.scrollLeft + baseVideoWidth;
-                        videoCarousel.scrollTo({
-                            left: targetScrollLeft,
-                            behavior: 'smooth'
-                        });
-                    });
-                }
-
-                if (prevButton) {
-                    prevButton.addEventListener('click', () => {
-                        const targetScrollLeft = videoCarousel.scrollLeft - baseVideoWidth;
-                        videoCarousel.scrollTo({
-                            left: targetScrollLeft,
-                            behavior: 'smooth'
-                        });
-                    });
-                }
+    const generalObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
             }
+        });
+    }, generalObserverOptions);
 
-            // --- Header Scroll Logic (copied from my-works.html) ---
-            const header = document.querySelector('.main-header3');
-            const mobileMenuToggle = document.getElementById('mobile-menu'); // Renamed for clarity
-            const mainNav = document.getElementById('main-nav');
+    animatedElements.forEach(element => {
+        generalObserver.observe(element);
+    });
 
-            mobileMenuToggle.addEventListener('click', () => {
-                mainNav.classList.toggle('active');
-                // Toggle body scroll lock
-                document.body.style.overflow = mainNav.classList.contains('active') ? 'hidden' : 'auto';
-            });
+    // --- Progress Bar Animation Logic ---
+    const skillItems = document.querySelectorAll('.skill-item'); // Observe the parent container for each skill
 
-            // Close mobile menu when a navigation link is clicked
-            const navLinks = mainNav.querySelectorAll('a');
-            navLinks.forEach(link => {
-                link.addEventListener('click', () => {
-                    if (mainNav.classList.contains('active')) {
-                        mainNav.classList.remove('active');
-                        document.body.style.overflow = 'auto'; // Re-enable scroll
-                    }
-                });
-            });
+    const progressBarObserverOptions = {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.5 // Trigger when 50% of the skill-item is visible
+    };
+
+    const progressBarObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                // Ensure the skill-item itself gets the is-visible class for its own fade-in
+                entry.target.classList.add('is-visible');
+
+                const progressBar = entry.target.querySelector('.progress-bar');
+                if (progressBar && !progressBar.classList.contains('animated')) {
+                    const progress = progressBar.dataset.progress; // Get the percentage from data-progress
+                    progressBar.style.width = progress + '%'; // Set the width to trigger the CSS transition
+                    progressBar.classList.add('is-visible', 'animated'); // Add 'animated' to prevent re-triggering
+                }
+                // Stop observing once the animation has been triggered for this skill-item
+                progressBarObserver.unobserve(entry.target);
+            }
+        });
+    }, progressBarObserverOptions);
+
+    skillItems.forEach(item => {
+        progressBarObserver.observe(item);
+    });
+
+    // --- Infinite Carousel with Dots and Scaling Logic (Existing Code) ---
+    const videoCarousel = document.getElementById('videoCarousel');
+    const carouselDots = document.getElementById('carouselDots');
+    const prevButton = document.querySelector('.carousel-button.prev-button');
+    const nextButton = document.querySelector('.carousel-button.next-button');
+    const originalIframes = Array.from(videoCarousel.querySelectorAll('iframe'));
+    const numOriginalVideos = originalIframes.length;
+
+    if (numOriginalVideos === 0) {
+        if (prevButton) prevButton.style.display = 'none';
+        if (nextButton) nextButton.style.display = 'none';
+        if (carouselDots) carouselDots.style.display = 'none';
+    } else if (numOriginalVideos === 1) {
+        const dot = document.createElement('span');
+        dot.classList.add('dot', 'active');
+        carouselDots.appendChild(dot);
+        originalIframes[0].classList.add('is-centered');
+        if (prevButton) prevButton.style.display = 'none';
+        if (nextButton) nextButton.style.display = 'none';
+    } else {
+        const firstClone = originalIframes[0].cloneNode(true);
+        const lastClone = originalIframes[numOriginalVideos - 1].cloneNode(true);
+
+        videoCarousel.insertBefore(lastClone, originalIframes[0]);
+        videoCarousel.appendChild(firstClone);
+
+        let allIframes = Array.from(videoCarousel.querySelectorAll('iframe'));
+
+        // Calculate baseVideoWidth only once after clones are added and styles computed
+        let baseVideoWidth;
+        const updateVideoWidth = () => {
+            const computedStyle = getComputedStyle(allIframes[1]); // Use the second iframe (first original) for accurate width
+            const iframeWidth = allIframes[1].offsetWidth;
+            const iframeMarginLeft = parseFloat(computedStyle.marginLeft);
+            const iframeMarginRight = parseFloat(computedStyle.marginRight);
+            baseVideoWidth = iframeWidth + iframeMarginLeft + iframeMarginRight;
+            videoCarousel.scrollLeft = baseVideoWidth; // Set initial scroll position
+        };
+
+        // Call initially and on resize
+        updateVideoWidth();
+        window.addEventListener('resize', updateVideoWidth);
 
 
-            let lastScrollY = window.scrollY;
-            let scrollTimeout;
+        for (let i = 0; i < numOriginalVideos; i++) {
+            const dot = document.createElement('span');
+            dot.classList.add('dot');
+            dot.dataset.index = i;
+            carouselDots.appendChild(dot);
+        }
 
-            function handleScroll() {
-                const currentScrollY = window.scrollY;
+        const dots = carouselDots.querySelectorAll('.dot');
 
-                clearTimeout(scrollTimeout);
+        const videoObserverOptions = {
+            root: videoCarousel,
+            rootMargin: '0px',
+            threshold: 0.8
+        };
 
-                // Only apply header scroll logic if mobile menu is NOT active
-                if (!mainNav.classList.contains('active')) {
-                    if (currentScrollY === 0) {
-                        // Scenario 1: User is at the very top of the page
-                        header.classList.remove('hide', 'transparent');
-                        header.classList.add('show');
-                    } else if (currentScrollY > lastScrollY && currentScrollY > header.offsetHeight) {
-                        // Scenario 2: Scrolling down and scrolled past the header height
-                        header.classList.add('hide');
-                        header.classList.remove('show', 'transparent');
-                    } else if (currentScrollY < lastScrollY) {
-                        // Scenario 3: Scrolling up
-                        header.classList.add('show');
-                        header.classList.remove('hide', 'transparent');
-                    }
+        const videoIntersectionObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                const videoElement = entry.target;
+                let originalIndex = -1;
 
-                    lastScrollY = currentScrollY;
+                if (videoElement === firstClone) {
+                    originalIndex = 0;
+                } else if (videoElement === lastClone) {
+                    originalIndex = numOriginalVideos - 1;
+                } else {
+                    originalIndex = originalIframes.indexOf(videoElement);
+                }
 
-                    // Set a timeout to make the header transparent if no scrolling occurs for a brief period
-                    if (currentScrollY > 0) {
-                        scrollTimeout = setTimeout(() => {
-                            if (window.scrollY === lastScrollY) {
-                                header.classList.add('transparent');
-                                header.classList.remove('show');
+                if (entry.isIntersecting) {
+                    videoElement.classList.add('is-centered');
+                    if (originalIndex !== -1) {
+                        dots.forEach((dot, index) => {
+                            if (index === originalIndex) {
+                                dot.classList.add('active');
+                            } else {
+                                dot.classList.remove('active');
                             }
-                        }, 1000); // Hide after 1 second of no scrolling
+                        });
                     }
                 } else {
-                    // If mobile menu is active, ensure header stays visible
-                    header.classList.remove('hide', 'transparent');
-                    header.classList.add('show');
+                    videoElement.classList.remove('is-centered');
                 }
-            }
+            });
+        }, videoObserverOptions);
 
-            window.addEventListener('scroll', handleScroll);
-
-            // Initial check in case the page loads scrolled down
-            handleScroll();
+        allIframes.forEach(iframe => {
+            videoIntersectionObserver.observe(iframe);
         });
+
+        let isTransitioning = false;
+        videoCarousel.addEventListener('scroll', () => {
+            if (isTransitioning) return;
+
+            const scrollLeft = videoCarousel.scrollLeft;
+
+            if (scrollLeft >= (numOriginalVideos * baseVideoWidth + baseVideoWidth * 0.5)) { // Added buffer
+                isTransitioning = true;
+                videoCarousel.style.scrollBehavior = 'auto';
+                videoCarousel.scrollLeft = baseVideoWidth;
+                setTimeout(() => {
+                    videoCarousel.style.scrollBehavior = 'smooth';
+                    isTransitioning = false;
+                }, 50);
+            } else if (scrollLeft <= (baseVideoWidth * 0.5)) { // Added buffer
+                isTransitioning = true;
+                videoCarousel.style.scrollBehavior = 'auto';
+                videoCarousel.scrollLeft = numOriginalVideos * baseVideoWidth;
+                setTimeout(() => {
+                    videoCarousel.style.scrollBehavior = 'smooth';
+                    isTransitioning = false;
+                }, 50);
+            }
+        });
+
+
+        carouselDots.addEventListener('click', (event) => {
+            if (event.target.classList.contains('dot')) {
+                const originalIndex = parseInt(event.target.dataset.index);
+                const targetScrollLeft = (originalIndex + 1) * baseVideoWidth;
+                videoCarousel.scrollTo({
+                    left: targetScrollLeft,
+                    behavior: 'smooth'
+                });
+            }
+        });
+
+        if (nextButton) {
+            nextButton.addEventListener('click', () => {
+                const targetScrollLeft = videoCarousel.scrollLeft + baseVideoWidth;
+                videoCarousel.scrollTo({
+                    left: targetScrollLeft,
+                    behavior: 'smooth'
+                });
+            });
+        }
+
+        if (prevButton) {
+            prevButton.addEventListener('click', () => {
+                const targetScrollLeft = videoCarousel.scrollLeft - baseVideoWidth;
+                videoCarousel.scrollTo({
+                    left: targetScrollLeft,
+                    behavior: 'smooth'
+                });
+            });
+        }
+    }
+
+    // --- Header Scroll Logic (MODIFIED for hide on scroll down, show on scroll up) ---
+    const header = document.querySelector('.main-header3');
+    const mobileMenuToggle = document.getElementById('mobile-menu');
+    const mainNav = document.getElementById('main-nav');
+
+    mobileMenuToggle.addEventListener('click', () => {
+        mainNav.classList.toggle('active');
+        // Toggle body scroll lock
+        document.body.style.overflow = mainNav.classList.contains('active') ? 'hidden' : 'auto';
+    });
+
+    // Close mobile menu when a navigation link is clicked
+    const navLinks = mainNav.querySelectorAll('a');
+    navLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            if (mainNav.classList.contains('active')) {
+                mainNav.classList.remove('active');
+                document.body.style.overflow = 'auto'; // Re-enable scroll
+            }
+        });
+    });
+
+    let lastScrollY = window.scrollY;
+
+    function handleScroll() {
+        const currentScrollY = window.scrollY;
+
+        // Only apply header scroll logic if mobile menu is NOT active
+        if (!mainNav.classList.contains('active')) {
+            if (currentScrollY > lastScrollY && currentScrollY > header.offsetHeight) {
+                // Scrolling down and scrolled past the header height
+                header.classList.add('hide');
+                header.classList.remove('show'); // Ensure 'show' is removed
+            } else if (currentScrollY < lastScrollY) {
+                // Scrolling up
+                header.classList.remove('hide');
+                header.classList.add('show');
+            } else if (currentScrollY === 0) {
+                // At the very top, ensure it's visible
+                header.classList.remove('hide');
+                header.classList.add('show');
+            }
+        } else {
+            // If mobile menu is active, ensure header stays visible
+            header.classList.remove('hide');
+            header.classList.add('show');
+        }
+
+        lastScrollY = currentScrollY;
+    }
+
+    window.addEventListener('scroll', handleScroll);
+
+    // Initial check in case the page loads scrolled down
+    handleScroll();
+});
     </script>
 </body>
 </html>

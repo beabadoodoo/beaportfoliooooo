@@ -74,34 +74,31 @@
             top: 0;
             left: 0;
             transform: translateY(0);
-            transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+            transition: transform 0.3s ease-in-out; /* Only transform for hide/show */
             z-index: 1000;
-            opacity: 1;
+            opacity: 1; /* Always opaque when visible */
             background-color: rgb(248, 245, 236, 0.9); /* Semi-transparent light background */
             padding: var(--header-padding-y-desktop) var(--header-padding-x-desktop);
             box-sizing: border-box;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            animation: none !important;
+            animation: none !important; /* Ensure no conflicting animations */
+            pointer-events: auto; /* Always clickable by default */
         }
 
+        /* Class for when header is hidden (scrolling down) */
         .main-header.hide {
             transform: translateY(-100%);
+            /* Opacity for hiding, and pointer-events: none to make it non-clickable */
             opacity: 0;
-            pointer-events: none; /* Disable interaction when hidden */
+            pointer-events: none;
         }
 
-        .main-header.transparent {
-            opacity: 0;
-            pointer-events: none; /* Disable interaction when transparent */
-        }
+        /* Class for when header is visible (scrolling up or at top) */
+        /* We don't need a .show class as it's the default state of .main-header */
+        /* When 'hide' is removed, it automatically reverts to the default visible state. */
 
-        .main-header.show {
-            transform: translateY(0);
-            opacity: 1;
-            pointer-events: auto; /* Enable interaction when visible */
-        }
 
         .site-name {
             font-family: 'Neube Kabel Light', sans-serif;
@@ -110,6 +107,8 @@
             text-transform: uppercase;
             white-space: nowrap;
             color: var(--primary-blue);
+            text-decoration: none; /* Make site name clickable */
+            cursor: pointer;
         }
 
         /* Hamburger Menu Icon */
@@ -438,7 +437,7 @@
             }
 
             .info-value {
-                font-size: clamp(1rem, 4.5vw, 1.4rem);
+                font-size: clamp(1.0rem, 4.5vw, 1.4rem);
             }
 
             /* Removed .geometric-shape mobile styling */
@@ -459,9 +458,6 @@
             .site-footer .footer-column {
                 padding: 0;
                 margin-bottom: 15px;
-            }
-            .site-footer .footer-column p {
-                font-size: clamp(0.7rem, 2vw, 1.2rem); /* Matches my-works.html */
             }
             .site-footer .footer-column:last-child {
                 text-align: left;
@@ -642,7 +638,7 @@
 </head>
 <body>
     <header class="main-header">
-        <span class="site-name">Beatrice Tribucias</span>
+        <a href="index.html" class="site-name">Beatrice Tribucias</a>
         <div class="menu-toggle" id="mobile-menu">
             <i class="fas fa-bars"></i>
         </div>
@@ -717,13 +713,10 @@
 
             mobileMenuToggle.addEventListener('click', () => {
                 mainNav.classList.toggle('active');
-                // You can toggle classes on the icon for a transform effect, e.g., 'fa-bars' to 'fa-times'
-                // For simplicity, we'll just toggle the parent's active class
-                mobileMenuToggle.classList.toggle('active'); // Used for potential icon animation
+                mobileMenuToggle.classList.toggle('active');
                 document.body.style.overflow = mainNav.classList.contains('active') ? 'hidden' : 'auto';
             });
 
-            // Close mobile menu when a navigation link is clicked
             const navLinks = mainNav.querySelectorAll('a');
             navLinks.forEach(link => {
                 link.addEventListener('click', () => {
@@ -736,45 +729,36 @@
             });
 
             let lastScrollY = window.scrollY;
-            let scrollTimeout;
 
-            function handleHeaderScroll() { // Renamed to avoid conflict
+            function handleHeaderVisibility() {
                 const currentScrollY = window.scrollY;
 
-                clearTimeout(scrollTimeout);
-
-                // Only apply header scroll logic if mobile menu is NOT active
-                if (!mainNav.classList.contains('active')) {
-                    if (currentScrollY === 0) {
-                        header.classList.remove('hide', 'transparent');
-                        header.classList.add('show');
-                    } else if (currentScrollY > lastScrollY && currentScrollY > header.offsetHeight) {
-                        header.classList.add('hide');
-                        header.classList.remove('show', 'transparent');
-                    } else if (currentScrollY < lastScrollY) {
-                        header.classList.add('show');
-                        header.classList.remove('hide', 'transparent');
-                    }
-
-                    lastScrollY = currentScrollY;
-
-                    if (currentScrollY > 0) {
-                        scrollTimeout = setTimeout(() => {
-                            if (window.scrollY === lastScrollY) {
-                                header.classList.add('transparent');
-                                header.classList.remove('show');
-                            }
-                        }, 1000);
-                    }
-                } else {
-                    // If mobile menu is active, ensure header stays visible
-                    header.classList.remove('hide', 'transparent');
-                    header.classList.add('show');
+                // If mobile menu is active, ensure header stays visible and clickable
+                if (mainNav.classList.contains('active')) {
+                    header.classList.remove('hide'); // Ensure it's not hidden
+                    header.style.opacity = '1'; // Ensure it's fully opaque
+                    header.style.pointerEvents = 'auto'; // Ensure it's clickable
+                    return; // Exit early if mobile menu is open
                 }
+
+                if (currentScrollY > lastScrollY && currentScrollY > header.offsetHeight) {
+                    // Scrolling down AND scrolled past header height: hide header
+                    header.classList.add('hide');
+                } else {
+                    // Scrolling up OR at the top of the page: show header fully
+                    header.classList.remove('hide');
+                    header.style.opacity = '1'; // Explicitly set opacity to 1
+                    header.style.pointerEvents = 'auto'; // Explicitly enable pointer events
+                }
+
+                lastScrollY = currentScrollY;
             }
 
-            window.addEventListener('scroll', handleHeaderScroll);
-            handleHeaderScroll(); // Initial call
+            // Event listener for scroll
+            window.addEventListener('scroll', handleHeaderVisibility);
+
+            // Initial call to set header state on page load
+            handleHeaderVisibility();
 
             // --- Intersection Observer for content animations ---
             const animatedElements = document.querySelectorAll(
@@ -790,12 +774,6 @@
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
-                        // The 'swoop-up-animation' class itself handles the initial opacity and transform
-                        // We just need to ensure the animation is triggered.
-                        // Since animations are set to 'forwards', they stay at their end state.
-                        // No need for a separate 'is-visible' class if animation is directly applied on load/scroll
-                        // and set to forwards.
-                        // If you want a re-trigger on scroll, you might need to manage classes more carefully.
                         // For now, the CSS animation will play when the element appears.
                     }
                 });
@@ -804,11 +782,6 @@
             animatedElements.forEach(element => {
                 observer.observe(element);
             });
-
-            // Note: The footer-divider and site-footer already have direct animation properties in CSS with delays,
-            // so they don't explicitly need an Intersection Observer unless
-            // you want them to animate only *after* scrolling into view.
-            // For now, they will animate on page load after their delay.
         });
     </script>
 </body>
