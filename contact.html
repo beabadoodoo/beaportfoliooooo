@@ -443,27 +443,32 @@
             /* Removed .geometric-shape mobile styling */
 
             /* Footer Mobile Styles */
-            .footer-divider {
-                width: 90%;
-                margin-top: 5vh;
-                margin-bottom: 3vh;
-            }
-            .site-footer {
-                width: 90%;
-                margin: 3vh auto 5vh auto;
-                flex-direction: column;
-                align-items: flex-start;
-                line-height: 1.4;
-            }
-            .site-footer .footer-column {
-                padding: 0;
-                margin-bottom: 15px;
-            }
-            .site-footer .footer-column:last-child {
-                text-align: left;
-                margin-bottom: 0;
-            }
-        }
+@media (max-width: 768px) {
+    .footer-divider {
+        width: 90%;
+        margin-top: 5vh;
+        margin-bottom: 3vh;
+    }
+    .site-footer {
+        width: 90%;
+        margin: 3vh auto 5vh auto;
+        flex-direction: column;
+        align-items: flex-start;
+        line-height: 1.4;
+    }
+    .site-footer .footer-column {
+        padding: 0;
+        margin-bottom: 15px;
+    }
+    /* ADD THIS NEW RULE for smaller screens */
+    .site-footer .footer-column p {
+        font-size: clamp(0.7rem, 0.1vw, 1rem); /* Increased font size for mobile */
+    }
+    .site-footer .footer-column:last-child {
+        text-align: left;
+        margin-bottom: 0;
+    }
+}
 
         /* Tablet Adjustments (min-width: 769px and max-width: 1024px) */
         @media (min-width: 769px) and (max-width: 1024px) {
